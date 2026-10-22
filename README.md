@@ -50,16 +50,18 @@ Skor KPI: polaritas naik = realisasi ÷ target × 100, turun = target ÷ realisa
 
 ## Data contoh
 
-Di luar produksi (atau bila `RUCI_SEED_DEMO=true`) seeder memuat tiga perusahaan contoh lewat jalur import yang sama:
+Di luar produksi (atau bila `RUCI_SEED_DEMO=true`) seeder memuat tiga perusahaan contoh:
 
 | Kode | Perusahaan | Isi |
 |---|---|---|
-| DFI | PT Diamond Food Indonesia Tbk | Perioda 2025, KPI dari laporan tahunan 2025 |
+| DFI | PT Diamond Food Indonesia Tbk | Demo lengkap: perioda 2025 (ditutup, angka tahunan dari Laporan Tahunan 2025) dan 2026 (berjalan, simulasi Jan–Sep). Peta strategi 4 tema, 15 sasaran, 39 KPI, 15 inisiatif, ekosistem, tinjauan, temuan, kematangan |
 | NLP | PT Nusantara Logistik Prima (fiktif) | Perioda 2026 (Jan–Agu disetujui, Sep draf) + 2027 perencanaan |
 | KSB | Klinik Sehat Bersama (fiktif) | Perioda 2026 |
 
 Akun: Super Admin `admin@rucibsc.local` / `Ruci@BSC2026` (ubah lewat `RUCI_ADMIN_PASSWORD`). Akun contoh per perusahaan, kata sandi `Contoh-2026!`:
-`dfi.admin@contoh.local`, `dfi.direktur@…`, `dfi.keuangan@…`, `dfi.komersial@…`, `dfi.sdm@…`, dan pola yang sama untuk `nlp.*` dan `ksb.*`.
+`dfi.admin@contoh.local`, `dfi.direktur@…`, `dfi.keuangan@…`, `dfi.komersial@…`, `dfi.rantaipasok@…`, `dfi.produksi@…`, `dfi.sdm@…`, `dfi.ti@…`, `dfi.strategi@…`, `dfi.komisaris@…`, `dfi.analis@…`, dan pola serupa untuk `nlp.*` dan `ksb.*`.
+
+Memuat demo Diamond Food saja di server yang sudah berjalan: `php artisan rucibsc:demo-diamond`. Kata sandi akun `dfi.*` dibuat acak dan ditampilkan (atau tentukan dengan `--password=`). Bila DFI sudah punya perioda 2025/2026, tambahkan `--reset` untuk menggantinya.
 
 Sebelum dipakai sungguhan: `php artisan rucibsc:hapus-contoh` menghapus semua perusahaan dan akun contoh, lalu ganti sandi Super Admin.
 
@@ -70,6 +72,7 @@ Sebelum dipakai sungguhan: `php artisan rucibsc:hapus-contoh` menghapus semua pe
 | `php artisan dhastram:doctor` | Cek PHP, ekstensi, database, izin, peran, data contoh |
 | `php artisan dhastram:create-admin` | Membuat Super Admin baru |
 | `php artisan db:seed --class=DhastramRolePermissionSeeder` | Memperbarui izin & peran (aman diulang) |
+| `php artisan rucibsc:demo-diamond [--reset]` | Memuat demo lengkap Diamond Food (2025 + 2026) |
 | `php artisan rucibsc:hapus-contoh` | Menghapus perusahaan & akun contoh |
 | `php artisan rucibsc:reminders --date=2026-11-03` | Uji pengingat |
 | `php vendor/bin/phpunit` | Menjalankan test otomatis |

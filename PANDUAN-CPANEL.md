@@ -166,7 +166,18 @@ Cron ini menjalankan pengingat harian (07.30 WIB), antrian notifikasi, dan pembe
 4. **Administrasi › Import Data** › unduh template › isi di Excel › **Pratinjau** › **Proses Import**.
 5. **Administrasi › Pengguna** › buat admin perusahaan (peran *Company Admin* untuk perusahaan itu). Admin tersebut bisa menambah pengguna lain di perusahaannya.
 
-Ingin mencoba dengan data contoh lebih dulu? Isi `RUCI_SEED_DEMO=true`, jalankan `php artisan optimize:clear` lalu `php artisan db:seed --force`, lalu sebelum dipakai sungguhan jalankan `php artisan rucibsc:hapus-contoh --force` dan kembalikan `RUCI_SEED_DEMO=false`.
+### Memuat demo Diamond Food (untuk presentasi)
+
+```bash
+cd ~/ruci-bsc
+php artisan rucibsc:demo-diamond
+```
+
+Perintah ini membuat perusahaan DFI dengan perioda 2025 (ditutup) dan 2026 (berjalan), lengkap dengan peta strategi, KPI bulanan, inisiatif, ekosistem, tinjauan, temuan, dan kematangan, serta 11 akun `dfi.*@contoh.local`. Kata sandi akun tersebut dibuat acak dan ditampilkan di layar; untuk menentukannya sendiri tambahkan `--password=SandiAnda123`.
+
+Bila DFI sudah punya perioda 2025 atau 2026 (misalnya dari import Excel sebelumnya), perintah menolak berjalan. Tambahkan `--reset --force` untuk menghapus data DFI kedua perioda itu dan menggantinya dengan data demo. Lewat cron sekali jalan (seperti bagian 6): `cd /home/userku/ruci-bsc && php artisan rucibsc:demo-diamond --reset --force --password=SandiAnda123 > storage/logs/demo.txt 2>&1`, lalu jalankan `php artisan optimize` dengan cara yang sama.
+
+Sebelum dipakai sungguhan, hapus semua data contoh dengan `php artisan rucibsc:hapus-contoh --force`.
 
 ## 9. Memperbarui program
 

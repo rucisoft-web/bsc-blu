@@ -17,11 +17,9 @@ use RuntimeException;
 /**
  * Perusahaan contoh untuk demo & pelatihan (is_demo = true, hapus dengan `php artisan rucibsc:hapus-contoh`).
  *
- * - DFI: PT Diamond Food Indonesia Tbk — realisasi 2025 dari Laporan Tahunan 2025; target masih angka contoh.
- * - NLP & KSB: perusahaan fiktif dengan data bulanan Jan–Sep 2026.
- *
- * Semua data dimasukkan lewat BscImporter (jalur yang sama dengan upload Excel), sehingga seeder ini
- * sekaligus menguji format workbook.
+ * - DFI: PT Diamond Food Indonesia Tbk — demo lengkap 2025 + 2026, lihat DiamondFoodSeeder.
+ * - NLP & KSB: perusahaan fiktif dengan data bulanan Jan–Sep 2026, dimasukkan lewat BscImporter
+ *   (jalur yang sama dengan upload Excel), sehingga seeder ini sekaligus menguji format workbook.
  */
 class DemoSeeder extends Seeder
 {
@@ -37,7 +35,9 @@ class DemoSeeder extends Seeder
         ]);
         $this->assign($admin, 'super-admin', null);
 
-        foreach ([$this->diamondFood(), $this->logistik(), $this->klinik()] as $def) {
+        (new DiamondFoodSeeder(self::PASSWORD))->run();
+
+        foreach ([$this->logistik(), $this->klinik()] as $def) {
             $company = Company::updateOrCreate(['code' => $def['company']['code']], $def['company'] + ['is_active' => true, 'is_demo' => true]);
             foreach ($def['periods'] as $p) {
                 AnalysisPeriod::updateOrCreate(['company_id' => $company->id, 'code' => (string) $p['year']], $p + [
@@ -87,84 +87,6 @@ class DemoSeeder extends Seeder
         if ($result->errorCount() > 0) {
             throw new RuntimeException('Data contoh '.$company->code.' gagal diimport: '.json_encode($result->issues, JSON_UNESCAPED_UNICODE));
         }
-    }
-
-    // ------------------------------------------------------------------ PT Diamond Food Indonesia Tbk
-
-    protected function diamondFood(): array
-    {
-        $note = 'Target adalah angka contoh untuk demo; realisasi dari Laporan Tahunan 2025.';
-        $src = 'Laporan Tahunan 2025 PT Diamond Food Indonesia Tbk';
-        // kode, sasaran, nama, satuan, polaritas, desimal, baseline 2024, target (contoh), realisasi 2025, keuangan, sumber
-        $kpis = [
-            ['F1.1', 'F1', 'Pendapatan', 'Rp juta', 'naik', 0, 9811549, 10800000, 11098665, 'ya', $src.', Ikhtisar Keuangan'],
-            ['F2.1', 'F2', 'Laba tahun berjalan', 'Rp juta', 'naik', 0, 363732, 400000, 435170, 'ya', $src.', Ikhtisar Keuangan'],
-            ['F2.2', 'F2', 'Margin laba bruto (Laba Bruto/Pendapatan)', '%', 'naik', 2, 21.17, 21.00, 20.26, 'ya', $src.', Rasio Usaha'],
-            ['F2.3', 'F2', 'ROE (Laba/Total Ekuitas)', '%', 'naik', 2, 5.86, 6.50, 6.62, 'ya', $src.', Rasio Usaha'],
-            ['F2.4', 'F2', 'ROA (Laba/Total Aset)', '%', 'naik', 2, 4.88, 5.00, 5.23, 'ya', $src.', Rasio Usaha'],
-            ['F3.1', 'F3', 'Rasio liabilitas terhadap ekuitas', 'rasio', 'turun', 2, 0.20, 0.25, 0.26, 'ya', $src.', Rasio Keuangan'],
-            ['C1.1', 'C1', 'Jumlah titik distribusi', 'unit', 'naik', 0, null, 25, 24, 'tidak', $src.', Wilayah Operasional'],
-            ['P1.1', 'P1', 'Perputaran persediaan', 'rasio', 'naik', 2, 3.60, 3.80, 3.75, 'tidak', $src.', Rasio Aktivitas'],
-            ['P1.2', 'P1', 'Perputaran piutang', 'rasio', 'naik', 2, 8.57, 9.00, 9.01, 'tidak', $src.', Rasio Aktivitas'],
-            ['P1.3', 'P1', 'Perputaran aset', 'rasio', 'naik', 2, 1.34, 1.40, 1.41, 'tidak', $src.', Rasio Aktivitas'],
-            ['L1.1', 'L1', 'Pendapatan per karyawan', 'Rp juta', 'naik', 1, 1292.3, 1400, 1445.3, 'tidak', 'Dihitung: pendapatan ÷ jumlah karyawan (7.679 orang, 2024: 7.592)'],
-        ];
-        $owner = ['F' => 'dfi.keuangan@contoh.local', 'C' => 'dfi.komersial@contoh.local', 'P' => 'dfi.komersial@contoh.local', 'L' => 'dfi.sdm@contoh.local'];
-        $empty12 = array_fill(0, 11, null);
-
-        return [
-            'company' => [
-                'code' => 'DFI', 'name' => 'PT Diamond Food Indonesia Tbk', 'legal_name' => 'PT Diamond Food Indonesia Tbk',
-                'industry' => 'Makanan & minuman (manufaktur & distribusi)', 'address' => 'TCC Batavia Tower One Lt. 15, Jl. KH Mas Mansyur Kav. 126',
-                'city' => 'Jakarta Pusat', 'phone' => '+62 21 2864 9888', 'website' => 'https://www.diamondfoodindonesia.com',
-                'description' => 'Perusahaan contoh dari Laporan Tahunan 2025 (kode saham DMND). '.$note,
-            ],
-            'periods' => [['code' => '2025', 'year' => 2025, 'status' => 'berjalan', 'is_active' => true, 'notes' => 'Realisasi tahunan 2025 dari laporan tahunan. '.$note]],
-            'users' => [
-                ['Admin Diamond (contoh)', 'dfi.admin@contoh.local', 'Admin Sistem', 'Corporate Strategy', ['company-admin']],
-                ['Direktur Utama (contoh)', 'dfi.direktur@contoh.local', 'Direktur Utama', 'Direksi', ['pimpinan']],
-                ['Kepala Keuangan (contoh)', 'dfi.keuangan@contoh.local', 'Chief Financial Officer', 'Keuangan', ['keuangan']],
-                ['Kepala Komersial (contoh)', 'dfi.komersial@contoh.local', 'Commercial Director', 'Komersial', ['kepala-unit']],
-                ['Kepala SDM (contoh)', 'dfi.sdm@contoh.local', 'Human Capital Director', 'SDM', ['kepala-unit']],
-            ],
-            'imports' => [['diamond-food-2025.xlsx', [
-                'Jati Diri' => [
-                    ['visi', 'Menjadi platform makanan dan minuman yang paling unggul di Indonesia.'],
-                    ['misi', "Menyediakan solusi yang saling menguntungkan bagi pelanggan dan prinsipal kami.\nMengembangkan budaya kinerja tinggi dan inovasi di dalam perusahaan.\nMemperkuat masyarakat dengan cara memfasilitasi kegembiraan bagi semua pelanggan dan keluarga mereka.\nMenerapkan pendekatan yang berkelanjutan pada semua kegiatan usaha."],
-                    ['tagline', 'Evolving Greatness'],
-                ],
-                'Nilai Inti' => [
-                    ['Keberlangsungan', 'Longevity', 'Membangun masa depan secara konsisten untuk keberlangsungan nilai organisasi bagi pemangku kepentingan.', null],
-                    ['Integritas', 'Integrity', 'Berkomitmen untuk selalu jujur dan bertanggung jawab.', null],
-                    ['Pembelajaran dan Inovasi', 'Learning & Innovation', 'Berusaha untuk terus berinovasi dan mencoba hal-hal baru.', null],
-                    ['Keluarga', 'Family', 'Menjunjung kejujuran, loyalitas, kepedulian antar karyawan, dan lingkungan kerja yang solid.', null],
-                    ['Kewaspadaan dalam Penggunaan Dana', 'Frugality', 'Pengeluaran yang hati-hati, investasi strategis, dan pemanfaatan aset maksimal.', null],
-                    ['Pemberdayaan', 'Empowerment', 'Memberdayakan karyawan sebagai komponen penting pertumbuhan berkelanjutan.', null],
-                ],
-                'Tema' => [
-                    ['T1', 'Pertumbuhan yang menguntungkan', 'Contoh tema strategis', '#A8432A'],
-                    ['T2', 'Distribusi & operasi unggul', 'Contoh tema strategis', '#34506E'],
-                    ['T3', 'Budaya kinerja tinggi', 'Contoh tema strategis', '#4F6B3A'],
-                ],
-                'Sasaran' => [
-                    ['F1', 'Keuangan', 'Meningkatkan pendapatan', 'T1', null, 2, 'dfi.keuangan@contoh.local'],
-                    ['F2', 'Keuangan', 'Meningkatkan profitabilitas', 'T1', null, 2, 'dfi.keuangan@contoh.local'],
-                    ['F3', 'Keuangan', 'Menjaga struktur modal yang sehat', 'T1', null, 1, 'dfi.keuangan@contoh.local'],
-                    ['C1', 'Kepuasan Pelanggan', 'Memperluas jangkauan distribusi ke pelanggan', 'T2', null, 1, 'dfi.komersial@contoh.local'],
-                    ['P1', 'Proses Internal', 'Meningkatkan efisiensi modal kerja & aset', 'T2', null, 1, 'dfi.komersial@contoh.local'],
-                    ['L1', 'SDM & Pembelajaran', 'Meningkatkan produktivitas karyawan', 'T3', null, 1, 'dfi.sdm@contoh.local'],
-                ],
-                'Relasi Sasaran' => [['L1', 'P1', 2, null], ['P1', 'C1', 2, null], ['C1', 'F1', 3, null], ['F1', 'F2', 3, null], ['P1', 'F2', 2, null], ['F2', 'F3', 1, null]],
-                'KPI' => array_map(fn ($k) => [$k[0], $k[1], $k[2], $k[3], $k[4], 'tahunan', 'terakhir', 1, $k[6], $k[7], $k[5], $k[9],
-                    in_array($k[0], ['F1.1', 'F2.1'], true) ? 'ya' : 'tidak', $k[10], $owner[$k[0][0]], 'Baseline = realisasi 2024.'], $kpis),
-                'Target' => array_map(fn ($k) => array_merge([$k[0]], $empty12, [$k[7], 'Target contoh']), $kpis),
-                'Realisasi' => array_map(fn ($k) => array_merge([$k[0]], $empty12, [$k[8], null, $k[10]]), $kpis),
-                'Inisiatif' => [
-                    ['DFI-I1', 'Pembukaan titik distribusi baru', 'C1, F1', 'T2', 'dfi.komersial@contoh.local', '2025-01-01', '2025-12-31', 'selesai', 4, 4, 3, 4, null, 'Contoh inisiatif berdasarkan laporan tahunan (titik distribusi baru, gudang).', 'Jangkauan distribusi bertambah'],
-                    ['DFI-I2', 'Product Knowledge Training & Diamond Apex Program', 'L1', 'T3', 'dfi.sdm@contoh.local', '2025-01-01', '2025-12-31', 'selesai', 3, 3, 2, 2, null, 'Program pengembangan SDM yang disebut di laporan tahunan.', 'Produktivitas karyawan naik'],
-                ],
-            ], true]],
-        ];
     }
 
     // ------------------------------------------------------------------ perusahaan fiktif

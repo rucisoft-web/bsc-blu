@@ -15,10 +15,12 @@ class StrategyMapService
         $objectives = $this->score->objectives();
         $lanes = [];
         $order = ['keuangan', 'pelanggan', 'proses', 'sdm'];
-        $width = 1100;
         $laneHeight = 170;
         $cardW = 210;
         $cardH = 92;
+        // lebar kanvas ikut baris terpadat supaya kartu tidak saling menimpa (viewBox SVG menyesuaikan layar)
+        $busiest = $objectives->countBy(fn ($o) => $o['objective']->perspective)->max() ?? 0;
+        $width = max(1100, 150 + $busiest * ($cardW + 24));
         $positions = [];
         foreach ($order as $li => $key) {
             $rows = $objectives->filter(fn ($o) => $o['objective']->perspective === $key)->values();
