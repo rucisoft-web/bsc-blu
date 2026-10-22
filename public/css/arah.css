@@ -1,38 +1,52 @@
 /*
- | Tema Kamasan — Ruci BSC Professional
- | kertas #F6EFDF · tinta #2B2118 · taum #34506E · kencu #A8432A · prada #B8862B · daun #4F6B3A
+ | Tema Rucisoft — Ruci BSC Professional
+ | biru #1F4E8C · navy #0F2A4A · aksen garis merah #D32F2F · latar #F4F7FB
  | Stylesheet statis (tanpa build Node) — dimuat lewat FilamentAsset.
  */
 :root {
-    --k-kertas: #F6EFDF;
-    --k-kertas-2: #EFE5CF;
-    --k-kartu: #FFFDF7;
-    --k-tinta: #2B2118;
-    --k-tinta-2: #6B5E4F;
-    --k-garis: #E3D7BE;
-    --k-taum: #34506E;
-    --k-kencu: #A8432A;
-    --k-prada: #B8862B;
-    --k-daun: #4F6B3A;
-    --k-hijau: #4F7A3A;
-    --k-kuning: #C08A1E;
-    --k-merah: #A8432A;
+    --k-kertas: #F4F7FB;
+    --k-kertas-2: #E8EEF6;
+    --k-kartu: #FFFFFF;
+    --k-tinta: #0F2A4A;
+    --k-tinta-2: #5B6B82;
+    --k-garis: #DCE4EF;
+    --k-taum: #1F4E8C;
+    --k-kencu: #D32F2F;
+    --k-prada: #C88A12;
+    --k-daun: #2E7D4F;
+    --k-hijau: #2E7D4F;
+    --k-kuning: #C88A12;
+    --k-merah: #D32F2F;
 }
 .dark {
     --k-kartu: rgba(255,255,255,.04);
-    --k-tinta: #F3EBDD;
-    --k-tinta-2: #B9AD9C;
+    --k-tinta: #E6EDF7;
+    --k-tinta-2: #A9B8CC;
     --k-garis: rgba(255,255,255,.12);
     --k-kertas-2: rgba(255,255,255,.06);
+    --k-taum: #6FA3E8;
 }
 
 /* ---- latar & kerangka panel */
 html:not(.dark) .fi-body { background-color: var(--k-kertas); color: var(--k-tinta); }
-html:not(.dark) .fi-sidebar, html:not(.dark) .fi-topbar, html:not(.dark) .fi-topbar > nav { background-color: #FBF6EA; }
+html:not(.dark) .fi-sidebar, html:not(.dark) .fi-topbar, html:not(.dark) .fi-topbar > nav { background-color: #FFFFFF; }
 html:not(.dark) .fi-section, html:not(.dark) .fi-ta-ctn, html:not(.dark) .fi-modal-window, html:not(.dark) .fi-wi-stats-overview-stat { background-color: var(--k-kartu); }
-.fi-sidebar-group-label { letter-spacing: .05em; text-transform: uppercase; font-size: .7rem; }
-.fi-logo { font-family: Georgia, 'Times New Roman', serif; color: var(--k-kencu); letter-spacing: .02em; }
-.fi-simple-layout { background: radial-gradient(circle at 20% 10%, #FFF8E8 0, var(--k-kertas) 55%); }
+/* garis merah tipis di bawah topbar */
+.fi-topbar > nav, .fi-topbar { border-bottom: 0 !important; box-shadow: none; }
+.fi-topbar { position: relative; }
+.fi-topbar::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 3px;
+    background: linear-gradient(90deg, var(--k-taum) 0 72%, var(--k-kencu) 72% 100%); }
+html:not(.dark) .fi-sidebar { border-inline-end: 1px solid var(--k-garis); }
+.fi-sidebar-group-label { letter-spacing: .06em; text-transform: uppercase; font-size: .7rem; }
+/* menu aktif: garis merah di kiri */
+.fi-sidebar-item.fi-active > .fi-sidebar-item-btn, .fi-sidebar-item-active > a { box-shadow: inset 3px 0 0 var(--k-kencu); }
+/* judul halaman: garis merah pendek */
+.fi-header-heading { color: var(--k-tinta); position: relative; padding-bottom: .45rem; }
+.fi-header-heading::after { content: ""; position: absolute; left: 0; bottom: 0; width: 2.75rem; height: 3px; border-radius: 2px; background: var(--k-kencu); }
+.fi-logo img, .fi-logo { max-width: 100%; }
+@media (max-width: 640px) { .fi-logo { height: 1.85rem !important; } }
+.fi-simple-layout { background: linear-gradient(160deg, #EAF1FA 0%, var(--k-kertas) 55%); }
+.fi-simple-main { border-top: 4px solid var(--k-kencu); }
 
 /* ---- komponen halaman Arah */
 .arah { color: var(--k-tinta); }
@@ -51,12 +65,12 @@ html:not(.dark) .fi-section, html:not(.dark) .fi-ta-ctn, html:not(.dark) .fi-mod
 .arah-span-2 { grid-column: span 1 / span 1; }
 @media (min-width: 768px) { .arah-span-2 { grid-column: span 2 / span 2; } }
 
-.arah-card { background: var(--k-kartu); border: 1px solid var(--k-garis); border-radius: .85rem; padding: 1rem 1.1rem; box-shadow: 0 1px 2px rgba(43,33,24,.05); }
+.arah-card { background: var(--k-kartu); border: 1px solid var(--k-garis); border-radius: .85rem; padding: 1rem 1.1rem; box-shadow: 0 1px 3px rgba(15,42,74,.06); }
 .arah-card h3 { font-size: .95rem; font-weight: 700; margin: 0 0 .6rem; color: var(--k-tinta); display: flex; align-items: center; gap: .5rem; }
 .arah-card h3 small { font-weight: 500; color: var(--k-tinta-2); font-size: .75rem; }
 .arah-muted { color: var(--k-tinta-2); font-size: .8rem; }
 .arah-kamasan { height: 4px; border-radius: 2px; margin: .2rem 0 1rem;
-    background-image: repeating-linear-gradient(90deg, var(--k-kencu) 0 14px, var(--k-prada) 14px 20px, var(--k-taum) 20px 34px, var(--k-prada) 34px 40px); }
+    background: linear-gradient(90deg, var(--k-taum) 0 80%, var(--k-kencu) 80% 100%); }
 
 .arah-stat { display: flex; flex-direction: column; gap: .2rem; }
 .arah-stat .label { font-size: .75rem; color: var(--k-tinta-2); text-transform: uppercase; letter-spacing: .04em; }
@@ -64,11 +78,11 @@ html:not(.dark) .fi-section, html:not(.dark) .fi-ta-ctn, html:not(.dark) .fi-mod
 .arah-stat .sub { font-size: .78rem; color: var(--k-tinta-2); }
 
 .arah-badge { display: inline-flex; align-items: center; gap: .25rem; padding: .1rem .5rem; border-radius: 999px; font-size: .72rem; font-weight: 600; white-space: nowrap; }
-.arah-hijau { background: rgba(79,122,58,.14); color: var(--k-hijau); }
-.arah-kuning { background: rgba(192,138,30,.16); color: #8D6512; }
-.arah-merah { background: rgba(168,67,42,.14); color: var(--k-merah); }
-.arah-abu { background: rgba(107,94,79,.12); color: var(--k-tinta-2); }
-.arah-biru { background: rgba(52,80,110,.13); color: var(--k-taum); }
+.arah-hijau { background: rgba(46,125,79,.13); color: var(--k-hijau); }
+.arah-kuning { background: rgba(200,138,18,.15); color: #8A5E08; }
+.arah-merah { background: rgba(211,47,47,.12); color: var(--k-merah); }
+.arah-abu { background: rgba(91,107,130,.12); color: var(--k-tinta-2); }
+.arah-biru { background: rgba(31,78,140,.11); color: var(--k-taum); }
 .dark .arah-kuning { color: #E7B64B; } .dark .arah-merah { color: #E0846C; } .dark .arah-hijau { color: #8FC46F; } .dark .arah-biru { color: #8FB0D1; }
 
 .arah-dot { width: .6rem; height: .6rem; border-radius: 999px; display: inline-block; flex: none; }
@@ -93,12 +107,13 @@ html:not(.dark) .fi-section, html:not(.dark) .fi-ta-ctn, html:not(.dark) .fi-mod
 .arah-empty { color: var(--k-tinta-2); font-size: .82rem; font-style: italic; padding: .4rem 0; }
 
 .arah-hero { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; }
-.arah-hero h2 { font-family: Georgia, 'Times New Roman', serif; font-size: 1.35rem; margin: 0; }
+.arah-hero h2 { font-size: 1.35rem; font-weight: 700; margin: 0; }
 .arah-gauge { width: 150px; height: 150px; }
 
 .arah-btn { display: inline-flex; align-items: center; gap: .35rem; padding: .4rem .8rem; border-radius: .5rem; font-size: .8rem; font-weight: 600; text-decoration: none; border: 1px solid var(--k-garis); color: var(--k-taum); background: var(--k-kartu); cursor: pointer; }
 .arah-btn:hover { border-color: var(--k-taum); }
 .arah-btn-primary { background: var(--k-taum); color: #fff; border-color: var(--k-taum); }
+.arah-btn-primary:hover { background: #173E72; border-color: #173E72; }
 .arah-btn[disabled] { opacity: .45; cursor: not-allowed; }
 
 /* ---- matriks portofolio */
@@ -120,5 +135,17 @@ html:not(.dark) .fi-section, html:not(.dark) .fi-ta-ctn, html:not(.dark) .fi-mod
 .arah-steps { display: flex; flex-direction: column; gap: .7rem; }
 .arah-step { display: grid; grid-template-columns: 9rem 1fr; gap: .6rem; align-items: center; font-size: .82rem; }
 
-.arah-context { display: inline-flex; align-items: center; gap: .4rem; font-size: .78rem; padding: .25rem .65rem; border-radius: 999px; background: rgba(52,80,110,.1); color: var(--k-taum); font-weight: 600; text-decoration: none; margin-inline-start: .5rem; }
-.arah-footer { text-align: center; font-size: .72rem; color: var(--k-tinta-2); padding: 1rem 0 1.5rem; }
+.arah-context { display: inline-flex; align-items: center; gap: .4rem; font-size: .78rem; padding: .25rem .65rem; border-radius: 999px; background: rgba(31,78,140,.08); color: var(--k-taum); font-weight: 600; text-decoration: none; margin-inline-start: .5rem; white-space: nowrap; }
+.arah-context-short, .arah-mobile-mark { display: none; }
+@media (max-width: 1023px) {
+    .arah-mobile-mark { display: inline-flex; margin-inline-end: .35rem; }
+    .arah-mobile-mark img { width: 28px !important; height: 28px !important; max-width: none; }
+}
+@media (max-width: 640px) {
+    .arah-context { font-size: .72rem; padding: .2rem .55rem; margin-inline-start: 0; }
+    .arah-context-long { display: none; }
+    .arah-context-short { display: inline; }
+}
+.arah-footer { text-align: center; font-size: .72rem; color: var(--k-tinta-2); padding: 1rem 1rem 1.5rem; line-height: 1.6; }
+.arah-footer::before { content: ""; display: block; width: 3rem; height: 2px; margin: 0 auto .6rem; background: var(--k-kencu); border-radius: 2px; }
+.arah-footer b { color: var(--k-taum); letter-spacing: .04em; }

@@ -17,7 +17,7 @@
     $n = max(1, count($months) - 1);
     $yOf = fn ($v) => $H - $pad - (max(0, min(120, $v ?? 0)) / 120) * ($H - 2 * $pad);
     $xOf = fn ($i) => $pad + $i * (($W - 2 * $pad) / $n);
-    $series = ['overall' => ['Skor strategis', '#2B2118']] + collect(Terms::perspectives())->mapWithKeys(fn ($l, $k) => [$k => [$l, Terms::perspectiveColor($k)]])->all();
+    $series = ['overall' => ['Skor strategis', '#0F2A4A']] + collect(Terms::perspectives())->mapWithKeys(fn ($l, $k) => [$k => [$l, Terms::perspectiveColor($k)]])->all();
 @endphp
 <x-filament-panels::page>
 <div class="arah">
@@ -77,7 +77,7 @@
         <h3>Tren skor kumulatif per bulan</h3>
         <svg viewBox="0 0 {{ $W }} {{ $H }}" style="width:100%; height:auto" role="img" aria-label="Tren skor">
             @foreach ([0, 40, 80, 100, 120] as $g)
-                <line x1="{{ $pad }}" x2="{{ $W - $pad }}" y1="{{ $yOf($g) }}" y2="{{ $yOf($g) }}" stroke="{{ $g == 100 ? '#4F7A3A' : ($g == 80 ? '#C08A1E' : 'var(--k-garis)') }}" stroke-dasharray="{{ in_array($g, [80, 100]) ? '4 4' : '0' }}" stroke-width="1"/>
+                <line x1="{{ $pad }}" x2="{{ $W - $pad }}" y1="{{ $yOf($g) }}" y2="{{ $yOf($g) }}" stroke="{{ $g == 100 ? '#2E7D4F' : ($g == 80 ? '#C88A12' : 'var(--k-garis)') }}" stroke-dasharray="{{ in_array($g, [80, 100]) ? '4 4' : '0' }}" stroke-width="1"/>
                 <text x="{{ $pad - 6 }}" y="{{ $yOf($g) + 3 }}" text-anchor="end" style="font-size:9px; fill:var(--k-tinta-2)">{{ $g }}</text>
             @endforeach
             @foreach ($months as $i => $m)

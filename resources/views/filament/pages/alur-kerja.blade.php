@@ -10,7 +10,7 @@
                     <div class="arah-step">
                         <span>{{ $s['label'] }}</span>
                         <div style="display:flex; align-items:center; gap:.6rem">
-                            <div class="arah-bar" style="flex:1"><span style="width:{{ $pct }}%; background:{{ $pct >= 100 ? '#4F7A3A' : ($pct >= 50 ? '#C08A1E' : '#A8432A') }}"></span></div>
+                            <div class="arah-bar" style="flex:1"><span style="width:{{ $pct }}%; background:{{ $pct >= 100 ? '#2E7D4F' : ($pct >= 50 ? '#C88A12' : '#D32F2F') }}"></span></div>
                             <strong style="min-width:5rem; text-align:right">{{ $s['done'] }}/{{ $s['total'] }}</strong>
                         </div>
                     </div>

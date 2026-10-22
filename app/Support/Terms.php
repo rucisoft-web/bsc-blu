@@ -35,11 +35,11 @@ class Terms
     public static function perspectiveColor(?string $key): string
     {
         return match ($key) {
-            'keuangan' => '#A8432A',
-            'pelanggan' => '#B8862B',
-            'proses' => '#34506E',
-            'sdm' => '#4F6B3A',
-            default => '#6B5E4F',
+            'keuangan' => '#1F4E8C',
+            'pelanggan' => '#2A8C9E',
+            'proses' => '#5C5AA8',
+            'sdm' => '#C88A12',
+            default => '#5B6B82',
         };
     }
 

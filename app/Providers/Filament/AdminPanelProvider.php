@@ -42,14 +42,17 @@ class AdminPanelProvider extends PanelProvider
                     && (bool) auth()->user()?->roles->pluck('slug')->intersect(['super-admin', 'admin-sistem', 'pimpinan', 'pengawas'])->isNotEmpty(),
             )
             ->brandName(config('dhastram.brand_name'))
-            ->favicon(asset('favicon.ico'))
+            ->brandLogo(asset('images/rucisoft-logo.svg'))
+            ->darkModeBrandLogo(asset('images/rucisoft-logo-dark.svg'))
+            ->brandLogoHeight('2.4rem')
+            ->favicon(asset('images/favicon.svg'))
             ->colors([
-                'primary' => Color::generateV3Palette('#34506E'),  // taum
-                'danger' => Color::generateV3Palette('#A8432A'),   // kencu
-                'warning' => Color::generateV3Palette('#C08A1E'),
-                'success' => Color::generateV3Palette('#4F7A3A'),
-                'info' => Color::generateV3Palette('#3F6E8C'),
-                'gray' => Color::Stone,
+                'primary' => Color::generateV3Palette('#1F4E8C'),  // biru Rucisoft
+                'danger' => Color::generateV3Palette('#D32F2F'),   // aksen merah
+                'warning' => Color::generateV3Palette('#C88A12'),
+                'success' => Color::generateV3Palette('#2E7D4F'),
+                'info' => Color::generateV3Palette('#2A8C9E'),
+                'gray' => Color::Slate,
             ])
             ->font('Inter')
             ->sidebarCollapsibleOnDesktop()

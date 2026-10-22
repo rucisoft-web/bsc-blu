@@ -13,10 +13,10 @@ class InitiativePortfolioService
     public const EFFORT_THRESHOLD = 6;  // skala 2..10
 
     public const QUADRANTS = [
-        'quick_win' => ['label' => 'Quick Win', 'hint' => 'Nilai tinggi, upaya rendah — kerjakan segera', 'color' => '#4F7A3A'],
-        'prioritas' => ['label' => 'Prioritas Strategis', 'hint' => 'Nilai tinggi, upaya tinggi — kawal ketat', 'color' => '#34506E'],
-        'pengisi' => ['label' => 'Pengisi', 'hint' => 'Nilai rendah, upaya rendah — kerjakan bila ada kapasitas', 'color' => '#B8862B'],
-        'tinjau_ulang' => ['label' => 'Tinjau Ulang', 'hint' => 'Nilai rendah, upaya tinggi — pertimbangkan ulang', 'color' => '#A8432A'],
+        'quick_win' => ['label' => 'Quick Win', 'hint' => 'Nilai tinggi, upaya rendah — kerjakan segera', 'color' => '#2E7D4F'],
+        'prioritas' => ['label' => 'Prioritas Strategis', 'hint' => 'Nilai tinggi, upaya tinggi — kawal ketat', 'color' => '#1F4E8C'],
+        'pengisi' => ['label' => 'Pengisi', 'hint' => 'Nilai rendah, upaya rendah — kerjakan bila ada kapasitas', 'color' => '#C88A12'],
+        'tinjau_ulang' => ['label' => 'Tinjau Ulang', 'hint' => 'Nilai rendah, upaya tinggi — pertimbangkan ulang', 'color' => '#D32F2F'],
     ];
 
     public function __construct(protected InitiativeProgressService $progress) {}

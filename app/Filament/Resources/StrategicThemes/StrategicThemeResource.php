@@ -78,7 +78,7 @@ class StrategicThemeResource extends Resource
             Section::make()->columns(2)->schema([
                 TextInput::make('name')->label('Tema')->required()->columnSpanFull(),
                 Textarea::make('description')->label('Uraian')->rows(3)->columnSpanFull(),
-                TextInput::make('color')->label('Warna (hex)')->placeholder('#34506E'),
+                TextInput::make('color')->label('Warna (hex)')->placeholder('#1F4E8C'),
                 TextInput::make('sort')->label('Urutan')->numeric()->default(0),
             ]),
         ]);

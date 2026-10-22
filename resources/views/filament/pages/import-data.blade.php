@@ -22,7 +22,7 @@
             <div style="margin:.6rem 0">
                 <input type="file" wire:model="file" accept=".xlsx" style="font-size:.85rem">
                 <div wire:loading wire:target="file" class="arah-muted">Mengunggah…</div>
-                @error('file') <div style="color:#A8432A; font-size:.85rem; margin-top:.3rem">{{ $message }}</div> @enderror
+                @error('file') <div style="color:#D32F2F; font-size:.85rem; margin-top:.3rem">{{ $message }}</div> @enderror
             </div>
             @if ($canApprove)
                 <label style="display:flex; gap:.5rem; align-items:flex-start; font-size:.85rem; margin-bottom:.8rem">

@@ -62,10 +62,10 @@ class Fmt
     public static function statusHex(?string $status): string
     {
         return match ($status) {
-            'hijau' => '#4F7A3A',
-            'kuning' => '#C08A1E',
-            'merah' => '#A8432A',
-            default => '#9A8F80',
+            'hijau' => '#2E7D4F',
+            'kuning' => '#C88A12',
+            'merah' => '#D32F2F',
+            default => '#94A3B8',
         };
     }
 }
