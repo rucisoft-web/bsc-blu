@@ -78,7 +78,7 @@ class KpiResource extends Resource
             Section::make('Definisi')->columns(3)->schema([
                 TextInput::make('name')->label('Nama KPI')->required()->columnSpan(2),
                 Select::make('strategic_objective_id')->label('Sasaran')->relationship('objective', 'title')->required()->searchable()->preload(),
-                Select::make('unit')->label('Satuan')->options(Models\Kpi::UNITS)->required()->native(false),
+                Select::make('unit')->label('Satuan')->options(fn ($state) => Models\Kpi::UNITS + ($state ? [$state => $state] : []))->required()->native(false),
                 Select::make('direction')->label('Arah')->options(['higher' => 'Makin besar makin baik', 'lower' => 'Makin kecil makin baik'])->required()->native(false),
                 Select::make('aggregation')->label('Agregasi YTD')->options(Models\Kpi::AGGREGATIONS)->required()->native(false),
                 F::user('owner_id', 'Pemilik KPI')->required(),

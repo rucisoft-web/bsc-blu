@@ -50,18 +50,19 @@ Skor KPI: polaritas naik = realisasi ÷ target × 100, turun = target ÷ realisa
 
 ## Data contoh
 
-Di luar produksi (atau bila `RUCI_SEED_DEMO=true`) seeder memuat tiga perusahaan contoh:
+Di luar produksi (atau bila `RUCI_SEED_DEMO=true`) seeder memuat empat perusahaan contoh:
 
 | Kode | Perusahaan | Isi |
 |---|---|---|
 | DFI | PT Diamond Food Indonesia Tbk | Demo lengkap: perioda 2025 (ditutup, angka tahunan dari Laporan Tahunan 2025) dan 2026 (berjalan, simulasi Jan–Sep). Peta strategi 4 tema, 15 sasaran, 39 KPI, 15 inisiatif, ekosistem, tinjauan, temuan, kematangan |
+| HMN | PT Medikaloka Hermina Tbk | Demo lengkap jaringan rumah sakit: perioda 2025 (angka tahunan dari Laporan Tahunan 2025) dan 2026 (simulasi Jan–Sep). Peta strategi 4 tema, 16 sasaran, 45 KPI termasuk indikator mutu Kemenkes (INM), KRIS, klaim JKN, dokter spesialis |
 | NLP | PT Nusantara Logistik Prima (fiktif) | Perioda 2026 (Jan–Agu disetujui, Sep draf) + 2027 perencanaan |
 | KSB | Klinik Sehat Bersama (fiktif) | Perioda 2026 |
 
 Akun: Super Admin `admin@rucibsc.local` / `Ruci@BSC2026` (ubah lewat `RUCI_ADMIN_PASSWORD`). Akun contoh per perusahaan, kata sandi `Contoh-2026!`:
-`dfi.admin@contoh.local`, `dfi.direktur@…`, `dfi.keuangan@…`, `dfi.komersial@…`, `dfi.rantaipasok@…`, `dfi.produksi@…`, `dfi.sdm@…`, `dfi.ti@…`, `dfi.strategi@…`, `dfi.komisaris@…`, `dfi.analis@…`, dan pola serupa untuk `nlp.*` dan `ksb.*`.
+`dfi.admin@contoh.local`, `dfi.direktur@…`, `dfi.keuangan@…`, `dfi.komersial@…`, `dfi.rantaipasok@…`, `dfi.produksi@…`, `dfi.sdm@…`, `dfi.ti@…`, `dfi.strategi@…`, `dfi.komisaris@…`, `dfi.analis@…`; untuk Hermina `hmn.admin`, `hmn.direktur`, `hmn.keuangan`, `hmn.medis`, `hmn.operasional`, `hmn.pemasaran`, `hmn.pengembangan`, `hmn.sdm`, `hmn.ti`, `hmn.strategi`, `hmn.komisaris`, `hmn.analis` (@contoh.local); pola serupa untuk `nlp.*` dan `ksb.*`.
 
-Memuat demo Diamond Food saja di server yang sudah berjalan: `php artisan rucibsc:demo-diamond`. Kata sandi akun `dfi.*` dibuat acak dan ditampilkan (atau tentukan dengan `--password=`). Bila DFI sudah punya perioda 2025/2026, tambahkan `--reset` untuk menggantinya.
+Memuat satu demo di server yang sudah berjalan: `php artisan rucibsc:demo DFI` (Diamond Food) atau `php artisan rucibsc:demo HMN` (Hermina). Kata sandi akun contoh dibuat acak dan ditampilkan (atau tentukan dengan `--password=`). Bila perusahaan itu sudah punya perioda 2025/2026, tambahkan `--reset` untuk menggantinya. Nama lama `rucibsc:demo-diamond` tetap bisa dipakai.
 
 Sebelum dipakai sungguhan: `php artisan rucibsc:hapus-contoh` menghapus semua perusahaan dan akun contoh, lalu ganti sandi Super Admin.
 
@@ -72,7 +73,7 @@ Sebelum dipakai sungguhan: `php artisan rucibsc:hapus-contoh` menghapus semua pe
 | `php artisan dhastram:doctor` | Cek PHP, ekstensi, database, izin, peran, data contoh |
 | `php artisan dhastram:create-admin` | Membuat Super Admin baru |
 | `php artisan db:seed --class=DhastramRolePermissionSeeder` | Memperbarui izin & peran (aman diulang) |
-| `php artisan rucibsc:demo-diamond [--reset]` | Memuat demo lengkap Diamond Food (2025 + 2026) |
+| `php artisan rucibsc:demo DFI\|HMN [--reset]` | Memuat demo lengkap Diamond Food atau Hermina (2025 + 2026) |
 | `php artisan rucibsc:hapus-contoh` | Menghapus perusahaan & akun contoh |
 | `php artisan rucibsc:reminders --date=2026-11-03` | Uji pengingat |
 | `php vendor/bin/phpunit` | Menjalankan test otomatis |

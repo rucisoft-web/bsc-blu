@@ -16,11 +16,22 @@ class Kpi extends Model
 
     protected static ?string $sequencePrefix = 'KPI';
 
-    public const UNITS = ['Rp juta' => 'Rp juta', 'Rp ribu' => 'Rp ribu', '%' => '%', 'indeks' => 'Indeks', 'skor' => 'Skor', 'kasus' => 'Kasus', 'event' => 'Event', 'unit' => 'Unit', 'hari' => 'Hari', 'jam' => 'Jam', 'rasio' => 'Rasio'];
+    public const UNITS = ['Rp juta' => 'Rp juta', 'Rp ribu' => 'Rp ribu', '%' => '%', 'indeks' => 'Indeks', 'skor' => 'Skor', 'kasus' => 'Kasus', 'event' => 'Event', 'unit' => 'Unit', 'hari' => 'Hari', 'jam' => 'Jam', 'menit' => 'Menit', 'rasio' => 'Rasio', 'kali' => 'Kali (x)', 'orang' => 'Orang', 'ribu' => 'Ribu'];
 
     public const FREQUENCIES = ['bulanan' => 'Bulanan', 'mingguan' => 'Mingguan', 'kuartalan' => 'Kuartalan', 'semesteran' => 'Semesteran', 'tahunan' => 'Tahunan'];
 
     public const AGGREGATIONS = ['sum' => 'Jumlah (akumulasi)', 'average' => 'Rata-rata', 'last' => 'Nilai terakhir'];
+
+    /** Bulan pelaporan sesuai frekuensi: kuartalan Mar/Jun/Sep/Des, semesteran Jun/Des, tahunan Des. */
+    public function isDueIn(int $month): bool
+    {
+        return match ($this->frequency) {
+            'kuartalan' => $month % 3 === 0,
+            'semesteran' => $month % 6 === 0,
+            'tahunan' => $month === 12,
+            default => true,
+        };
+    }
 
     protected function casts(): array
     {

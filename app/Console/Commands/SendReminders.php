@@ -41,7 +41,7 @@ class SendReminders extends Command
             $monthName = Terms::months()[$month];
 
             if ($today->day === $cycle['reminder_day']) {
-                $kpis = Kpi::with(['owner', 'actuals' => fn ($q) => $q->where('month', $month)])->where('is_active', true)->get()->filter(fn ($k) => $k->actuals->isEmpty() && $k->owner);
+                $kpis = Kpi::with(['owner', 'actuals' => fn ($q) => $q->where('month', $month)])->where('is_active', true)->get()->filter(fn ($k) => $k->isDueIn($month) && $k->actuals->isEmpty() && $k->owner);
                 foreach ($kpis->groupBy('owner_id') as $list) {
                     $list->first()->owner->notify(new ArahNotification(
                         'Pengingat input realisasi '.$monthName,

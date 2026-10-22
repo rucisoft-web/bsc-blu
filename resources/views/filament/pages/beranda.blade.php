@@ -3,13 +3,15 @@
     use App\Support\Terms;
     $t = $tasks;
     $badge = fn ($s) => match ($s) { 'hijau' => 'arah-hijau', 'kuning' => 'arah-kuning', 'merah' => 'arah-merah', default => 'arah-abu' };
+    $hour = now()->hour;
+    $greeting = match (true) { $hour < 11 => 'Selamat pagi', $hour < 15 => 'Selamat siang', $hour < 18 => 'Selamat sore', default => 'Selamat malam' };
 @endphp
 <x-filament-panels::page>
 <div class="arah">
     <div class="arah-card">
         <div class="arah-hero">
             <div>
-                <h2>Sampurasun, {{ $user->name }}</h2>
+                <h2>{{ $greeting }}, {{ $user->name }}</h2>
                 <div class="arah-muted">{{ $user->job_title }} · {{ $roles ?: 'tanpa peran' }}</div>
                 <div class="arah-muted" style="margin-top:.25rem">{{ $company?->name }} — {{ $period?->name }} ({{ $period?->status }}){{ $monthName ? ' · realisasi terakhir yang diharapkan: '.$monthName : '' }}</div>
             </div>

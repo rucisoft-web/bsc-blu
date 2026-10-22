@@ -25,7 +25,7 @@ class HomeDashboardService
             $kpis = Kpi::with('actuals')->where('is_active', true)
                 ->when(! $manageAll, fn ($q) => $q->where('owner_id', $user->id))
                 ->orderBy('code')->get();
-            $missing = $kpis->filter(fn ($k) => ! $k->actuals->firstWhere('month', $month));
+            $missing = $kpis->filter(fn ($k) => $k->isDueIn($month) && ! $k->actuals->firstWhere('month', $month));
         }
         $returned = KpiActual::with('kpi')->where('status', 'dikembalikan')
             ->when(! $manageAll, fn ($q) => $q->whereHas('kpi', fn ($k) => $k->where('owner_id', $user->id)))->get();

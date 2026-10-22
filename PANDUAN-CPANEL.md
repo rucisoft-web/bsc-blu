@@ -166,16 +166,19 @@ Cron ini menjalankan pengingat harian (07.30 WIB), antrian notifikasi, dan pembe
 4. **Administrasi › Import Data** › unduh template › isi di Excel › **Pratinjau** › **Proses Import**.
 5. **Administrasi › Pengguna** › buat admin perusahaan (peran *Company Admin* untuk perusahaan itu). Admin tersebut bisa menambah pengguna lain di perusahaannya.
 
-### Memuat demo Diamond Food (untuk presentasi)
+### Memuat data demo (untuk presentasi)
+
+Tersedia dua demo lengkap: **DFI** (PT Diamond Food Indonesia Tbk, makanan & distribusi rantai dingin) dan **HMN** (PT Medikaloka Hermina Tbk, jaringan rumah sakit).
 
 ```bash
 cd ~/ruci-bsc
-php artisan rucibsc:demo-diamond
+php artisan rucibsc:demo DFI
+php artisan rucibsc:demo HMN
 ```
 
-Perintah ini membuat perusahaan DFI dengan perioda 2025 (ditutup) dan 2026 (berjalan), lengkap dengan peta strategi, KPI bulanan, inisiatif, ekosistem, tinjauan, temuan, dan kematangan, serta 11 akun `dfi.*@contoh.local`. Kata sandi akun tersebut dibuat acak dan ditampilkan di layar; untuk menentukannya sendiri tambahkan `--password=SandiAnda123`.
+Setiap perintah membuat perusahaannya dengan perioda 2025 (ditutup) dan 2026 (berjalan), lengkap dengan peta strategi, KPI bulanan, inisiatif, ekosistem, tinjauan, temuan, dan kematangan, serta akun `dfi.*@contoh.local` atau `hmn.*@contoh.local`. Kata sandi akun tersebut dibuat acak dan ditampilkan di layar; untuk menentukannya sendiri tambahkan `--password=SandiAnda123`.
 
-Bila DFI sudah punya perioda 2025 atau 2026 (misalnya dari import Excel sebelumnya), perintah menolak berjalan. Tambahkan `--reset --force` untuk menghapus data DFI kedua perioda itu dan menggantinya dengan data demo. Lewat cron sekali jalan (seperti bagian 6): `cd /home/userku/ruci-bsc && php artisan rucibsc:demo-diamond --reset --force --password=SandiAnda123 > storage/logs/demo.txt 2>&1`, lalu jalankan `php artisan optimize` dengan cara yang sama.
+Bila perusahaan itu sudah punya perioda 2025 atau 2026 (misalnya dari import Excel sebelumnya), perintah menolak berjalan. Tambahkan `--reset --force` untuk menghapus data kedua perioda itu dan menggantinya dengan data demo. Lewat cron sekali jalan (seperti bagian 6): `cd /home/userku/ruci-bsc && php artisan rucibsc:demo HMN --force --password=SandiAnda123 > storage/logs/demo.txt 2>&1`, lalu jalankan `php artisan optimize` dengan cara yang sama.
 
 Sebelum dipakai sungguhan, hapus semua data contoh dengan `php artisan rucibsc:hapus-contoh --force`.
 

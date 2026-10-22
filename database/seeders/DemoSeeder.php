@@ -18,6 +18,7 @@ use RuntimeException;
  * Perusahaan contoh untuk demo & pelatihan (is_demo = true, hapus dengan `php artisan rucibsc:hapus-contoh`).
  *
  * - DFI: PT Diamond Food Indonesia Tbk — demo lengkap 2025 + 2026, lihat DiamondFoodSeeder.
+ * - HMN: PT Medikaloka Hermina Tbk — demo lengkap jaringan rumah sakit 2025 + 2026, lihat HerminaSeeder.
  * - NLP & KSB: perusahaan fiktif dengan data bulanan Jan–Sep 2026, dimasukkan lewat BscImporter
  *   (jalur yang sama dengan upload Excel), sehingga seeder ini sekaligus menguji format workbook.
  */
@@ -36,6 +37,7 @@ class DemoSeeder extends Seeder
         $this->assign($admin, 'super-admin', null);
 
         (new DiamondFoodSeeder(self::PASSWORD))->run();
+        (new HerminaSeeder(self::PASSWORD))->run();
 
         foreach ([$this->logistik(), $this->klinik()] as $def) {
             $company = Company::updateOrCreate(['code' => $def['company']['code']], $def['company'] + ['is_active' => true, 'is_demo' => true]);

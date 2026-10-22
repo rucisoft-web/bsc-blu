@@ -2,47 +2,25 @@
 
 namespace Database\Seeders;
 
-use App\Models\AnalysisPeriod;
 use App\Models\AtmanProfile;
 use App\Models\Capability;
-use App\Models\Company;
 use App\Models\Competitor;
 use App\Models\CoreValue;
-use App\Models\CorrectiveAction;
 use App\Models\EnvironmentScan;
-use App\Models\Finding;
 use App\Models\IndustryForce;
-use App\Models\InitiativeActivity;
-use App\Models\InitiativeBudget;
-use App\Models\InitiativeMilestone;
-use App\Models\Institutionalization;
-use App\Models\Kpi;
-use App\Models\KpiActual;
-use App\Models\KpiTarget;
 use App\Models\MarketAnalysis;
-use App\Models\MaturityAnswer;
-use App\Models\MaturityAssessment;
-use App\Models\MaturityQuestion;
 use App\Models\ObjectiveRelation;
 use App\Models\PerformanceReview;
 use App\Models\PestelAnalysis;
 use App\Models\Regulation;
 use App\Models\ReviewNote;
-use App\Models\Role;
 use App\Models\Stakeholder;
 use App\Models\StrategicChoice;
-use App\Models\StrategicDependency;
-use App\Models\StrategicInitiative;
 use App\Models\StrategicIssue;
 use App\Models\StrategicObjective;
 use App\Models\StrategicTheme;
 use App\Models\SwotItem;
 use App\Models\TowsStrategy;
-use App\Models\User;
-use App\Models\UserContext;
-use App\Services\MaturityScoringService;
-use App\Support\DhastramContext;
-use Illuminate\Support\Facades\Hash;
 
 /**
  * Demo lengkap PT Diamond Food Indonesia Tbk (kode DFI) untuk memperlihatkan seluruh fitur Ruci BSC.
@@ -56,7 +34,7 @@ use Illuminate\Support\Facades\Hash;
  *
  * Semua data selain angka Laporan Tahunan bersifat ilustrasi dan ditandai sebagai proyeksi/ilustrasi.
  */
-class DiamondFoodSeeder
+class DiamondFoodSeeder extends ShowcaseSeeder
 {
     public const CODE = 'DFI';
 
@@ -71,50 +49,52 @@ class DiamondFoodSeeder
     /** KPI 2026 yang sengaja di atas target supaya campuran hijau/kuning/merah realistis. */
     public const ON_TRACK_2026 = ['C1.2', 'C2.1', 'C2.2', 'F1.3', 'F2.2', 'F2.3', 'L1.2', 'L2.1', 'L4.2', 'P1.1', 'P1.3', 'P2.1', 'P2.2', 'P3.1', 'P3.2'];
 
-    /** @var array<string,User> */
-    protected array $u = [];
-
-    protected Company $company;
-
-    public function __construct(protected string $password) {}
-
-    public function run(): Company
+    protected function companyAttributes(): array
     {
-        $this->company = Company::updateOrCreate(['code' => self::CODE], [
+        return [
             'name' => 'PT Diamond Food Indonesia Tbk', 'legal_name' => 'PT Diamond Food Indonesia Tbk',
             'industry' => 'Makanan & minuman (manufaktur & distribusi rantai dingin)',
             'address' => 'TCC Batavia Tower One Lt. 15, Jl. KH Mas Mansyur Kav. 126', 'city' => 'Jakarta Pusat',
             'phone' => '+62 21 2864 9888', 'website' => 'https://www.diamondfoodindonesia.com',
             'description' => 'Perusahaan demo dari Laporan Tahunan 2025 (kode saham DMND). Angka 2025 dari laporan tahunan; data 2026 & data operasional adalah simulasi untuk demo.',
-            'is_active' => true, 'is_demo' => true,
-        ]);
-        $this->users();
-
-        $p2025 = AnalysisPeriod::updateOrCreate(['company_id' => $this->company->id, 'code' => '2025'], [
-            'name' => 'Tahun 2025', 'year' => 2025, 'start_date' => '2025-01-01', 'end_date' => '2025-12-31', 'status' => 'ditutup', 'is_active' => false,
-            'notes' => 'Realisasi tahunan sesuai Laporan Tahunan 2025; rincian bulanan ilustratif dengan total yang sama.',
-        ]);
-        $p2026 = AnalysisPeriod::updateOrCreate(['company_id' => $this->company->id, 'code' => '2026'], [
-            'name' => 'Tahun 2026', 'year' => 2026, 'start_date' => '2026-01-01', 'end_date' => '2026-12-31', 'status' => 'berjalan', 'is_active' => true,
-            'notes' => 'SIMULASI untuk demo: Jan–Agu disetujui, Sep dalam proses persetujuan.',
-        ]);
-        AnalysisPeriod::where('company_id', $this->company->id)->whereNotIn('id', [$p2025->id, $p2026->id])->update(['is_active' => false]);
-
-        $ctx = app(DhastramContext::class);
-        foreach ([$p2025, $p2026] as $period) {
-            $ctx->set($this->company->id, $period->id);
-            $this->period($period->year);
-        }
-        foreach ($this->u as $user) {
-            UserContext::updateOrCreate(['user_id' => $user->id], ['company_id' => $this->company->id, 'analysis_period_id' => $p2026->id]);
-        }
-
-        return $this->company;
+        ];
     }
 
-    protected function users(): void
+    protected function periodNote(int $year): string
     {
-        foreach ([
+        return $year === 2025
+            ? 'Realisasi tahunan sesuai Laporan Tahunan 2025; rincian bulanan ilustratif dengan total yang sama.'
+            : 'SIMULASI untuk demo: Jan–Agu disetujui, Sep dalam proses persetujuan.';
+    }
+
+    protected function season(): array
+    {
+        return self::SEASON;
+    }
+
+    protected function onTrack2026(): array
+    {
+        return self::ON_TRACK_2026;
+    }
+
+    protected function missingSeptember(): array
+    {
+        return ['P4.2', 'L3.1'];
+    }
+
+    protected function returnedSeptember(): ?array
+    {
+        return ['C3.1', 'Angka September masih memasukkan pesanan uji coba internal di platform B2B. Mohon dikoreksi dan lampirkan ekspor data platform.'];
+    }
+
+    protected function criticalIn2026(): array
+    {
+        return ['P3.2'];
+    }
+
+    protected function userDefs(): array
+    {
+        return [
             'admin' => ['Admin Diamond (contoh)', 'dfi.admin', 'Admin Sistem', 'Corporate Strategy', ['company-admin']],
             'dirut' => ['Direktur Utama (contoh)', 'dfi.direktur', 'Presiden Direktur', 'Direksi', ['pimpinan']],
             'cfo' => ['Kepala Keuangan (contoh)', 'dfi.keuangan', 'Chief Financial Officer', 'Keuangan', ['keuangan']],
@@ -126,40 +106,7 @@ class DiamondFoodSeeder
             'strategi' => ['Strategy Office (contoh)', 'dfi.strategi', 'Corporate Strategy Manager', 'Corporate Strategy', ['strategy-office', 'editor-ekosistem']],
             'komisaris' => ['Komisaris Independen (contoh)', 'dfi.komisaris', 'Komisaris Independen', 'Dewan Komisaris', ['pengawas']],
             'analis' => ['Analis Penjualan (contoh)', 'dfi.analis', 'Sales Analyst', 'Komersial', ['pelaksana']],
-        ] as $key => [$name, $email, $title, $dept, $roles]) {
-            $user = User::updateOrCreate(['email' => $email.'@contoh.local'], [
-                'name' => $name, 'job_title' => $title, 'department' => $dept, 'is_active' => true,
-                'password' => Hash::make($this->password), 'must_change_password' => false, 'email_verified_at' => now(),
-            ]);
-            $user->companies()->syncWithoutDetaching([$this->company->id]);
-            foreach ($roles as $slug) {
-                $role = Role::where('slug', $slug)->firstOrFail();
-                if (! $user->roles()->where('roles.id', $role->id)->wherePivot('company_id', $this->company->id)->exists()) {
-                    $user->roles()->attach($role->id, ['company_id' => $this->company->id]);
-                }
-            }
-            $this->u[$key] = $user;
-        }
-    }
-
-    protected function id(string $key): int
-    {
-        return $this->u[$key]->id;
-    }
-
-    // ================================================================== satu perioda
-
-    protected function period(int $year): void
-    {
-        $this->identity($year);
-        $issues = $this->ecosystem($year);
-        [$themes, $obj] = $this->strategy($year);
-        $kpis = $this->kpis($year, $obj);
-        $reviews = $this->reviews($year);
-        $ini = $this->initiatives($year, $themes, $obj);
-        $this->findings($year, $kpis, $ini, $reviews);
-        $this->continuity($year, $ini, $obj);
-        $this->tows($issues);
+        ];
     }
 
     // ------------------------------------------------------------------ jati diri
@@ -474,138 +421,6 @@ class DiamondFoodSeeder
         ];
     }
 
-    /** @return array<string,Kpi> */
-    protected function kpis(int $year, array $obj): array
-    {
-        $out = [];
-        foreach ($this->kpiDefs() as $n => $d) {
-            [$code, $o, $name, $unit, $dir, $agg, $dec, $fin, $crit, $owner, $formula, $source, $b24, $t25, $a25, $t26, $f26, $fromLt] = $d;
-            $freq = $d[18] ?? 'bulanan';
-            $months = $freq === 'semesteran' ? [6, 12] : range(1, 12);
-            $baseline = $year === 2025 ? $b24 : $a25;
-            $annualTarget = $year === 2025 ? $t25 : $t26;
-            $targets = $this->targetSeries($agg, $baseline, $annualTarget, $dec, $year, $months);
-            if ($year === 2025) {
-                $actuals = $this->actualSeries2025($agg, $b24, $a25, $dec, $months, 10 + $n);
-            } else {
-                mt_srand(500 + $n);
-                if (in_array($code, self::ON_TRACK_2026, true)) {
-                    $f26 = $dir === 'lower' ? min($f26, .97) : max($f26, 1.025);
-                }
-                $actuals = [];
-                foreach ($targets as $m => $t) {
-                    if ($m <= 9) {
-                        $v = $t * $f26 * (1 + mt_rand(-150, 150) / 10000);
-                        $actuals[$m] = round($unit === '%' && $t <= 100 ? min($v, 100) : $v, $dec);
-                    }
-                }
-                if (in_array($code, ['P4.2', 'L3.1'], true)) {
-                    unset($actuals[9]); // belum diinput — memicu pengingat
-                }
-            }
-
-            $kpi = Kpi::create([
-                'code' => $code, 'strategic_objective_id' => $obj[$o]->id, 'name' => $name, 'unit' => $unit, 'direction' => $dir, 'aggregation' => $agg,
-                'frequency' => $freq, 'owner_id' => $this->id($owner), 'weight' => 1, 'is_financial' => $fin, 'is_critical' => $crit || ($year === 2026 && $code === 'P3.2'),
-                'decimals' => $dec, 'baseline' => $baseline, 'annual_target' => $annualTarget, 'formula' => $formula, 'data_source' => $source,
-                'description' => $fromLt ? 'Realisasi tahunan 2025 bersumber dari '.self::LT.'.' : 'KPI ilustrasi untuk demo (tidak diungkap di laporan tahunan).',
-                'is_active' => true,
-            ]);
-            foreach ($targets as $m => $t) {
-                KpiTarget::create(['kpi_id' => $kpi->id, 'month' => $m, 'target' => $t]);
-            }
-            foreach ($actuals as $m => $v) {
-                $this->actual($kpi, $year, $m, $v, $fromLt, $fin, $owner);
-            }
-            $out[$code] = $kpi;
-        }
-
-        return $out;
-    }
-
-    /** @param int[] $months */
-    protected function targetSeries(string $agg, ?float $base, float $annual, int $dec, int $year, array $months): array
-    {
-        $out = [];
-        $w = self::SEASON[$year];
-        $base ??= $annual;
-        foreach ($months as $m) {
-            $out[$m] = round(match ($agg) {
-                'sum' => count($months) === 12 ? $annual * $w[$m] : $annual / count($months),
-                'average' => $annual,
-                default => $base + ($annual - $base) * $m / 12,
-            }, $dec);
-        }
-        if ($agg === 'sum') {
-            $out[12] = round($out[12] + $annual - array_sum($out), $dec);
-        }
-
-        return $out;
-    }
-
-    /** Realisasi 2025: total/rata-rata/nilai Desember persis sama dengan laporan tahunan. */
-    protected function actualSeries2025(string $agg, ?float $base, float $annual, int $dec, array $months, int $seed): array
-    {
-        mt_srand($seed);
-        $w = self::SEASON[2025];
-        $base ??= $annual;
-        $out = [];
-        foreach ($months as $m) {
-            $noise = 1 + mt_rand(-250, 250) / 10000;
-            $out[$m] = match ($agg) {
-                'sum' => (count($months) === 12 ? $annual * $w[$m] : $annual / count($months)) * $noise,
-                'average' => $annual * $noise,
-                default => ($base + ($annual - $base) * $m / 12) * (1 + (mt_rand(-80, 80) / 10000)),
-            };
-        }
-        if ($agg === 'sum') {
-            $factor = $annual / array_sum($out);
-            $out = array_map(fn ($v) => round($v * $factor, $dec), $out);
-            $out[12] = round($out[12] + $annual - array_sum($out), $dec);
-        } elseif ($agg === 'average') {
-            $shift = $annual - array_sum($out) / count($out);
-            $out = array_map(fn ($v) => round($v + $shift, $dec), $out);
-            $out[12] = round($out[12] + ($annual * count($out) - array_sum($out)), $dec);
-        } else {
-            $out = array_map(fn ($v) => round($v, $dec), $out);
-            $out[12] = round($annual, $dec);
-        }
-
-        return $out;
-    }
-
-    protected function actual(Kpi $kpi, int $year, int $m, float $value, bool $fromLt, bool $fin, string $owner): void
-    {
-        $next = fn (int $day) => sprintf('%d-%02d-%02d', $m === 12 ? $year + 1 : $year, $m === 12 ? 1 : $m + 1, $day);
-        $row = ['kpi_id' => $kpi->id, 'month' => $m, 'actual' => $value, 'submitted_by' => $this->id($owner), 'submitted_at' => $next(5).' 10:00:00'];
-        if ($year === 2025) {
-            $row['is_projection'] = ! ($fromLt && $m === 12 && $kpi->aggregation !== 'sum');
-            $row['notes'] = match (true) {
-                $fromLt && $m === 12 => 'Nilai tahunan sesuai '.self::LT.'.',
-                $fromLt => 'Rincian bulanan ilustratif; total/nilai akhir tahun mengikuti laporan tahunan.',
-                default => 'Data ilustrasi untuk demo.',
-            };
-            $row['evidence'] = $fromLt ? self::LT : null;
-        } else {
-            $row['is_projection'] = true;
-            $row['notes'] = 'Data simulasi 2026 untuk demo.';
-        }
-
-        $approved = ['status' => 'disetujui', 'verified_by' => $this->id('cfo'), 'verified_at' => $next(7).' 15:00:00', 'verification_note' => 'Sesuai laporan sumber.',
-            'approved_by' => $this->id('dirut'), 'approved_at' => $next(8).' 11:00:00'];
-        if ($year === 2025 || $m <= 8) {
-            $row += $approved;
-        } elseif ($kpi->code === 'C3.1') {
-            $row += ['status' => 'dikembalikan', 'returned_by' => $this->id('cfo'), 'returned_at' => '2026-10-07 14:00:00',
-                'return_note' => 'Angka September masih memasukkan pesanan uji coba internal di platform B2B. Mohon dikoreksi dan lampirkan ekspor data platform.'];
-        } elseif ($fin) {
-            $row += ['status' => 'terverifikasi', 'verified_by' => $this->id('cfo'), 'verified_at' => '2026-10-07 15:00:00', 'verification_note' => 'Cocok dengan laporan keuangan September (belum diaudit).'];
-        } else {
-            $row += ['status' => 'draf'];
-        }
-        KpiActual::create($row);
-    }
-
     // ------------------------------------------------------------------ tinjauan kinerja
 
     /** @return array<string,PerformanceReview> */
@@ -672,8 +487,7 @@ class DiamondFoodSeeder
 
     // ------------------------------------------------------------------ inisiatif
 
-    /** @return array<string,StrategicInitiative> */
-    protected function initiatives(int $year, array $themes, array $obj): array
+    protected function initiativeData(int $year): array
     {
         $defs = $year === 2025 ? [
             'net' => ['DFI-25-01', 'Ekspansi titik distribusi & gudang cold storage', 'Pembukaan cabang baru & penambahan kapasitas gudang dingin.', 'T2', 'scm', '2025-01-01', '2025-12-31', 'selesai', 5, 4, 3, 5, ['C1', 'F1'], '24 titik distribusi.'],
@@ -694,14 +508,6 @@ class DiamondFoodSeeder
             'esg' => ['DFI-26-10', 'Kemasan ramah lingkungan (peta jalan pengurangan sampah)', 'Kajian kemasan & rencana pengurangan sampah produsen.', 'T4', 'produksi', '2026-09-01', '2027-06-30', 'direncanakan', 2, 2, 2, 2, ['P3'], 'Dokumen peta jalan disetujui.'],
         ];
 
-        $ini = [];
-        foreach ($defs as $k => [$code, $title, $desc, $th, $owner, $start, $end, $status, $imp, $urg, $risk, $bud, $objs, $outcome]) {
-            $ini[$k] = StrategicInitiative::create(['code' => $code, 'title' => $title, 'description' => $desc, 'strategic_theme_id' => $themes[$th]->id,
-                'owner_id' => $this->id($owner), 'start_date' => $start, 'end_date' => $end, 'status' => $status, 'impact' => $imp, 'urgency' => $urg,
-                'risk' => $risk, 'budget_level' => $bud, 'expected_outcome' => $outcome]);
-            $ini[$k]->objectives()->sync(collect($objs)->map(fn ($x) => $obj[$x]->id));
-        }
-
         // aktivitas: inisiatif, nama, pemilik, mulai, tenggat, progres
         $acts = $year === 2025 ? [
             ['net', 'Pembukaan cabang & depo baru', 'scm', '2025-01-01', '2025-09-30', 100], ['net', 'Penambahan kapasitas gudang dingin', 'scm', '2025-03-01', '2025-12-31', 100],
@@ -719,21 +525,14 @@ class DiamondFoodSeeder
             ['tms', 'Pemilihan vendor TMS', 'scm', '2026-03-01', '2026-04-30', 100], ['tms', 'Rollout TMS Jawa', 'scm', '2026-05-01', '2026-09-30', 100], ['tms', 'Rollout TMS luar Jawa', 'scm', '2026-08-01', '2026-10-31', 95],
             ['halal', 'Pemetaan SKU & bahan baku', 'produksi', '2026-01-01', '2026-02-28', 100], ['halal', 'Audit LPH & pengajuan sertifikat', 'produksi', '2026-02-01', '2026-08-31', 100],
             ['halal', 'Verifikasi dokumen halal prinsipal', 'komersial', '2026-03-01', '2026-10-10', 60],
-            ['energy', 'Genset otomatis 8 cabang', 'scm', '2026-04-01', '2026-09-30', 90], ['energy', 'Panel surya atap DC Cikarang', 'scm', '2026-07-01', '2027-03-31', 30],
+            ['energy', 'Genset otomatis 8 cabang', 'scm', '2026-04-01', '2026-09-30', 100], ['energy', 'Panel surya atap DC Cikarang', 'scm', '2026-07-01', '2027-03-31', 30],
             ['leader', 'Talent review & 9-box', 'sdm', '2026-02-01', '2026-04-30', 100], ['leader', 'Program kepala cabang angkatan 1', 'sdm', '2026-05-01', '2026-11-30', 60],
             ['cyber', 'MFA seluruh pengguna', 'ti', '2026-03-01', '2026-05-31', 100], ['cyber', 'SOC terkelola 24/7', 'ti', '2026-05-01', '2026-08-31', 100], ['cyber', 'Uji DRP', 'ti', '2026-10-01', '2026-12-31', 0],
             ['margin', 'Negosiasi 5 prinsipal utama', 'komersial', '2026-01-15', '2026-05-31', 100], ['margin', 'Revisi harga bertahap', 'komersial', '2026-04-01', '2026-12-31', 60],
             ['esg', 'Kajian kemasan', 'produksi', '2026-09-01', '2026-12-31', 10],
         ];
-        $asOf = $year === 2025 ? '2025-12-31' : '2026-10-15';
-        foreach ($acts as [$k, $name, $owner, $start, $due, $prog]) {
-            InitiativeActivity::create(['strategic_initiative_id' => $ini[$k]->id, 'name' => $name, 'owner_id' => $this->id($owner), 'start_date' => $start, 'due_date' => $due,
-                'weight' => 1, 'progress' => $prog, 'status' => $prog >= 100 ? 'selesai' : ($prog > 0 ? 'berjalan' : 'belum'),
-                'completed_at' => $prog >= 100 ? $due : null, 'last_update_note' => $prog >= 100 ? 'Selesai.' : 'Pembaruan progres per '.$asOf.'.', 'progress_updated_at' => $asOf.' 09:00:00']);
-        }
-
         // milestone: inisiatif, nama, tenggat, tercapai
-        foreach ($year === 2025 ? [
+        $milestones = $year === 2025 ? [
             ['net', '24 titik distribusi beroperasi', '2025-12-31', true], ['wms', 'Go-live 10 cabang', '2025-11-30', true], ['halal1', '97% SKU bersertifikat', '2025-12-31', true],
         ] : [
             ['net', 'Gudang Kupang beroperasi', '2026-08-31', true], ['net', 'Gudang Jayapura beroperasi', '2026-10-31', false], ['net', 'Gudang Palu beroperasi', '2026-12-31', false],
@@ -742,13 +541,11 @@ class DiamondFoodSeeder
             ['tms', 'TMS live di Jawa', '2026-09-30', true],
             ['halal', 'Seluruh SKU produksi sendiri bersertifikat', '2026-10-17', false], ['halal', 'Dokumen halal prinsipal lengkap', '2026-10-10', false],
             ['leader', 'Talent review selesai', '2026-04-30', true], ['cyber', 'SOC 24/7 aktif', '2026-08-31', true],
-        ] as [$k, $name, $due, $done]) {
-            InitiativeMilestone::create(['strategic_initiative_id' => $ini[$k]->id, 'name' => $name, 'due_date' => $due, 'is_achieved' => $done,
-                'achieved_at' => $done ? $due : null, 'owner_id' => $ini[$k]->owner_id, 'weight' => 1]);
-        }
+        ];
 
-        // anggaran (Rp): inisiatif, item, kategori, rencana, realisasi
-        foreach ($year === 2025 ? [
+        // anggaran (Rp): inisiatif, item, kategori, rencana, realisasi, catatan
+        $capexNote = 'Bagian dari capex 2025 Rp476,5 M (laporan tahunan); rincian per item ilustratif.';
+        $budgets = $year === 2025 ? [
             ['net', 'Cabang baru & peralatan logistik', 'capex', 320_000_000_000, 296_400_000_000], ['machine', 'Upgrade & refurbish mesin', 'capex', 150_000_000_000, 141_600_000_000],
             ['wms', 'Lisensi & implementasi WMS', 'capex', 42_000_000_000, 38_500_000_000], ['apex', 'Program pelatihan', 'opex', 12_000_000_000, 11_400_000_000],
             ['halal1', 'Biaya audit & sertifikasi', 'opex', 3_500_000_000, 3_200_000_000],
@@ -759,29 +556,21 @@ class DiamondFoodSeeder
             ['halal', 'Audit LPH & sertifikasi', 'opex', 4_200_000_000, 3_600_000_000], ['energy', 'Genset & panel surya', 'capex', 48_000_000_000, 19_000_000_000],
             ['leader', 'Assessment center & program', 'opex', 7_500_000_000, 4_100_000_000], ['cyber', 'SOC terkelola & DRP', 'opex', 14_000_000_000, 8_200_000_000],
             ['margin', 'Konsultan pricing', 'opex', 2_500_000_000, 2_100_000_000], ['esg', 'Kajian kemasan', 'opex', 1_500_000_000, 0],
-        ] as [$k, $item, $cat, $plan, $real]) {
-            InitiativeBudget::create(['strategic_initiative_id' => $ini[$k]->id, 'item' => $item, 'category' => $cat, 'planned_amount' => $plan, 'realized_amount' => $real,
-                'realization_date' => $real > 0 ? $asOf : null, 'funding_source' => $cat === 'capex' ? 'Kas internal' : 'Anggaran operasional',
-                'notes' => $year === 2025 && $cat === 'capex' ? 'Bagian dari capex 2025 Rp476,5 M (laporan tahunan); rincian per item ilustratif.' : 'Angka ilustrasi untuk demo.',
-                'verified_by' => $real > 0 ? $this->id('cfo') : null, 'verified_at' => $real > 0 ? $asOf.' 15:00:00' : null]);
-        }
-        foreach ($ini as $i) {
-            $i->update(['budget_planned' => $i->budgets()->sum('planned_amount')]);
-            $i->recalculateProgress();
-        }
+        ];
+        $budgets = array_map(fn ($b) => [...$b, $year === 2025 && $b[2] === 'capex' ? $capexNote : null], $budgets);
 
-        return $ini;
+        return ['defs' => $defs, 'activities' => $acts, 'milestones' => $milestones, 'budgets' => $budgets];
     }
 
     // ------------------------------------------------------------------ temuan & tindakan korektif
 
-    protected function findings(int $year, array $kpis, array $ini, array $reviews): void
+    protected function findingData(int $year): array
     {
-        $defs = $year === 2025 ? [
+        return $year === 2025 ? [
             ['Kas operasi turun meski laba naik', 'Kenaikan persediaan menekan kas operasi 2025 (Rp472,1 M vs Rp516,4 M).', 'tinjauan', 'tahunan', 'keuangan', 'tinggi', 44349000000, 'F3.3', null, 'komisaris', '2026-02-20',
                 [['Program penurunan hari persediaan 2026', 'scm', '2026-06-30', 'berjalan', 40]], null],
             ['Data stock-out belum seragam antar cabang', 'Definisi stock-out berbeda antar cabang sebelum WMS.', 'audit', null, 'proses', 'sedang', null, 'P1.2', 'wms', 'strategi', '2025-09-15',
-                [['Standarisasi definisi & laporan stock-out', 'scm', '2025-11-30', 'selesai', 100]], 'ditutup'],
+                [['Standarisasi definisi & laporan stock-out', 'scm', '2025-11-30', 'selesai', 100]], ['2025-12-10', 'Laporan stock-out seragam di seluruh cabang WMS.']],
         ] : [
             ['Kanal digital jauh di bawah target', 'Kontribusi kanal digital 72% dari target; pilot B2B terlambat.', 'tinjauan', 'q2', 'pelanggan', 'tinggi', null, 'C3.1', 'b2b', 'dirut', '2026-07-20',
                 [['Bentuk tim percepatan B2B', 'ti', '2026-08-15', 'selesai', 100], ['Insentif salesman untuk pesanan digital', 'komersial', '2026-10-31', 'berjalan', 60], ['Pilot 500 toko live', 'komersial', '2026-09-30', 'berjalan', 20]], null],
@@ -796,58 +585,27 @@ class DiamondFoodSeeder
             ['Turnover salesman cabang baru tinggi', 'Turnover sukarela salesman Kupang 4 orang dalam 3 bulan.', 'internal', 'rm7', 'sdm', 'sedang', null, 'L2.2', 'leader', 'sdm', '2026-08-10',
                 [['Exit interview & penyesuaian insentif', 'sdm', '2026-09-30', 'belum', 0]], null],
         ];
-        foreach ($defs as [$title, $desc, $source, $rev, $persp, $sev, $amount, $kpi, $iniKey, $raiser, $date, $actions, $close]) {
-            $finding = Finding::create(['title' => $title, 'description' => $desc, 'source' => $source, 'performance_review_id' => $rev ? ($reviews[$rev]->id ?? null) : null,
-                'perspective' => $persp, 'severity' => $sev, 'amount' => $amount, 'kpi_id' => $kpis[$kpi]->id ?? null,
-                'strategic_initiative_id' => $iniKey ? ($ini[$iniKey]->id ?? null) : null, 'raised_by' => $this->id($raiser), 'raised_at' => $date, 'status' => 'terbuka']);
-            foreach ($actions as [$at, $owner, $due, $st, $prog]) {
-                CorrectiveAction::create(['finding_id' => $finding->id, 'title' => $at, 'owner_id' => $this->id($owner), 'due_date' => $due, 'status' => $st, 'progress' => $prog,
-                    'result_note' => $st === 'selesai' ? 'Selesai — bukti di laporan divisi.' : null]);
-            }
-            $finding->refresh()->syncStatus();
-            if ($close === 'ditutup') {
-                $finding->forceFill(['status' => 'ditutup', 'closed_by' => $this->id('dirut'), 'closed_at' => '2025-12-10 16:00:00',
-                    'closure_note' => 'Laporan stock-out seragam di seluruh cabang WMS.'])->saveQuietly();
-            }
-        }
     }
 
     // ------------------------------------------------------------------ kesinambungan
 
-    protected function continuity(int $year, array $ini, array $obj): void
+    protected function continuityData(int $year): array
     {
-        $a = MaturityAssessment::create(['title' => 'Penilaian Kematangan Manajemen Strategi '.$year, 'assessment_date' => $year === 2025 ? '2025-12-15' : '2026-09-30',
-            'assessor_id' => $this->id('strategi'), 'status' => 'final',
-            'notes' => $year === 2025 ? 'Baseline sebelum memakai Ruci BSC.' : 'Penilaian ulang setelah 9 bulan memakai Ruci BSC (ilustrasi).']);
-        $bump = $year === 2025 ? 0 : 1;
-        foreach (MaturityQuestion::orderBy('sort')->get() as $i => $q) {
-            $score = min(5, max(1, ([3, 3, 2, 3, 2][$i % 5]) + $bump - ($i % 7 === 0 ? 1 : 0)));
-            MaturityAnswer::create(['maturity_assessment_id' => $a->id, 'maturity_question_id' => $q->id, 'score' => $score, 'evidence' => $i % 4 === 0 ? 'Bukti: notulen rapat & laporan Ruci BSC.' : null]);
-        }
-        app(MaturityScoringService::class)->recalculate($a);
-
-        if ($year === 2026) {
-            foreach ([
+        return [
+            'dependencies' => $year === 2025 ? [] : [
                 ['Persetujuan prinsipal atas dokumen halal', 'eksternal', 'halal', 'P3', 'Prinsipal merek internasional', 'Sertifikat halal SKU prinsipal bergantung pada dokumen dari prinsipal.', 'komersial', 'tinggi', 'Surat resmi, eskalasi ke regional, rencana delisting.'],
                 ['Vendor integrasi ERP untuk B2B', 'eksternal', 'b2b', 'P4', 'Vendor ERP', 'API harga & stok real-time dibutuhkan sebelum pilot.', 'ti', 'tinggi', 'Tambah sumber daya vendor; fallback sinkronisasi per jam.'],
                 ['Izin bangunan gudang Jayapura', 'eksternal', 'net', 'C1', 'Pemerintah daerah', 'PBG gudang dingin Jayapura masih proses.', 'scm', 'sedang', 'Sewa gudang sementara.'],
                 ['Kesiapan data WMS sebelum TMS luar Jawa', 'internal', 'tms', 'P1', 'Proyek WMS gelombang 2', 'TMS luar Jawa membutuhkan data stok akurat dari WMS.', 'scm', 'sedang', 'Urutkan rollout mengikuti WMS.'],
-            ] as [$title, $type, $iniKey, $objKey, $dep, $desc, $owner, $risk, $mit]) {
-                StrategicDependency::create(['title' => $title, 'dependency_type' => $type, 'strategic_initiative_id' => $ini[$iniKey]->id, 'strategic_objective_id' => $obj[$objKey]->id,
-                    'depends_on' => $dep, 'description' => $desc, 'owner_id' => $this->id($owner), 'risk_level' => $risk, 'mitigation' => $mit, 'status' => 'aktif']);
-            }
-        }
-        foreach ([
-            ['Siklus KPI bulanan di Ruci BSC', 'sistem', 'Input tanggal 5 → verifikasi keuangan tanggal 7 → persetujuan Direksi tanggal 8 → rapat manajemen tanggal 10.', 'Bulanan', 'strategi', $year === 2025 ? 'rencana' : 'melembaga'],
-            ['Rapat manajemen bulanan', 'rapat', 'Membahas sasaran merah/kuning & menutup temuan.', 'Bulanan', 'dirut', 'melembaga'],
-            ['Tinjauan kuartalan dengan Dewan Komisaris', 'rapat', 'Tinjauan kinerja & risiko bersama Komisaris.', 'Kuartalan', 'dirut', 'berjalan'],
-            ['Kebijakan bukti pendukung realisasi', 'kebijakan', 'Setiap realisasi KPI wajib melampirkan sumber data.', 'Berkelanjutan', 'cfo', $year === 2025 ? 'rencana' : 'berjalan'],
-            ['Talent review tahunan', 'pelatihan', 'Talent review & rencana suksesi.', 'Tahunan', 'sdm', 'berjalan'],
-            ['Budaya kinerja tinggi', 'budaya', 'Pengakuan cabang terbaik tiap kuartal berdasarkan skor BSC.', 'Kuartalan', 'sdm', $year === 2025 ? 'rencana' : 'berjalan'],
-        ] as [$title, $type, $desc, $freq, $owner, $status]) {
-            Institutionalization::create(['title' => $title, 'mechanism_type' => $type, 'description' => $desc, 'frequency' => $freq, 'owner_id' => $this->id($owner),
-                'status' => $status, 'evidence' => $status === 'rencana' ? null : 'Notulen & laporan Ruci BSC.', 'started_at' => $year.'-01-15',
-                'next_review_date' => $year === 2025 ? '2026-01-15' : '2026-12-15']);
-        }
+            ],
+            'institutionalizations' => [
+                ['Siklus KPI bulanan di Ruci BSC', 'sistem', 'Input tanggal 5 → verifikasi keuangan tanggal 7 → persetujuan Direksi tanggal 8 → rapat manajemen tanggal 10.', 'Bulanan', 'strategi', $year === 2025 ? 'rencana' : 'melembaga'],
+                ['Rapat manajemen bulanan', 'rapat', 'Membahas sasaran merah/kuning & menutup temuan.', 'Bulanan', 'dirut', 'melembaga'],
+                ['Tinjauan kuartalan dengan Dewan Komisaris', 'rapat', 'Tinjauan kinerja & risiko bersama Komisaris.', 'Kuartalan', 'dirut', 'berjalan'],
+                ['Kebijakan bukti pendukung realisasi', 'kebijakan', 'Setiap realisasi KPI wajib melampirkan sumber data.', 'Berkelanjutan', 'cfo', $year === 2025 ? 'rencana' : 'berjalan'],
+                ['Talent review tahunan', 'pelatihan', 'Talent review & rencana suksesi.', 'Tahunan', 'sdm', 'berjalan'],
+                ['Budaya kinerja tinggi', 'budaya', 'Pengakuan cabang terbaik tiap kuartal berdasarkan skor BSC.', 'Kuartalan', 'sdm', $year === 2025 ? 'rencana' : 'berjalan'],
+            ],
+        ];
     }
 }
