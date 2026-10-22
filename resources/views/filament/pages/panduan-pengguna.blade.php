@@ -48,6 +48,6 @@
         </section>
     @endforeach
 
-    <div class="arah-muted panduan-foot">Tangkapan layar diambil dari data contoh PT Diamond Food Indonesia Tbk dan PT Medikaloka Hermina Tbk. Menu yang terlihat bisa berbeda sesuai hak akses peran Anda.</div>
+    <div class="arah-muted panduan-foot">Tangkapan layar diambil dari data demo PT Diamond Food Indonesia Tbk dan PT Medikaloka Hermina Tbk (disusun untuk pembelajaran, mengacu secara garis besar pada laporan tahunan; bukan data resmi perusahaan). Menu yang terlihat bisa berbeda sesuai hak akses peran Anda.</div>
 </div>
 </x-filament-panels::page>

@@ -16,7 +16,7 @@ class Kpi extends Model
 
     protected static ?string $sequencePrefix = 'KPI';
 
-    public const UNITS = ['Rp juta' => 'Rp juta', 'Rp ribu' => 'Rp ribu', '%' => '%', 'indeks' => 'Indeks', 'skor' => 'Skor', 'kasus' => 'Kasus', 'event' => 'Event', 'unit' => 'Unit', 'hari' => 'Hari', 'jam' => 'Jam', 'menit' => 'Menit', 'rasio' => 'Rasio', 'kali' => 'Kali (x)', 'orang' => 'Orang', 'ribu' => 'Ribu'];
+    public const UNITS = ['Rp juta' => 'Rp juta', 'Rp ribu' => 'Rp ribu', 'US$ juta' => 'US$ juta', 'US$/boe' => 'US$/boe', '%' => '%', 'indeks' => 'Indeks', 'skor' => 'Skor', 'kasus' => 'Kasus', 'event' => 'Event', 'unit' => 'Unit', 'hari' => 'Hari', 'jam' => 'Jam', 'menit' => 'Menit', 'rasio' => 'Rasio', 'kali' => 'Kali (x)', 'orang' => 'Orang', 'ribu' => 'Ribu', 'mboepd' => 'mboepd', 'mmboe' => 'mmboe', 'GWh' => 'GWh', 'MW' => 'MW', 'tahun' => 'Tahun', 'm²' => 'm²'];
 
     public const FREQUENCIES = ['bulanan' => 'Bulanan', 'mingguan' => 'Mingguan', 'kuartalan' => 'Kuartalan', 'semesteran' => 'Semesteran', 'tahunan' => 'Tahunan'];
 

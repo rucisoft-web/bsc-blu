@@ -50,15 +50,15 @@ class HerminaSeeder extends ShowcaseSeeder
             'industry' => 'Layanan kesehatan (jaringan rumah sakit)',
             'address' => 'Jl. Raya Jatinegara Barat No. 126', 'city' => 'Jakarta Timur',
             'phone' => '+62 21 3970 2255', 'website' => 'https://www.herminahospitals.com',
-            'description' => 'Perusahaan demo dari Laporan Tahunan 2025 (kode saham HEAL): 52 rumah sakit di 16 provinsi. Angka 2025 dari laporan tahunan; target, data 2026 & indikator mutu adalah simulasi untuk demo.',
+            'description' => 'DATA DEMO untuk pembelajaran (kode saham HEAL). Angka 2025 secara garis besar mengacu pada Laporan Tahunan 2025; target, rincian bulanan, data 2026, dan indikator operasional adalah simulasi. Bukan data resmi perusahaan.',
         ];
     }
 
     protected function periodNote(int $year): string
     {
         return $year === 2025
-            ? 'Realisasi tahunan sesuai Laporan Tahunan 2025; target dan rincian bulanan ilustratif.'
-            : 'SIMULASI untuk demo: Jan–Agu disetujui, Sep dalam proses persetujuan.';
+            ? 'DATA DEMO. Realisasi tahunan mengacu pada Laporan Tahunan 2025; target dan rincian bulanan ilustratif.'
+            : 'DATA DEMO — SIMULASI 2026: Jan–Agu disetujui, Sep dalam proses persetujuan.';
     }
 
     protected function season(): array

@@ -28,11 +28,11 @@
             'PESTEL, kekuatan industri, segmen pasar, pesaing, dan regulasi.',
             'SWOT berbobot dan strategi TOWS (SO, ST, WO, WT) sampai isu strategis.',
             'Visi, misi, nilai inti, kapabilitas; dari isu strategis ke 3–5 tema.',
-        ], 'Kelompok mengisi SWOT dan memilih 3 tema strategis untuk perusahaan sendiri atau kasus Diamond Food.', [['SWOT', url('/admin/swot-items')], ['TOWS', url('/admin/tows-strategies')]]],
+        ], 'Kelompok mengisi SWOT dan memilih 3 tema strategis untuk perusahaan sendiri atau salah satu studi kasus (Diamond Food, Hermina, Medco, Pakuwon, Kimia Farma).', [['SWOT', url('/admin/swot-items')], ['TOWS', url('/admin/tows-strategies')]]],
         ['3', 'Menyusun Peta Strategi', '75 menit', [
             'Sasaran yang baik: kata kerja + hasil, satu gagasan per sasaran.',
             'Menyusun dari bawah (SDM) ke atas (Keuangan), lalu menarik panah sebab-akibat.',
-            'Contoh nyata: Peta Strategi Hermina (16 sasaran) dan Diamond Food.',
+            'Contoh: Peta Strategi Hermina, Medco (Nilai–Fokus–Pertumbuhan), Pakuwon, dan Kimia Farma (pemulihan) — data demo.',
         ], 'Menyusun 8–12 sasaran di kertas plano dengan kartu tempel, lalu galeri antarkelompok.', [['Peta Strategi', Pages\PetaStrategi::getUrl()]]],
         ['4', 'KPI dan target yang baik', '75 menit', [
             'Uji SMART; ukuran hasil (lagging) dan pendorong (leading); 2–4 KPI per sasaran.',
@@ -45,7 +45,7 @@
             'Progres inisiatif (70% aktivitas, 30% milestone) dan tanda terlambat.',
         ], 'Memilih 3 inisiatif dan menempatkannya di matriks nilai–upaya.', [['Portofolio Inisiatif', Pages\PortofolioInisiatif::getUrl()]]],
         ['6', 'Praktik Ruci BSC & simulasi rapat', '45 menit', [
-            'Masuk sebagai Tamu, berpindah antara Diamond Food dan Hermina.',
+            'Masuk sebagai Tamu, berpindah antar lima perusahaan contoh (data demo).',
             'Membaca Pusat Kendali, Peta Strategi, Portofolio Inisiatif, dan Laporan.',
             'Siklus bulanan: tanggal 3 pengingat, 5 input, 7 verifikasi, 8 persetujuan, 10 rapat.',
         ], 'Kelompok berperan sebagai Direksi: membahas dua sasaran merah, lalu menetapkan temuan dan tindakan korektif.', [['Pusat Kendali', Pages\PusatKendali::getUrl()], ['Panduan Pengguna', Pages\PanduanPengguna::getUrl()]]],

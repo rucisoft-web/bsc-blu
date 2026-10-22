@@ -15,6 +15,7 @@ class Company extends Model
     {
         return [
             'is_active' => 'boolean',
+            'is_demo' => 'boolean',
         ];
     }
 

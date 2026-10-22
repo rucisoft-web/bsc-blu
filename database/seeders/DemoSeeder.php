@@ -19,6 +19,8 @@ use RuntimeException;
  *
  * - DFI: PT Diamond Food Indonesia Tbk — demo lengkap 2025 + 2026, lihat DiamondFoodSeeder.
  * - HMN: PT Medikaloka Hermina Tbk — demo lengkap jaringan rumah sakit 2025 + 2026, lihat HerminaSeeder.
+ * - MEDC, PWON, KAEF: Medco Energi, Pakuwon Jati, Kimia Farma — demo lengkap 2025 + 2026 (energi, properti, farmasi).
+ * - Semua demo bertanda is_demo dan menampilkan peringatan "data demo" (App\Support\DemoNotice).
  * - NLP & KSB: perusahaan fiktif dengan data bulanan Jan–Sep 2026, dimasukkan lewat BscImporter
  *   (jalur yang sama dengan upload Excel), sehingga seeder ini sekaligus menguji format workbook.
  */
@@ -38,6 +40,9 @@ class DemoSeeder extends Seeder
 
         (new DiamondFoodSeeder(self::PASSWORD))->run();
         (new HerminaSeeder(self::PASSWORD))->run();
+        (new MedcoSeeder(self::PASSWORD))->run();
+        (new PakuwonSeeder(self::PASSWORD))->run();
+        (new KimiaFarmaSeeder(self::PASSWORD))->run();
 
         foreach ([$this->logistik(), $this->klinik()] as $def) {
             $company = Company::updateOrCreate(['code' => $def['company']['code']], $def['company'] + ['is_active' => true, 'is_demo' => true]);

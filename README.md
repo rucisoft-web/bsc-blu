@@ -50,19 +50,24 @@ Skor KPI: polaritas naik = realisasi ÷ target × 100, turun = target ÷ realisa
 
 ## Data contoh
 
-Di luar produksi (atau bila `RUCI_SEED_DEMO=true`) seeder memuat empat perusahaan contoh:
+Di luar produksi (atau bila `RUCI_SEED_DEMO=true`) seeder memuat tujuh perusahaan contoh:
 
 | Kode | Perusahaan | Isi |
 |---|---|---|
 | DFI | PT Diamond Food Indonesia Tbk | Demo lengkap: perioda 2025 (ditutup, angka tahunan dari Laporan Tahunan 2025) dan 2026 (berjalan, simulasi Jan–Sep). Peta strategi 4 tema, 15 sasaran, 39 KPI, 15 inisiatif, ekosistem, tinjauan, temuan, kematangan |
 | HMN | PT Medikaloka Hermina Tbk | Demo lengkap jaringan rumah sakit: perioda 2025 (angka tahunan dari Laporan Tahunan 2025) dan 2026 (simulasi Jan–Sep). Peta strategi 4 tema, 16 sasaran, 45 KPI termasuk indikator mutu Kemenkes (INM), KRIS, klaim JKN, dokter spesialis |
+| MEDC | PT Medco Energi Internasional Tbk | Demo lengkap energi (migas, listrik, tambang tembaga-emas): 2025 dan 2026, 15 sasaran, 44 KPI dalam US$ juta, mboepd, GWh, TRIR |
+| PWON | PT Pakuwon Jati Tbk | Demo lengkap properti (mal, perkantoran, hotel, pengembangan): 2025 dan 2026, 15 sasaran, 44 KPI termasuk recurring income, okupansi, marketing sales |
+| KAEF | PT Kimia Farma Tbk | Demo lengkap farmasi dalam masa penyehatan (produksi, distribusi, apotek, klinik, lab): 2025 dan 2026, 14 sasaran, 37 KPI termasuk restrukturisasi utang |
 | NLP | PT Nusantara Logistik Prima (fiktif) | Perioda 2026 (Jan–Agu disetujui, Sep draf) + 2027 perencanaan |
 | KSB | Klinik Sehat Bersama (fiktif) | Perioda 2026 |
 
 Akun: Super Admin `admin@rucibsc.local` / `Ruci@BSC2026` (ubah lewat `RUCI_ADMIN_PASSWORD`). Akun contoh per perusahaan, kata sandi `Contoh-2026!`:
-`dfi.admin@contoh.local`, `dfi.direktur@…`, `dfi.keuangan@…`, `dfi.komersial@…`, `dfi.rantaipasok@…`, `dfi.produksi@…`, `dfi.sdm@…`, `dfi.ti@…`, `dfi.strategi@…`, `dfi.komisaris@…`, `dfi.analis@…`; untuk Hermina `hmn.admin`, `hmn.direktur`, `hmn.keuangan`, `hmn.medis`, `hmn.operasional`, `hmn.pemasaran`, `hmn.pengembangan`, `hmn.sdm`, `hmn.ti`, `hmn.strategi`, `hmn.komisaris`, `hmn.analis` (@contoh.local); pola serupa untuk `nlp.*` dan `ksb.*`.
+`dfi.admin@contoh.local`, `dfi.direktur@…`, `dfi.keuangan@…`, `dfi.komersial@…`, `dfi.rantaipasok@…`, `dfi.produksi@…`, `dfi.sdm@…`, `dfi.ti@…`, `dfi.strategi@…`, `dfi.komisaris@…`, `dfi.analis@…`; untuk Hermina `hmn.admin`, `hmn.direktur`, `hmn.keuangan`, `hmn.medis`, `hmn.operasional`, `hmn.pemasaran`, `hmn.pengembangan`, `hmn.sdm`, `hmn.ti`, `hmn.strategi`, `hmn.komisaris`, `hmn.analis` (@contoh.local); pola serupa untuk `medc.*`, `pwon.*`, `kaef.*`, `nlp.*`, dan `ksb.*`.
 
-Memuat satu demo di server yang sudah berjalan: `php artisan rucibsc:demo DFI` (Diamond Food) atau `php artisan rucibsc:demo HMN` (Hermina). Kata sandi akun contoh dibuat acak dan ditampilkan (atau tentukan dengan `--password=`). Bila perusahaan itu sudah punya perioda 2025/2026, tambahkan `--reset` untuk menggantinya. Nama lama `rucibsc:demo-diamond` tetap bisa dipakai.
+**Peringatan data demo.** Semua data contoh adalah DATA DEMO untuk pembelajaran. Untuk DFI, HMN, MEDC, PWON, dan KAEF, angka 2025 secara garis besar mengacu pada Laporan Tahunan 2025 perusahaan terkait (kolom `companies.demo_source`); target, rincian bulanan, data 2026, dan sebagian indikator adalah simulasi. Peringatan ini tampil sebagai pita di setiap halaman perusahaan demo (`App\Support\DemoNotice`), di halaman login, dan di sheet Petunjuk template Excel.
+
+Memuat satu demo di server yang sudah berjalan: `php artisan rucibsc:demo DFI|HMN|MEDC|PWON|KAEF` (Diamond Food, Hermina, Medco, Pakuwon, Kimia Farma). Kata sandi akun contoh dibuat acak dan ditampilkan (atau tentukan dengan `--password=`). Bila perusahaan itu sudah punya perioda 2025/2026, tambahkan `--reset` untuk menggantinya. Nama lama `rucibsc:demo-diamond` tetap bisa dipakai.
 
 Situs demo/promosi: `RUCI_GUEST_LOGIN=true` menampilkan tombol **Masuk sebagai Tamu (lihat-lihat)** di halaman login (rute `/masuk-tamu`). Akun Tamu (peran `tamu`, global) hanya punya izin lihat tanpa log audit dan ekspor, konteksnya disimpan per sesi, dan `App\Support\GuestMode` menolak setiap penyimpanan/penghapusan model oleh Tamu sebagai pengaman terakhir.
 
@@ -77,7 +82,7 @@ Sebelum dipakai sungguhan: `php artisan rucibsc:hapus-contoh` menghapus semua pe
 | `php artisan dhastram:doctor` | Cek PHP, ekstensi, database, izin, peran, data contoh |
 | `php artisan dhastram:create-admin` | Membuat Super Admin baru |
 | `php artisan db:seed --class=DhastramRolePermissionSeeder` | Memperbarui izin & peran (aman diulang) |
-| `php artisan rucibsc:demo DFI\|HMN [--reset]` | Memuat demo lengkap Diamond Food atau Hermina (2025 + 2026) |
+| `php artisan rucibsc:demo DFI\|HMN\|MEDC\|PWON\|KAEF [--reset]` | Memuat satu demo lengkap (2025 + 2026) |
 | `php artisan rucibsc:hapus-contoh` | Menghapus perusahaan & akun contoh |
 | `php artisan rucibsc:reminders --date=2026-11-03` | Uji pengingat |
 | `php vendor/bin/phpunit` | Menjalankan test otomatis |

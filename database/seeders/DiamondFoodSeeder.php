@@ -56,15 +56,15 @@ class DiamondFoodSeeder extends ShowcaseSeeder
             'industry' => 'Makanan & minuman (manufaktur & distribusi rantai dingin)',
             'address' => 'TCC Batavia Tower One Lt. 15, Jl. KH Mas Mansyur Kav. 126', 'city' => 'Jakarta Pusat',
             'phone' => '+62 21 2864 9888', 'website' => 'https://www.diamondfoodindonesia.com',
-            'description' => 'Perusahaan demo dari Laporan Tahunan 2025 (kode saham DMND). Angka 2025 dari laporan tahunan; data 2026 & data operasional adalah simulasi untuk demo.',
+            'description' => 'DATA DEMO untuk pembelajaran (kode saham DMND). Angka 2025 secara garis besar mengacu pada Laporan Tahunan 2025; target, rincian bulanan, data 2026, dan indikator operasional adalah simulasi. Bukan data resmi perusahaan.',
         ];
     }
 
     protected function periodNote(int $year): string
     {
         return $year === 2025
-            ? 'Realisasi tahunan sesuai Laporan Tahunan 2025; rincian bulanan ilustratif dengan total yang sama.'
-            : 'SIMULASI untuk demo: Jan–Agu disetujui, Sep dalam proses persetujuan.';
+            ? 'DATA DEMO. Realisasi tahunan mengacu pada Laporan Tahunan 2025; rincian bulanan ilustratif dengan total yang sama.'
+            : 'DATA DEMO — SIMULASI 2026: Jan–Agu disetujui, Sep dalam proses persetujuan.';
     }
 
     protected function season(): array

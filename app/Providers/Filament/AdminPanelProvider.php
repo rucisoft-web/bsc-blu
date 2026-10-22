@@ -77,7 +77,7 @@ class AdminPanelProvider extends PanelProvider
             ->widgets([])
             ->renderHook(PanelsRenderHook::TOPBAR_START, fn () => Blade::render('<x-arah.context-badge />'))
             ->renderHook(PanelsRenderHook::AUTH_LOGIN_FORM_AFTER, fn () => Blade::render('<x-arah.guest-login />'))
-            ->renderHook(PanelsRenderHook::CONTENT_START, fn () => Blade::render('<x-arah.guest-banner />'))
+            ->renderHook(PanelsRenderHook::CONTENT_START, fn () => Blade::render('<x-arah.guest-banner /><x-arah.demo-banner />'))
             ->renderHook(PanelsRenderHook::FOOTER, fn () => Blade::render('<x-arah.footer />'))
             ->middleware([
                 EncryptCookies::class,

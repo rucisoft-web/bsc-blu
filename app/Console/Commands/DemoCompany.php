@@ -11,7 +11,10 @@ use App\Support\DhastramContext;
 use Database\Seeders\DhastramRolePermissionSeeder;
 use Database\Seeders\DiamondFoodSeeder;
 use Database\Seeders\HerminaSeeder;
+use Database\Seeders\KimiaFarmaSeeder;
 use Database\Seeders\MaturityQuestionSeeder;
+use Database\Seeders\MedcoSeeder;
+use Database\Seeders\PakuwonSeeder;
 use Database\Seeders\ShowcaseSeeder;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
@@ -21,15 +24,15 @@ use Illuminate\Support\Str;
 class DemoCompany extends Command
 {
     /** @var array<string,class-string<ShowcaseSeeder>> */
-    public const DEMOS = ['DFI' => DiamondFoodSeeder::class, 'HMN' => HerminaSeeder::class];
+    public const DEMOS = ['DFI' => DiamondFoodSeeder::class, 'HMN' => HerminaSeeder::class, 'MEDC' => MedcoSeeder::class, 'PWON' => PakuwonSeeder::class, 'KAEF' => KimiaFarmaSeeder::class];
 
     protected $signature = 'rucibsc:demo
-        {perusahaan=DFI : Kode demo: DFI (Diamond Food) atau HMN (Hermina)}
+        {perusahaan=DFI : Kode demo: DFI (Diamond Food), HMN (Hermina), MEDC (Medco Energi), PWON (Pakuwon Jati), KAEF (Kimia Farma)}
         {--password= : Kata sandi akun contoh perusahaan itu (bila kosong dibuat acak dan ditampilkan)}
         {--reset : Hapus dulu data perusahaan itu untuk perioda 2025 & 2026 yang sudah ada}
         {--force : Lewati konfirmasi}';
 
-    protected $description = 'Muat demo lengkap (Strategy Map, KPI, inisiatif, ekosistem, tinjauan) perioda 2025 & 2026: DFI atau HMN';
+    protected $description = 'Muat demo lengkap (Strategy Map, KPI, inisiatif, ekosistem, tinjauan) perioda 2025 & 2026: DFI, HMN, MEDC, PWON, atau KAEF';
 
     protected $aliases = ['rucibsc:demo-diamond'];
 

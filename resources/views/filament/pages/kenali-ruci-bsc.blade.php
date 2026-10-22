@@ -190,7 +190,7 @@
     {{-- ===== Tangkapan layar ===== --}}
     <section class="kenali-section" id="lihat-langsung">
         <h2>Lihat langsung</h2>
-        <p class="kenali-lead">Tampilan berikut diambil dari data contoh PT Medikaloka Hermina Tbk dan PT Diamond Food Indonesia Tbk yang tersedia di situs demo ini. Klik gambar untuk memperbesar.</p>
+        <p class="kenali-lead">Tampilan berikut diambil dari data demo PT Medikaloka Hermina Tbk dan PT Diamond Food Indonesia Tbk yang tersedia di situs ini. Klik gambar untuk memperbesar.</p>
         <div class="kenali-gallery">
             @foreach ([
                 ['pusat-kendali', 'Pusat Kendali Eksekutif', 'Skor strategis, status semua KPI, inisiatif terlambat, dan temuan terbuka dalam satu layar. Bahan utama rapat Direksi.'],
@@ -208,6 +208,30 @@
                 <a class="kenali-shot" href="{{ $img('hp-pusat-kendali') }}" target="_blank" rel="noopener"><img src="{{ $img('hp-pusat-kendali') }}" alt="Pusat Kendali di ponsel" loading="lazy"></a>
                 <figcaption><b>Di ponsel pun bisa</b><span>Komisaris dan Direksi dapat memantau kinerja dari mana saja, tanpa aplikasi tambahan.</span></figcaption>
             </figure>
+        </div>
+    </section>
+
+    {{-- ===== Studi kasus ===== --}}
+    <section class="kenali-section" id="studi-kasus">
+        <span class="kenali-eyebrow">Bahan ajar</span>
+        <h2>Lima studi kasus siap dipelajari</h2>
+        <p class="kenali-lead">Setiap perusahaan contoh berisi perioda 2025 (ditutup) dan 2026 (berjalan): lingkungan strategis, SWOT–TOWS, Peta Strategi, kamus KPI, inisiatif, rapat tinjauan, temuan, dan tindak lanjutnya. Pilih perusahaan lewat kotak konteks di kiri atas.</p>
+        <div class="arah-demo-banner" role="note"><span class="arah-demo-tag">Data demo</span><span>Seluruh data disusun untuk pembelajaran dan secara garis besar mengacu pada laporan tahunan 2025 masing-masing perusahaan. Target, rincian bulanan, data 2026, dan sebagian indikator operasional adalah simulasi. Bukan data resmi perusahaan dan tidak untuk keputusan investasi.</span></div>
+        <div class="kenali-cases">
+            @foreach ([
+                ['DFI', 'Diamond Food Indonesia', 'Makanan & minuman', 'Pertumbuhan merek, distribusi, dan efisiensi rantai dingin.'],
+                ['HMN', 'Medikaloka Hermina', 'Jaringan rumah sakit', 'Ekspansi kapasitas vs. utilisasi, mutu klinis, dan kepatuhan KRIS.'],
+                ['MEDC', 'Medco Energi Internasional', 'Energi & sumber daya alam', 'Nilai, fokus, pertumbuhan: biaya rendah, deleveraging, akuisisi, dan transisi energi.'],
+                ['PWON', 'Pakuwon Jati', 'Properti & superblok', 'Pendapatan berulang ±79% vs. siklus residensial dan perkantoran yang melemah.'],
+                ['KAEF', 'Kimia Farma', 'Farmasi terintegrasi (BUMN)', 'Strategi pemulihan: rugi menyempit, restrukturisasi utang, likuiditas dan utilisasi pabrik.'],
+            ] as [$code, $name, $sector, $lesson])
+                <div class="arah-card kenali-case">
+                    <span class="kenali-case-code">{{ $code }}</span>
+                    <b>{{ $name }}</b>
+                    <small>{{ $sector }}</small>
+                    <p>{{ $lesson }}</p>
+                </div>
+            @endforeach
         </div>
     </section>
 

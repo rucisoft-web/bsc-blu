@@ -66,6 +66,9 @@ class BscTemplate
         if ($period) {
             $w->addRow(Row::fromValues(['Perusahaan', $period->company?->name]));
             $w->addRow(Row::fromValues(['Perioda', $period->name]));
+            if ($notice = \App\Support\DemoNotice::for($period->company)) {
+                $w->addRow(Row::fromValues(['PERINGATAN', $notice], $bold));
+            }
         }
         $w->addRow(Row::fromValues([]));
         foreach ([

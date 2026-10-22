@@ -34,6 +34,7 @@ class Fmt
             '%' => $n.'%',
             'Rp juta' => 'Rp '.$n.' jt',
             'Rp ribu' => 'Rp '.$n.' rb',
+            'US$ juta' => 'US$ '.$n.' jt',
             default => $n.($unit ? ' '.$unit : ''),
         };
     }

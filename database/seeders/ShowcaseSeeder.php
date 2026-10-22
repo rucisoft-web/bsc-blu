@@ -119,11 +119,19 @@ abstract class ShowcaseSeeder
         return [3, 3, 2, 3, 2];
     }
 
+    /** @param array<int,float> $raw bobot relatif per bulan → dinormalkan supaya jumlahnya 1 */
+    protected static function weights(array $raw): array
+    {
+        $sum = array_sum($raw);
+
+        return array_map(fn ($v) => $v / $sum, $raw);
+    }
+
     // ------------------------------------------------------------------ alur utama
 
     public function run(): Company
     {
-        $this->company = Company::updateOrCreate(['code' => static::CODE], $this->companyAttributes() + ['is_active' => true, 'is_demo' => true]);
+        $this->company = Company::updateOrCreate(['code' => static::CODE], $this->companyAttributes() + ['is_active' => true, 'is_demo' => true, 'demo_source' => static::LT]);
         $this->users();
 
         $p2025 = AnalysisPeriod::updateOrCreate(['company_id' => $this->company->id, 'code' => '2025'], [
@@ -221,7 +229,7 @@ abstract class ShowcaseSeeder
                 'frequency' => $freq, 'owner_id' => $this->id($owner), 'weight' => 1, 'is_financial' => $fin,
                 'is_critical' => $crit || ($year === 2026 && in_array($code, $this->criticalIn2026(), true)),
                 'decimals' => $dec, 'baseline' => $baseline, 'annual_target' => $annualTarget, 'formula' => $formula, 'data_source' => $source,
-                'description' => $fromLt ? 'Realisasi tahunan 2025 bersumber dari '.static::LT.'.' : 'KPI ilustrasi untuk demo (tidak diungkap di laporan tahunan).',
+                'description' => $fromLt ? 'DATA DEMO. Realisasi tahunan 2025 secara garis besar mengacu pada '.static::LT.'.' : 'DATA DEMO. KPI ilustrasi untuk pembelajaran (tidak diungkap di laporan tahunan).',
                 'is_active' => true,
             ]);
             foreach ($targets as $m => $t) {
@@ -294,14 +302,14 @@ abstract class ShowcaseSeeder
         if ($year === 2025) {
             $row['is_projection'] = ! ($fromLt && $m === 12 && $kpi->aggregation !== 'sum');
             $row['notes'] = match (true) {
-                $fromLt && $m === 12 => 'Nilai tahunan sesuai '.static::LT.'.',
-                $fromLt => 'Rincian bulanan ilustratif; total/nilai akhir tahun mengikuti laporan tahunan.',
-                default => 'Data ilustrasi untuk demo.',
+                $fromLt && $m === 12 => 'Nilai tahunan mengacu pada '.static::LT.' (data demo).',
+                $fromLt => 'Rincian bulanan ilustratif (data demo); total/nilai akhir tahun mengacu pada laporan tahunan.',
+                default => 'Data ilustrasi untuk pembelajaran (data demo).',
             };
             $row['evidence'] = $fromLt ? static::LT : null;
         } else {
             $row['is_projection'] = true;
-            $row['notes'] = 'Data simulasi 2026 untuk demo.';
+            $row['notes'] = 'Data simulasi 2026 untuk pembelajaran (data demo).';
         }
 
         $returned = $this->returnedSeptember();
