@@ -22,6 +22,7 @@ use RuntimeException;
  * - MEDC, PWON, KAEF: Medco Energi, Pakuwon Jati, Kimia Farma — demo lengkap 2025 + 2026 (energi, properti, farmasi).
  * - SMGR, MAPI, GOTO, ASII, BBCA, TLKM, BIRD: Semen Indonesia, MAP, GoTo, Astra, BCA, Telkom, Blue Bird — demo lengkap 2025 + 2026.
  * - BTPN: PT Bank SMBC Indonesia Tbk — demo lengkap 2025 + 2026 (bank universal & induk konglomerasi).
+ * - BMTP: PT Bank Mandiri Taspen — demo lengkap 2025 + 2026 (bank pensiunan; target dari RBB).
  * - Semua demo bertanda is_demo dan menampilkan peringatan "data demo" (App\Support\DemoNotice).
  * - NLP & KSB: perusahaan fiktif dengan data bulanan Jan–Sep 2026, dimasukkan lewat BscImporter
  *   (jalur yang sama dengan upload Excel), sehingga seeder ini sekaligus menguji format workbook.
@@ -53,6 +54,7 @@ class DemoSeeder extends Seeder
         (new TelkomSeeder(self::PASSWORD))->run();
         (new BlueBirdSeeder(self::PASSWORD))->run();
         (new SmbcIndonesiaSeeder(self::PASSWORD))->run();
+        (new MandiriTaspenSeeder(self::PASSWORD))->run();
 
         foreach ([$this->logistik(), $this->klinik()] as $def) {
             $company = Company::updateOrCreate(['code' => $def['company']['code']], $def['company'] + ['is_active' => true, 'is_demo' => true]);

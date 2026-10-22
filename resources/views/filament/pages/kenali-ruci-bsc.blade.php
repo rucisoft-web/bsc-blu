@@ -214,7 +214,7 @@
     {{-- ===== Studi kasus ===== --}}
     <section class="kenali-section" id="studi-kasus">
         <span class="kenali-eyebrow">Bahan ajar</span>
-        <h2>Tiga belas studi kasus siap dipelajari</h2>
+        <h2>Empat belas studi kasus siap dipelajari</h2>
         <p class="kenali-lead">Setiap perusahaan contoh berisi perioda 2025 (ditutup) dan 2026 (berjalan): lingkungan strategis, SWOT–TOWS, Peta Strategi, kamus KPI, inisiatif, rapat tinjauan, temuan, dan tindak lanjutnya. Pilih perusahaan lewat kotak konteks di kiri atas.</p>
         <div class="arah-demo-banner" role="note"><span class="arah-demo-tag">Data demo</span><span>Seluruh data disusun untuk pembelajaran dan secara garis besar mengacu pada laporan tahunan 2025 masing-masing perusahaan. Target, rincian bulanan, data 2026, dan sebagian indikator operasional adalah simulasi. Bukan data resmi perusahaan dan tidak untuk keputusan investasi.</span></div>
         <div class="kenali-cases">
@@ -232,6 +232,7 @@
                 ['TLKM', 'Telkom Indonesia', 'Telekomunikasi (BUMN)', 'Transformasi digital: seluler, IndiHome/FMC, data center, dan efisiensi biaya.'],
                 ['BIRD', 'Blue Bird', 'Transportasi darat', 'Pemulihan armada, persaingan aplikasi, elektrifikasi armada, dan keselamatan.'],
                 ['BTPN', 'SMBC Indonesia', 'Perbankan & konglomerasi keuangan', 'Pendapatan naik, laba anjlok karena biaya kredit anak usaha: strategi pemulihan kualitas aset.'],
+                ['BMTP', 'Bank Mandiri Taspen', 'Perbankan pensiunan & UMKM', 'Bank sangat sehat yang bergantung pada satu segmen: diversifikasi yang hati-hati dan dana murah.'],
             ] as [$code, $name, $sector, $lesson])
                 <div class="arah-card kenali-case">
                     <span class="kenali-case-code">{{ $code }}</span>
