@@ -14,9 +14,9 @@ class KenaliRuciBsc extends Page
 
     protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-light-bulb';
 
-    protected static string|\UnitEnum|null $navigationGroup = 'Umum';
+    protected static string|\UnitEnum|null $navigationGroup = 'Panduan';
 
-    protected static ?int $navigationSort = 0;
+    protected static ?int $navigationSort = 1;
 
     protected static ?string $slug = 'kenali-ruci-bsc';
 

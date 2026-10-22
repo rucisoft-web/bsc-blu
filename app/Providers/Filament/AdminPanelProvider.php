@@ -62,6 +62,7 @@ class AdminPanelProvider extends PanelProvider
             ->databaseNotificationsPolling('60s')
             ->navigationGroups([
                 NavigationGroup::make('Umum'),
+                NavigationGroup::make('Panduan'),
                 NavigationGroup::make(Terms::get('brahman'))->collapsed(),
                 NavigationGroup::make(Terms::get('atman'))->collapsed(),
                 NavigationGroup::make(Terms::get('karma_phala')),

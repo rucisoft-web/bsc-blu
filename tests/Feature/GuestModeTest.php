@@ -89,6 +89,18 @@ class GuestModeTest extends TestCase
         $this->get('/kenali')->assertRedirect(route('filament.admin.auth.login'));
     }
 
+    public function test_guide_pages_are_open_to_every_user(): void
+    {
+        config(['dhastram.guest_login' => true]);
+        $this->company('DFI');
+        $this->get('/masuk-tamu');
+
+        $this->get(\App\Filament\Pages\PanduanPengguna::getUrl())->assertOk()
+            ->assertSee('Dewan Komisaris')->assertSee('Menyetujui realisasi KPI')->assertSee('images/panduan/kepala-input.jpg', false);
+        $this->get(\App\Filament\Pages\PanduanImplementasi::getUrl())->assertOk()
+            ->assertSee('Manajemen risiko')->assertSee('Gerbang mutu')->assertSee('Steering Committee');
+    }
+
     public function test_regular_users_are_not_affected(): void
     {
         [$company, $period] = $this->company('DFI');
