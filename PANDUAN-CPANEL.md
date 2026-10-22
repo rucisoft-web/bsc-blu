@@ -86,6 +86,7 @@ Di folder `ruci-bsc`, salin `.env.example` menjadi `.env` (File Manager: klik ka
 ```dotenv
 APP_NAME="Ruci BSC Professional"
 APP_ENV=production
+APP_KEY=
 APP_DEBUG=false
 APP_URL=https://bsc.domainanda.com
 APP_TIMEZONE=Asia/Jakarta
@@ -114,6 +115,8 @@ ARAH_NOTIFY_MAIL=true
 # data contoh (Diamond Food + 2 fiktif): biarkan false untuk pemakaian sungguhan
 RUCI_SEED_DEMO=false
 ```
+
+Biarkan `APP_KEY=` kosong; nilainya diisi otomatis oleh `php artisan key:generate` di langkah 6 (baris ini harus ada, kalau tidak muncul error *No APP_KEY variable was found*).
 
 Catatan: di cPanel `DB_HOST` hampir selalu `localhost`. Kata sandi yang mengandung `#` atau spasi harus diberi tanda kutip.
 
