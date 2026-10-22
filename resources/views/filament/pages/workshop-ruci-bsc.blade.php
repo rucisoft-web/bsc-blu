@@ -1,6 +1,8 @@
 @php
     use App\Filament\Pages;
 
+    $speaker = config('dhastram.workshop_special_speaker') ?: 'narasumber tamu, praktisi tata kelola dan pencegahan korupsi';
+
     $rundown = [
         ['07.30', '08.00', 'Registrasi & kopi pagi', 'Pembagian kelompok dan akses demo Ruci BSC', 'break'],
         ['08.00', '08.20', 'Pembukaan', 'Perkenalan dan harapan peserta', 'open'],
@@ -61,6 +63,43 @@
         ['Rencana aksi 30 hari', 'Langkah konkret memulai BSC di perusahaan masing-masing.'],
         ['Sertifikat', 'Sertifikat keikutsertaan Workshop Ruci BSC.'],
     ];
+
+    // Edisi khusus setengah hari untuk Komisaris dan Direksi BUMN, dengan narasumber tamu tata kelola.
+    $special = [
+        ['07.30', '08.00', 'Registrasi & kopi pagi', 'Akses demo Ruci BSC dan pembagian meja (Komisaris dan Direksi dicampur)', 'break'],
+        ['08.00', '08.15', 'Pembukaan', 'Tujuan forum: dari laporan kinerja ke pengawasan yang terukur', 'open'],
+        ['08.15', '09.15', 'Sesi tamu · Tata kelola dan pencegahan', 'Mengapa kinerja harus terukur dan tercatat · '.$speaker, 'talk'],
+        ['09.15', '09.45', 'Sesi 2 · BSC sebagai alat pengawasan', 'Dari RJPP, RKAP, dan kontrak manajemen ke Peta Strategi; peran Komisaris dan Direksi', 'talk'],
+        ['09.45', '10.00', 'Rehat', '', 'break'],
+        ['10.00', '11.15', 'Sesi 3 · Studi kasus Kimia Farma', 'Membaca peta strategi, KPI merah, dan temuan; menyusun pertanyaan pengawasan', 'work'],
+        ['11.15', '12.00', 'Sesi 4 · Simulasi rapat Komisaris–Direksi', 'Pusat Kendali di layar: tanya-jawab, tindakan korektif, tindak lanjut', 'app'],
+        ['12.00', '12.30', 'Dialog & penutupan', 'Tanya-jawab dengan narasumber, komitmen pengawasan 90 hari', 'open'],
+        ['12.30', '13.30', 'Makan siang & ramah tamah', '', 'break'],
+    ];
+
+    $specialSessions = [
+        ['T', 'Tata kelola dan pencegahan', '60 menit · narasumber tamu', [
+            'Pengalaman narasumber: di mana tata kelola biasanya bocor, dan tanda-tanda awalnya.',
+            'Kinerja yang terukur dan tercatat sebagai bentuk pencegahan, bukan sekadar pelaporan.',
+            'Jejak keputusan: siapa menetapkan target, siapa memverifikasi angka, siapa menyetujui.',
+            'Sesi ini berisi pandangan narasumber, bukan paparan produk.',
+        ], 'Refleksi singkat: satu keputusan penting tahun ini yang jejaknya sulit ditelusuri.', []],
+        ['2', 'BSC sebagai alat pengawasan', '30 menit', [
+            'Menurunkan RJPP, RKAP, dan KPI kontrak manajemen ke sasaran dan KPI empat perspektif.',
+            'Pembagian peran: Direksi menjalankan dan melaporkan, Komisaris mengawasi dan memberi nasihat.',
+            'Siklus bulanan Ruci BSC: input, verifikasi, persetujuan, rapat, temuan, tindak lanjut, jejak audit.',
+        ], 'Memetakan tiga KPI kontrak manajemen perusahaan sendiri ke perspektif BSC.', [['Peta Strategi', Pages\PetaStrategi::getUrl()]]],
+        ['3', 'Studi kasus Kimia Farma (data demo)', '75 menit', [
+            'Konteks penyehatan: rugi bersih, rasio lancar di bawah 1, restrukturisasi utang dengan perbankan.',
+            'Membaca Peta Strategi pemulihan dan KPI merah 2025 serta 2026.',
+            'Membedakan gejala (angka merah) dari akar masalah (proses, SDM, sistem).',
+        ], 'Meja Komisaris menyusun lima pertanyaan pengawasan; meja Direksi menyiapkan jawaban dan tindakan korektif.', [['Pusat Kendali', Pages\PusatKendali::getUrl()], ['Temuan', url('/admin/findings')]]],
+        ['4', 'Simulasi rapat Komisaris–Direksi', '45 menit', [
+            'Rapat 30 menit dengan Pusat Kendali di layar: hanya membahas yang merah dan kuning.',
+            'Mengubah pertanyaan menjadi temuan, PIC, dan tenggat yang tercatat.',
+            'Menutup rapat dengan ringkasan keputusan yang bisa ditelusuri bulan berikutnya.',
+        ], 'Bergantian peran Komisaris dan Direksi, lalu membandingkan kualitas tindak lanjutnya.', [['Laporan', url('/admin/laporan')]]],
+    ];
 @endphp
 <x-filament-panels::page>
 <div class="arah kenali">
@@ -68,12 +107,13 @@
         <div>
             <span class="kenali-eyebrow">Workshop sehari · setiap Minggu pertama awal bulan</span>
             <h2>Mengenal Ruci BSC: dari strategi menjadi rencana aksi dalam satu hari</h2>
-            <p>Kelas praktis 08.00–16.30 WIB untuk pemilik usaha, Komisaris, Direksi, dan tim perencanaan. Peserta belajar konsep Balanced Scorecard, menyusun Peta Strategi dan KPI dalam kelompok, lalu langsung mencoba Ruci BSC dengan data contoh Diamond Food dan Hermina.</p>
+            <p>Kelas praktis 08.00–16.30 WIB untuk pemilik usaha, Komisaris, Direksi, dan tim perencanaan. Peserta belajar konsep Balanced Scorecard, menyusun Peta Strategi dan KPI dalam kelompok, lalu langsung mencoba Ruci BSC dengan lima studi kasus data demo (Diamond Food, Hermina, Medco, Pakuwon, Kimia Farma).</p>
             <div class="kenali-actions">
                 @if ($workshopUrl)
                     <a href="{{ $workshopUrl }}" target="_blank" rel="noopener" class="arah-btn arah-btn-primary kenali-btn-lg">Daftar Workshop</a>
                 @endif
                 <a href="#rundown" class="arah-btn kenali-btn-lg">Lihat rundown</a>
+                <a href="#edisi-bumn" class="arah-btn kenali-btn-lg">Edisi Komisaris &amp; Direksi BUMN</a>
             </div>
             @if ($workshopContact)<div class="kenali-contact">Informasi &amp; pendaftaran: <b>{{ $workshopContact }}</b></div>@endif
         </div>
@@ -133,6 +173,42 @@
                     <div class="ws-links">@foreach ($links as [$label, $href])<a href="{{ $href }}" class="arah-btn">{{ $label }} →</a>@endforeach</div>
                 </div>
             @endforeach
+        </div>
+    </section>
+
+    <section class="kenali-section ws-special" id="edisi-bumn">
+        <span class="kenali-eyebrow">Edisi khusus · setengah hari · jadwal sesuai kesepakatan</span>
+        <h2>Dari Laporan ke Pengawasan: Komisaris dan Direksi Mengawal Kinerja dengan Balanced Scorecard</h2>
+        <p class="kenali-lead">Forum terbatas 15–25 peserta untuk Komisaris, Direksi, Komite Audit, dan SPI BUMN atau anak usahanya. Dibuka oleh {{ $speaker }}, lalu dilanjutkan praktik pengawasan kinerja dengan studi kasus Kimia Farma (data demo).</p>
+
+        <div class="arah-card ws-rundown">
+            @foreach ($special as [$from, $to, $title, $desc, $kind])
+                <div class="ws-slot ws-{{ $kind }}">
+                    <div class="ws-time">{{ $from }}<span>{{ $to }}</span></div>
+                    <div class="ws-bar" style="background: {{ $kinds[$kind][1] }}"></div>
+                    <div class="ws-what">
+                        <b>{{ $title }}</b>
+                        @if ($desc)<span>{{ $desc }}</span>@endif
+                    </div>
+                </div>
+            @endforeach
+        </div>
+
+        <div class="arah-grid arah-grid-2" style="margin-top:1rem">
+            @foreach ($specialSessions as [$no, $title, $dur, $points, $exercise, $links])
+                <div class="arah-card ws-session">
+                    <div class="ws-session-head"><span class="ws-session-no">{{ $no }}</span><div><b>{{ $title }}</b><span>{{ $dur }}</span></div></div>
+                    <ul>@foreach ($points as $pt)<li>{{ $pt }}</li>@endforeach</ul>
+                    <div class="ws-exercise"><b>Latihan:</b> {{ $exercise }}</div>
+                    @if ($links)<div class="ws-links">@foreach ($links as [$label, $href])<a href="{{ $href }}" class="arah-btn">{{ $label }} →</a>@endforeach</div>@endif
+                </div>
+            @endforeach
+        </div>
+
+        <div class="arah-grid arah-grid-3" style="margin-top:1rem">
+            <div class="arah-card"><h3>Hasil untuk peserta</h3><div class="arah-muted" style="font-size:.85rem; line-height:1.6">Daftar pertanyaan pengawasan kinerja, contoh pemetaan KPI kontrak manajemen ke BSC, format rapat bulanan 30 menit, dan komitmen pengawasan 90 hari.</div></div>
+            <div class="arah-card"><h3>Format</h3><div class="arah-muted" style="font-size:.85rem; line-height:1.6">Setengah hari (08.00–12.30 WIB) di kantor peserta atau tempat netral. Bisa diselenggarakan tertutup (in-house) untuk satu Dewan Komisaris dan Direksi.</div></div>
+            <div class="arah-card"><h3>Prinsip</h3><div class="arah-muted" style="font-size:.85rem; line-height:1.6">Forum belajar, bukan forum pengadaan. Narasumber tamu tidak terkait dengan penjualan aplikasi. Setiap pengadaan mengikuti prosedur resmi perusahaan.</div></div>
         </div>
     </section>
 

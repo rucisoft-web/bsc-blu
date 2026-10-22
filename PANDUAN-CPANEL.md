@@ -206,6 +206,8 @@ Grup menu **Panduan** berisi **Kenali Ruci BSC**, **Panduan Pengguna** (langkah 
 ```
 RUCI_WORKSHOP_URL=https://rucisoft.id/workshop
 RUCI_WORKSHOP_CONTACT="WhatsApp 08xx-xxxx-xxxx · workshop@rucisoft.id"
+# opsional: nama narasumber tamu edisi Komisaris & Direksi BUMN
+# RUCI_WORKSHOP_SPECIAL_SPEAKER="Nama Narasumber, jabatan"
 ```
 
 ## 9. Memperbarui program

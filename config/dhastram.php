@@ -24,6 +24,7 @@ return [
     // Ajakan Workshop di menu "Kenali Ruci BSC": tautan pendaftaran & kontak (mis. WhatsApp/email)
     'workshop_url' => env('RUCI_WORKSHOP_URL', 'https://rucisoft.id'),
     'workshop_contact' => env('RUCI_WORKSHOP_CONTACT'),
+    'workshop_special_speaker' => env('RUCI_WORKSHOP_SPECIAL_SPEAKER'),
     'audit_enabled' => (bool) env('DHASTRAM_AUDIT_ENABLED', true),
 
     // Ambang status KPI (skor dalam persen)
