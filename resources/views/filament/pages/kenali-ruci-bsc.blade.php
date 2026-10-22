@@ -235,35 +235,36 @@
     {{-- ===== Workshop ===== --}}
     <section class="kenali-section kenali-workshop" id="workshop">
         <div>
-            <span class="kenali-eyebrow">Workshop Ruci BSC</span>
-            <h2>Susun strategi perusahaan Anda, langsung di Ruci BSC</h2>
-            <p>Workshop dipandu konsultan Rucisoft bersama Komisaris, Direksi, dan kepala divisi. Peserta tidak hanya belajar konsep, tetapi pulang dengan perangkat strategi perusahaannya sendiri yang siap dijalankan.</p>
+            <span class="kenali-eyebrow">Workshop sehari · setiap Minggu pertama awal bulan</span>
+            <h2>Kenali Ruci BSC dalam satu hari</h2>
+            <p>Kelas praktis 08.00–16.30 WIB untuk pemilik usaha, Komisaris, Direksi, dan tim perencanaan. Workshop berikutnya: <b style="color:#fff">{{ \App\Filament\Pages\WorkshopRuciBsc::nextDates(1)[0]->locale('id')->translatedFormat('l, j F Y') }}</b>.</p>
             <div class="kenali-take">
                 <b>Yang Anda bawa pulang</b>
                 <ul>
-                    <li>Peta Strategi perusahaan yang disepakati Direksi</li>
-                    <li>Daftar KPI dengan definisi, pemilik, dan target bulanan</li>
-                    <li>Inisiatif prioritas dengan anggaran dan penanggung jawab</li>
-                    <li>Ritme tinjauan bulanan dan tata kelola pengawasan</li>
-                    <li>Ruci BSC yang sudah berisi data perusahaan Anda</li>
+                    <li>Pemahaman utuh konsep Balanced Scorecard dan siklus kinerja bulanan</li>
+                    <li>Draf Peta Strategi dan contoh kamus KPI hasil latihan kelompok</li>
+                    <li>Daftar inisiatif prioritas di matriks nilai–upaya</li>
+                    <li>Pengalaman memakai Ruci BSC dan simulasi rapat bulanan</li>
+                    <li>Paket materi, template Excel, rencana aksi 30 hari, dan sertifikat</li>
                 </ul>
             </div>
             <div class="kenali-actions">
                 @if ($workshopUrl)
                     <a href="{{ $workshopUrl }}" target="_blank" rel="noopener" class="arah-btn arah-btn-primary kenali-btn-lg">Daftar Workshop Ruci BSC</a>
                 @endif
-                <a href="{{ \App\Filament\Pages\PetaStrategi::getUrl() }}" class="arah-btn kenali-btn-lg">Jelajahi contoh Peta Strategi</a>
+                <a href="{{ \App\Filament\Pages\WorkshopRuciBsc::getUrl() }}" class="arah-btn kenali-btn-lg">Lihat rundown &amp; materi</a>
             </div>
             @if ($workshopContact)
                 <div class="kenali-contact">Informasi &amp; pendaftaran: <b>{{ $workshopContact }}</b></div>
             @endif
         </div>
         <ol class="kenali-agenda">
-            <li><b>Membaca ekosistem &amp; jati diri</b><span>Isu strategis, SWOT/TOWS, visi dan nilai inti</span></li>
-            <li><b>Menyusun Peta Strategi</b><span>Tema dan sasaran dalam empat perspektif, beserta hubungan sebab-akibatnya</span></li>
-            <li><b>KPI &amp; target</b><span>Ukuran yang tepat, pemilik, baseline, dan target bulanan</span></li>
-            <li><b>Inisiatif &amp; anggaran</b><span>Prioritas, rencana aksi, milestone, dan penanggung jawab</span></li>
-            <li><b>Simulasi rapat bulanan</b><span>Membaca Pusat Kendali, memutuskan tindakan korektif</span></li>
+            <li><b>Mengapa strategi gagal dijalankan</b><span>Konsep Balanced Scorecard dan lima fase Ruci BSC</span></li>
+            <li><b>Membaca lingkungan &amp; jati diri</b><span>PESTEL, SWOT, TOWS, tema strategis</span></li>
+            <li><b>Menyusun Peta Strategi</b><span>Sasaran empat perspektif dan hubungan sebab-akibat</span></li>
+            <li><b>KPI &amp; target yang baik</b><span>SMART, kamus KPI, target bulanan, skor</span></li>
+            <li><b>Dari strategi ke aksi</b><span>Inisiatif, anggaran, portofolio nilai–upaya</span></li>
+            <li><b>Praktik Ruci BSC</b><span>Pusat Kendali dan simulasi rapat bulanan</span></li>
         </ol>
     </section>
 </div>

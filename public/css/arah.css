@@ -344,3 +344,36 @@ html:not(.dark) .kenali-svg .kn-node { fill: #fff; }
     .impl { grid-template-columns: minmax(0, 1fr); }
     .arah-card { box-shadow: none; break-inside: avoid; }
 }
+/* ---- Workshop Ruci BSC */
+.ws-hero { align-items: center; }
+.ws-dates { background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.16); border-radius: .8rem; padding: 1rem 1.1rem; font-size: .85rem; align-self: center; }
+.ws-dates b { color: #fff; }
+.ws-dates ul { list-style: none; margin: .6rem 0; padding: 0; display: flex; flex-direction: column; gap: .4rem; }
+.ws-dates li { display: flex; justify-content: space-between; gap: .8rem; padding: .5rem .7rem; border-radius: .5rem; background: rgba(255,255,255,.06); color: #fff; font-weight: 600; }
+.ws-dates li span { color: #C9D6E8; font-weight: 400; }
+.ws-dates li.is-next { background: #D32F2F; }
+.ws-dates li.is-next span { color: #FFE3E0; }
+.ws-dates small { color: #C9D6E8; font-size: .75rem; }
+.ws-gain { display: flex; flex-direction: column; gap: .3rem; font-size: .82rem; color: var(--k-tinta-2); line-height: 1.5; }
+.ws-gain b { color: var(--k-tinta); font-size: .92rem; }
+.ws-gain-no { width: 1.8rem; height: 1.8rem; border-radius: 999px; display: grid; place-items: center; background: rgba(211,47,47,.12); color: var(--k-kencu); font-weight: 800; font-size: .85rem; }
+.ws-rundown { display: flex; flex-direction: column; padding: .4rem 1rem; }
+.ws-slot { display: grid; grid-template-columns: 4.2rem 6px minmax(0, 1fr); gap: .9rem; padding: .65rem 0; border-bottom: 1px dashed var(--k-garis); align-items: stretch; }
+.ws-slot:last-child { border-bottom: 0; }
+.ws-time { font-weight: 700; font-size: .9rem; color: var(--k-tinta); font-variant-numeric: tabular-nums; }
+.ws-time span { display: block; font-weight: 400; font-size: .75rem; color: var(--k-tinta-2); }
+.ws-bar { border-radius: 3px; }
+.ws-what { display: flex; flex-direction: column; gap: .15rem; font-size: .85rem; }
+.ws-what b { color: var(--k-tinta); }
+.ws-what span { color: var(--k-tinta-2); font-size: .8rem; }
+.ws-break .ws-what b { color: var(--k-tinta-2); font-weight: 500; }
+.ws-session { display: flex; flex-direction: column; gap: .7rem; }
+.ws-session-head { display: flex; gap: .75rem; align-items: center; }
+.ws-session-head b { display: block; font-size: .98rem; color: var(--k-tinta); }
+.ws-session-head span { font-size: .75rem; color: var(--k-tinta-2); }
+.ws-session-no { flex: none; width: 2.3rem; height: 2.3rem; border-radius: .6rem; display: grid; place-items: center; background: var(--k-taum); color: #fff !important; font-weight: 800; font-size: 1rem !important; }
+.dark .ws-session-no { background: #1F4E8C; }
+.ws-session ul { margin: 0; padding-left: 1.1rem; font-size: .84rem; line-height: 1.6; color: var(--k-tinta-2); display: flex; flex-direction: column; gap: .2rem; }
+.ws-exercise { font-size: .82rem; line-height: 1.55; color: var(--k-tinta-2); background: rgba(42,140,158,.09); border-left: 3px solid #2A8C9E; padding: .55rem .75rem; border-radius: .4rem; }
+.ws-exercise b { color: var(--k-tinta); }
+.ws-links { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: auto; }

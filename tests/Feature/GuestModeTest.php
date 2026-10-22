@@ -99,6 +99,18 @@ class GuestModeTest extends TestCase
             ->assertSee('Dewan Komisaris')->assertSee('Menyetujui realisasi KPI')->assertSee('images/panduan/kepala-input.jpg', false);
         $this->get(\App\Filament\Pages\PanduanImplementasi::getUrl())->assertOk()
             ->assertSee('Manajemen risiko')->assertSee('Gerbang mutu')->assertSee('Steering Committee');
+        $this->get(\App\Filament\Pages\WorkshopRuciBsc::getUrl())->assertOk()
+            ->assertSee('Rundown')->assertSee('Yang Anda peroleh')->assertSee('Sesi 6');
+    }
+
+    public function test_workshop_runs_on_the_first_sunday_of_each_month(): void
+    {
+        $dates = fn (string $today) => array_map(fn ($d) => $d->toDateString(),
+            \App\Filament\Pages\WorkshopRuciBsc::nextDates(3, \Carbon\CarbonImmutable::parse($today)));
+
+        $this->assertSame(['2026-11-01', '2026-12-06', '2027-01-03'], $dates('2026-10-22'));
+        $this->assertSame(['2026-11-01', '2026-12-06', '2027-01-03'], $dates('2026-11-01'));
+        $this->assertSame(['2026-12-06', '2027-01-03', '2027-02-07'], $dates('2026-11-02'));
     }
 
     public function test_regular_users_are_not_affected(): void
