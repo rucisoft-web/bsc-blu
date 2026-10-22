@@ -1,0 +1,124 @@
+/*
+ | Tema Kamasan — Arah GPCH
+ | kertas #F6EFDF · tinta #2B2118 · taum #34506E · kencu #A8432A · prada #B8862B · daun #4F6B3A
+ | Stylesheet statis (tanpa build Node) — dimuat lewat FilamentAsset.
+ */
+:root {
+    --k-kertas: #F6EFDF;
+    --k-kertas-2: #EFE5CF;
+    --k-kartu: #FFFDF7;
+    --k-tinta: #2B2118;
+    --k-tinta-2: #6B5E4F;
+    --k-garis: #E3D7BE;
+    --k-taum: #34506E;
+    --k-kencu: #A8432A;
+    --k-prada: #B8862B;
+    --k-daun: #4F6B3A;
+    --k-hijau: #4F7A3A;
+    --k-kuning: #C08A1E;
+    --k-merah: #A8432A;
+}
+.dark {
+    --k-kartu: rgba(255,255,255,.04);
+    --k-tinta: #F3EBDD;
+    --k-tinta-2: #B9AD9C;
+    --k-garis: rgba(255,255,255,.12);
+    --k-kertas-2: rgba(255,255,255,.06);
+}
+
+/* ---- latar & kerangka panel */
+html:not(.dark) .fi-body { background-color: var(--k-kertas); color: var(--k-tinta); }
+html:not(.dark) .fi-sidebar, html:not(.dark) .fi-topbar, html:not(.dark) .fi-topbar > nav { background-color: #FBF6EA; }
+html:not(.dark) .fi-section, html:not(.dark) .fi-ta-ctn, html:not(.dark) .fi-modal-window, html:not(.dark) .fi-wi-stats-overview-stat { background-color: var(--k-kartu); }
+.fi-sidebar-group-label { letter-spacing: .05em; text-transform: uppercase; font-size: .7rem; }
+.fi-logo { font-family: Georgia, 'Times New Roman', serif; color: var(--k-kencu); letter-spacing: .02em; }
+.fi-simple-layout { background: radial-gradient(circle at 20% 10%, #FFF8E8 0, var(--k-kertas) 55%); }
+
+/* ---- komponen halaman Arah */
+.arah { color: var(--k-tinta); }
+.arah * { box-sizing: border-box; }
+.arah-grid { display: grid; gap: 1rem; }
+.arah-grid-2 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+.arah-grid-3 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+.arah-grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.arah-grid-5 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (min-width: 768px) {
+    .arah-grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .arah-grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .arah-grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .arah-grid-5 { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+}
+.arah-span-2 { grid-column: span 1 / span 1; }
+@media (min-width: 768px) { .arah-span-2 { grid-column: span 2 / span 2; } }
+
+.arah-card { background: var(--k-kartu); border: 1px solid var(--k-garis); border-radius: .85rem; padding: 1rem 1.1rem; box-shadow: 0 1px 2px rgba(43,33,24,.05); }
+.arah-card h3 { font-size: .95rem; font-weight: 700; margin: 0 0 .6rem; color: var(--k-tinta); display: flex; align-items: center; gap: .5rem; }
+.arah-card h3 small { font-weight: 500; color: var(--k-tinta-2); font-size: .75rem; }
+.arah-muted { color: var(--k-tinta-2); font-size: .8rem; }
+.arah-kamasan { height: 4px; border-radius: 2px; margin: .2rem 0 1rem;
+    background-image: repeating-linear-gradient(90deg, var(--k-kencu) 0 14px, var(--k-prada) 14px 20px, var(--k-taum) 20px 34px, var(--k-prada) 34px 40px); }
+
+.arah-stat { display: flex; flex-direction: column; gap: .2rem; }
+.arah-stat .label { font-size: .75rem; color: var(--k-tinta-2); text-transform: uppercase; letter-spacing: .04em; }
+.arah-stat .value { font-size: 1.9rem; font-weight: 700; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.arah-stat .sub { font-size: .78rem; color: var(--k-tinta-2); }
+
+.arah-badge { display: inline-flex; align-items: center; gap: .25rem; padding: .1rem .5rem; border-radius: 999px; font-size: .72rem; font-weight: 600; white-space: nowrap; }
+.arah-hijau { background: rgba(79,122,58,.14); color: var(--k-hijau); }
+.arah-kuning { background: rgba(192,138,30,.16); color: #8D6512; }
+.arah-merah { background: rgba(168,67,42,.14); color: var(--k-merah); }
+.arah-abu { background: rgba(107,94,79,.12); color: var(--k-tinta-2); }
+.arah-biru { background: rgba(52,80,110,.13); color: var(--k-taum); }
+.dark .arah-kuning { color: #E7B64B; } .dark .arah-merah { color: #E0846C; } .dark .arah-hijau { color: #8FC46F; } .dark .arah-biru { color: #8FB0D1; }
+
+.arah-dot { width: .6rem; height: .6rem; border-radius: 999px; display: inline-block; flex: none; }
+
+.arah-bar { height: .5rem; background: var(--k-kertas-2); border-radius: 999px; overflow: hidden; position: relative; }
+.arah-bar > span { display: block; height: 100%; border-radius: 999px; }
+.arah-bar .tick { position: absolute; top: -3px; bottom: -3px; width: 2px; background: var(--k-tinta); opacity: .55; }
+
+.arah-table { width: 100%; border-collapse: collapse; font-size: .82rem; }
+.arah-table th { text-align: left; font-weight: 600; color: var(--k-tinta-2); font-size: .72rem; text-transform: uppercase; letter-spacing: .03em; padding: .45rem .5rem; border-bottom: 1px solid var(--k-garis); white-space: nowrap; }
+.arah-table td { padding: .5rem; border-bottom: 1px solid var(--k-garis); vertical-align: top; }
+.arah-table td.num, .arah-table th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.arah-table tr:last-child td { border-bottom: 0; }
+.arah-table a { color: var(--k-taum); font-weight: 600; text-decoration: none; }
+.arah-table a:hover { text-decoration: underline; }
+.arah-scroll { overflow-x: auto; }
+
+.arah-list { list-style: none; margin: 0; padding: 0; }
+.arah-list li { display: flex; justify-content: space-between; gap: .75rem; padding: .5rem 0; border-bottom: 1px dashed var(--k-garis); font-size: .84rem; }
+.arah-list li:last-child { border-bottom: 0; }
+.arah-list a { color: var(--k-taum); font-weight: 600; text-decoration: none; }
+.arah-empty { color: var(--k-tinta-2); font-size: .82rem; font-style: italic; padding: .4rem 0; }
+
+.arah-hero { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; }
+.arah-hero h2 { font-family: Georgia, 'Times New Roman', serif; font-size: 1.35rem; margin: 0; }
+.arah-gauge { width: 150px; height: 150px; }
+
+.arah-btn { display: inline-flex; align-items: center; gap: .35rem; padding: .4rem .8rem; border-radius: .5rem; font-size: .8rem; font-weight: 600; text-decoration: none; border: 1px solid var(--k-garis); color: var(--k-taum); background: var(--k-kartu); cursor: pointer; }
+.arah-btn:hover { border-color: var(--k-taum); }
+.arah-btn-primary { background: var(--k-taum); color: #fff; border-color: var(--k-taum); }
+.arah-btn[disabled] { opacity: .45; cursor: not-allowed; }
+
+/* ---- matriks portofolio */
+.arah-matrix { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; }
+.arah-quad { border-radius: .85rem; padding: .9rem; border: 1px solid var(--k-garis); min-height: 180px; }
+.arah-quad h4 { margin: 0 0 .15rem; font-size: .9rem; }
+.arah-quad .hint { font-size: .72rem; color: var(--k-tinta-2); margin-bottom: .6rem; }
+.arah-ini { background: var(--k-kartu); border: 1px solid var(--k-garis); border-radius: .6rem; padding: .55rem .65rem; margin-bottom: .5rem; font-size: .8rem; }
+.arah-ini .t { font-weight: 600; }
+.arah-ini .m { color: var(--k-tinta-2); font-size: .72rem; margin-top: .2rem; display: flex; flex-wrap: wrap; gap: .5rem; }
+
+/* ---- peta strategi */
+.arah-map { width: 100%; height: auto; font-family: inherit; }
+.arah-map .lane-label { font-size: 13px; font-weight: 700; }
+.arah-map .card-title { font-size: 11.5px; fill: var(--k-tinta); }
+.arah-map .card-code { font-size: 10px; fill: var(--k-tinta-2); font-weight: 700; }
+
+/* ---- alur kerja */
+.arah-steps { display: flex; flex-direction: column; gap: .7rem; }
+.arah-step { display: grid; grid-template-columns: 9rem 1fr; gap: .6rem; align-items: center; font-size: .82rem; }
+
+.arah-context { display: inline-flex; align-items: center; gap: .4rem; font-size: .78rem; padding: .25rem .65rem; border-radius: 999px; background: rgba(52,80,110,.1); color: var(--k-taum); font-weight: 600; text-decoration: none; margin-inline-start: .5rem; }
+.arah-footer { text-align: center; font-size: .72rem; color: var(--k-tinta-2); padding: 1rem 0 1.5rem; }

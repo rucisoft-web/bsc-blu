@@ -1,0 +1,56 @@
+<?php
+
+return [
+    /*
+    |--------------------------------------------------------------------------
+    | Arah GPCH (edisi DHASTRAM)
+    |--------------------------------------------------------------------------
+    | DHASTRAM_TERMS=umum  -> istilah umum bahasa Indonesia (Ekosistem, Jati Diri, ...)
+    | DHASTRAM_TERMS=dharma -> istilah asli DHASTRAM (Brahman, Atman, ...)
+    */
+    'terms' => env('DHASTRAM_TERMS', 'umum'),
+    'brand_name' => env('DHASTRAM_BRAND_NAME', 'Arah GPCH'),
+    'brand_tagline' => env('DHASTRAM_BRAND_TAGLINE', 'Manajemen Strategi Grand Pasundan'),
+    'demo_enabled' => (bool) env('DHASTRAM_DEMO_ENABLED', false),
+    'audit_enabled' => (bool) env('DHASTRAM_AUDIT_ENABLED', true),
+    'company_code' => env('DHASTRAM_COMPANY_CODE', 'GPCH'),
+
+    // Ambang status KPI (skor dalam persen)
+    'score_green' => 100,
+    'score_yellow' => 80,
+    'score_cap' => 120,
+
+    // Bobot perspektif untuk skor strategis (jumlah = 100)
+    'perspective_weights' => [
+        'keuangan' => 30,
+        'pelanggan' => 25,
+        'proses' => 25,
+        'sdm' => 20,
+    ],
+
+    // Jadwal siklus bulanan (tanggal pada bulan berikutnya)
+    'cycle' => [
+        'reminder_day' => 3,
+        'input_day' => 5,
+        'verify_day' => 7,
+        'approve_day' => 8,
+        'meeting_day' => 10,
+    ],
+
+    'dictionaries' => [
+        'umum' => [
+            'brahman' => 'Ekosistem', 'atman' => 'Jati Diri', 'karma_phala' => 'Kinerja',
+            'punarbhawa' => 'Perbaikan', 'moksa' => 'Kesinambungan',
+            'keuangan' => 'Keuangan', 'pelanggan' => 'Kepuasan Pelanggan',
+            'proses' => 'Proses Internal', 'sdm' => 'SDM & Pembelajaran',
+            'app' => 'Arah GPCH', 'method' => 'Manajemen Strategi',
+        ],
+        'dharma' => [
+            'brahman' => 'Brahman', 'atman' => 'Atman', 'karma_phala' => 'Karma Phala',
+            'punarbhawa' => 'Punarbhawa', 'moksa' => 'Moksa',
+            'keuangan' => 'Artha', 'pelanggan' => 'Kama',
+            'proses' => 'Dharma', 'sdm' => 'Swadharma',
+            'app' => 'DHASTRAM', 'method' => 'DSM',
+        ],
+    ],
+];
