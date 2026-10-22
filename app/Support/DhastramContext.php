@@ -35,7 +35,8 @@ class DhastramContext
         if (app()->bound('session') && session()->isStarted()) {
             session(['dhastram.company_id' => $companyId, 'dhastram.period_id' => $periodId]);
         }
-        if ($user = Auth::user()) {
+        // Akun Tamu dipakai bersama banyak pengunjung: konteks cukup di sesi masing-masing
+        if (($user = Auth::user()) && ! $user->isGuestVisitor()) {
             UserContext::withoutGlobalScopes()->updateOrCreate(
                 ['user_id' => $user->id],
                 ['company_id' => $companyId, 'analysis_period_id' => $periodId],
@@ -78,7 +79,7 @@ class DhastramContext
         }
         $companyId = session('dhastram.company_id');
         $periodId = session('dhastram.period_id');
-        if (! $companyId || ! $periodId) {
+        if ((! $companyId || ! $periodId) && ! $user->isGuestVisitor()) {
             $ctx = UserContext::where('user_id', $user->id)->first();
             $companyId ??= $ctx?->company_id;
             $periodId ??= $ctx?->analysis_period_id;

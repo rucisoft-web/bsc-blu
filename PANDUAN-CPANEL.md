@@ -114,6 +114,8 @@ ARAH_NOTIFY_MAIL=true
 
 # data contoh (Diamond Food + 2 fiktif): biarkan false untuk pemakaian sungguhan
 RUCI_SEED_DEMO=false
+# situs demo/promosi: tombol "Masuk sebagai Tamu" (hanya lihat), lihat bagian 8
+RUCI_GUEST_LOGIN=false
 ```
 
 Biarkan `APP_KEY=` kosong; nilainya diisi otomatis oleh `php artisan key:generate` di langkah 6 (baris ini harus ada, kalau tidak muncul error *No APP_KEY variable was found*).
@@ -181,6 +183,18 @@ Setiap perintah membuat perusahaannya dengan perioda 2025 (ditutup) dan 2026 (be
 Bila perusahaan itu sudah punya perioda 2025 atau 2026 (misalnya dari import Excel sebelumnya), perintah menolak berjalan. Tambahkan `--reset --force` untuk menghapus data kedua perioda itu dan menggantinya dengan data demo. Lewat cron sekali jalan (seperti bagian 6): `cd /home/userku/ruci-bsc && php artisan rucibsc:demo HMN --force --password=SandiAnda123 > storage/logs/demo.txt 2>&1`, lalu jalankan `php artisan optimize` dengan cara yang sama.
 
 Sebelum dipakai sungguhan, hapus semua data contoh dengan `php artisan rucibsc:hapus-contoh --force`.
+
+### Situs demo untuk pengunjung (akses Tamu)
+
+Untuk situs promosi seperti bsc.rucisoft.id, tambahkan baris ini di `.env`, lalu jalankan `php artisan optimize`:
+
+```
+RUCI_GUEST_LOGIN=true
+```
+
+Halaman login lalu menampilkan tombol **Masuk sebagai Tamu (lihat-lihat)**. Pengunjung langsung masuk ke contoh Diamond Food 2026 tanpa kata sandi, bisa membuka semua menu (Beranda, Pusat Kendali, Peta Strategi, KPI, inisiatif, ekosistem, tinjauan, laporan) dan berganti ke Hermina atau perioda 2025 lewat kotak konteks di kiri atas.
+
+Akun Tamu hanya bisa melihat: tombol Buat, Ubah, Hapus, Impor, dan Ekspor tidak muncul, halaman administrasi (pengguna, peran, log audit, profil) tertutup, dan setiap upaya menyimpan data ditolak oleh sistem. Pilihan perusahaan/perioda disimpan per sesi, jadi pengunjung yang bersamaan tidak saling mengganggu. Akun `tamu@demo.rucisoft.id` dan perannya dibuat otomatis saat tombol pertama kali diklik (alamat bisa diganti dengan `RUCI_GUEST_EMAIL`). Untuk mematikan, ubah menjadi `RUCI_GUEST_LOGIN=false` lalu `php artisan optimize`.
 
 ## 9. Memperbarui program
 

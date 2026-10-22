@@ -36,9 +36,11 @@ class AdminPanelProvider extends PanelProvider
             ->login()
             ->passwordReset()
             ->profile(EditProfile::class, isSimple: false)
+            ->userMenuItems(['profile' => fn (\Filament\Actions\Action $action) => $action->visible(fn (): bool => ! auth()->user()?->isGuestVisitor())])
             ->multiFactorAuthentication(
                 [AppAuthentication::make()->recoverable()->brandName(config('dhastram.brand_name'))],
                 isRequired: fn (): bool => (bool) config('dhastram.mfa_required')
+                    && ! auth()->user()?->isGuestVisitor()
                     && (bool) auth()->user()?->roles->pluck('slug')->intersect(['super-admin', 'admin-sistem', 'pimpinan', 'pengawas'])->isNotEmpty(),
             )
             ->brandName(config('dhastram.brand_name'))
@@ -73,6 +75,8 @@ class AdminPanelProvider extends PanelProvider
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\Filament\Widgets')
             ->widgets([])
             ->renderHook(PanelsRenderHook::TOPBAR_START, fn () => Blade::render('<x-arah.context-badge />'))
+            ->renderHook(PanelsRenderHook::AUTH_LOGIN_FORM_AFTER, fn () => Blade::render('<x-arah.guest-login />'))
+            ->renderHook(PanelsRenderHook::CONTENT_START, fn () => Blade::render('<x-arah.guest-banner />'))
             ->renderHook(PanelsRenderHook::FOOTER, fn () => Blade::render('<x-arah.footer />'))
             ->middleware([
                 EncryptCookies::class,

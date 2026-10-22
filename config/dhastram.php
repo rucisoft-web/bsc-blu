@@ -18,6 +18,9 @@ return [
     'seed_demo' => (bool) env('RUCI_SEED_DEMO', false),
     'demo_admin_password' => env('RUCI_ADMIN_PASSWORD', 'Ruci@BSC2026'),
     'demo_enabled' => (bool) env('DHASTRAM_DEMO_ENABLED', false),
+    // Situs demo/promosi: tombol "Masuk sebagai Tamu" (hanya lihat) di halaman login
+    'guest_login' => (bool) env('RUCI_GUEST_LOGIN', false),
+    'guest_email' => env('RUCI_GUEST_EMAIL', 'tamu@demo.rucisoft.id'),
     'audit_enabled' => (bool) env('DHASTRAM_AUDIT_ENABLED', true),
 
     // Ambang status KPI (skor dalam persen)

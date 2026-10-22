@@ -11,6 +11,11 @@ use Illuminate\Validation\Rules\Password;
 
 class EditProfile extends BaseEditProfile
 {
+    public static function canAccess(): bool
+    {
+        return ! auth()->user()?->isGuestVisitor();
+    }
+
     public function form(Schema $schema): Schema
     {
         return $schema->components([

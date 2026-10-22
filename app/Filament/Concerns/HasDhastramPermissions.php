@@ -3,6 +3,7 @@
 namespace App\Filament\Concerns;
 
 use App\Support\Terms;
+use Illuminate\Auth\Access\Response;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 
@@ -25,6 +26,27 @@ trait HasDhastramPermissions
         $user = static::user();
 
         return $user !== null && $user->hasPermission($permission);
+    }
+
+    /**
+     * Filament memeriksa tombol & halaman (Buat, Ubah, Hapus) lewat respons otorisasi, bukan can*().
+     * Arahkan ke can*() di atas supaya tombol tersembunyi bagi peran yang tidak berhak (mis. Viewer, Tamu).
+     */
+    public static function getAuthorizationResponse(string|\UnitEnum $action, ?Model $record = null): Response
+    {
+        $action = $action instanceof \BackedEnum ? (string) $action->value : ($action instanceof \UnitEnum ? $action->name : $action);
+        $record = $record instanceof Model && $record->exists ? $record : null;
+
+        $allowed = match ($action) {
+            'viewAny' => static::canViewAny(),
+            'view' => $record ? static::canView($record) : static::canViewAny(),
+            'create', 'replicate', 'reorder' => static::canCreate(),
+            'deleteAny', 'forceDeleteAny', 'restoreAny' => static::canDeleteAny(),
+            'delete', 'forceDelete', 'restore' => $record ? static::canDelete($record) : static::canDeleteAny(),
+            default => $record ? static::canEdit($record) : static::canCreate(),
+        };
+
+        return $allowed ? Response::allow() : Response::deny();
     }
 
     public static function canViewAny(): bool

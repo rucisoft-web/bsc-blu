@@ -117,6 +117,12 @@ class User extends Authenticatable implements FilamentUser, HasAppAuthentication
         return $this->roles->contains('slug', $slug);
     }
 
+    /** Akun Tamu situs demo: hanya melihat (lihat App\Support\GuestMode). */
+    public function isGuestVisitor(): bool
+    {
+        return $this->hasRole(\App\Support\GuestMode::ROLE);
+    }
+
     public function isSuperAdmin(): bool
     {
         return $this->hasRole('super-admin');

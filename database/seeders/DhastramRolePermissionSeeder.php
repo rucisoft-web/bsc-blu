@@ -33,6 +33,7 @@ class DhastramRolePermissionSeeder extends Seeder
             'initiative-pic' => ['Initiative PIC', 'Memperbarui progres inisiatif miliknya (+ melihat temuan)', ['dashboard.view', 'initiative.view', 'initiative.update_progress', 'finding.view', 'context.switch']],
             'reviewer' => ['Reviewer', 'Tinjauan kinerja & temuan', ['dashboard.view', 'review.view', 'review.edit', 'finding.view', 'maturity.view', 'context.switch']],
             'viewer' => ['Viewer', 'Baca-saja', array_merge($views, ['strategy.map', 'context.switch'])],
+            'tamu' => ['Tamu (demo)', 'Pengunjung situs demo: hanya melihat, tanpa log audit & ekspor', array_merge(array_diff($views, ['audit.view']), ['strategy.map', 'context.switch'])],
             // ---- peran per jabatan (dipakai di setiap perusahaan)
             'admin-sistem' => ['Admin Sistem', 'IT / EDP: akun pengguna, peran, reset kata sandi',
                 array_merge(['system.admin', 'audit.view', 'dashboard.view', 'report.view', 'context.switch', 'strategy.map', 'initiative.update_progress'], $views)],

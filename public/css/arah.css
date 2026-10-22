@@ -149,3 +149,13 @@ html:not(.dark) .fi-sidebar { border-inline-end: 1px solid var(--k-garis); }
 .arah-footer { text-align: center; font-size: .72rem; color: var(--k-tinta-2); padding: 1rem 1rem 1.5rem; line-height: 1.6; }
 .arah-footer::before { content: ""; display: block; width: 3rem; height: 2px; margin: 0 auto .6rem; background: var(--k-kencu); border-radius: 2px; }
 .arah-footer b { color: var(--k-taum); letter-spacing: .04em; }
+/* Akses Tamu (situs demo) */
+.arah-guest-login { margin-top: 1.25rem; text-align: center; }
+.arah-guest-or { display: flex; align-items: center; gap: .75rem; color: var(--k-tinta-2); font-size: .8rem; margin-bottom: 1rem; }
+.arah-guest-or::before, .arah-guest-or::after { content: ""; flex: 1; height: 1px; background: var(--k-garis); }
+.arah-guest-btn { display: block; padding: .6rem 1rem; border-radius: .5rem; border: 1.5px solid var(--k-taum); color: var(--k-taum); font-weight: 600; font-size: .9rem; }
+.arah-guest-btn:hover { background: var(--k-kertas-2); }
+.arah-guest-login p { margin-top: .6rem; font-size: .78rem; color: var(--k-tinta-2); line-height: 1.5; }
+.arah-guest-banner { margin: 0 0 1rem; padding: .55rem .9rem; border-radius: .5rem; font-size: .82rem; line-height: 1.5;
+    background: #FFF6E0; color: #6B4A06; border: 1px solid #F0D79A; }
+.dark .arah-guest-banner { background: rgba(200,138,18,.14); color: #F0D79A; border-color: rgba(200,138,18,.35); }
