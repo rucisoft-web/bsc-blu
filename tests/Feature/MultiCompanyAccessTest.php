@@ -60,4 +60,18 @@ class MultiCompanyAccessTest extends TestCase
         $this->assertSame([$a->id], $adminA->accessibleCompanyIds());
         $this->assertNotContains($b->id, $adminA->accessibleCompanyIds());
     }
+
+    public function test_context_page_explains_what_to_do_when_there_is_no_company_yet(): void
+    {
+        $root = $this->user('root@ruci.test', 'super-admin', null);
+
+        $this->actingAs($root)->get('/admin/pilih-konteks')
+            ->assertOk()
+            ->assertSee('Belum ada perusahaan')
+            ->assertSee('Tambah perusahaan');
+
+        [$a] = $this->company('AAA');
+        $a->periods()->delete();
+        $this->get('/admin/pilih-konteks')->assertOk()->assertSee('belum punya perioda');
+    }
 }
