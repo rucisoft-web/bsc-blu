@@ -16,7 +16,7 @@ class Doctor extends Command
 {
     protected $signature = 'dhastram:doctor';
 
-    protected $description = 'Pemeriksaan konfigurasi, basis data, izin & peran Arah GPCH';
+    protected $description = 'Pemeriksaan konfigurasi, basis data, izin & peran Ruci BSC';
 
     public function handle(): int
     {
@@ -48,7 +48,7 @@ class Doctor extends Command
         $add('Stylesheet tema Kamasan', file_exists(public_path('css/arah.css')));
         $missing = array_diff(array_keys(PermissionCatalog::PERMISSIONS), Permission::pluck('slug')->all());
         $add('Izin lengkap ('.count(PermissionCatalog::PERMISSIONS).')', $missing === [], $missing ? 'kurang: '.implode(', ', $missing).' → db:seed --class=DhastramRolePermissionSeeder' : '');
-        foreach (['super-admin', 'gpch-admin-sistem', 'gpch-pengawas', 'gpch-gm', 'strategy-office', 'gpch-keuangan', 'gpch-kepala-dept', 'gpch-pelaksana', 'viewer'] as $slug) {
+        foreach (['super-admin', 'company-admin', 'admin-sistem', 'pengawas', 'pimpinan', 'strategy-office', 'keuangan', 'kepala-unit', 'pelaksana', 'viewer'] as $slug) {
             $r = Role::where('slug', $slug)->withCount('permissions')->first();
             $add('Peran '.$slug, (bool) $r, $r ? $r->permissions_count.' izin' : 'belum ada');
         }
@@ -58,8 +58,8 @@ class Doctor extends Command
         $add('Perioda aktif', AnalysisPeriod::where('is_active', true)->exists(), AnalysisPeriod::where('is_active', true)->pluck('name')->join(', '));
         $noRole = User::where('is_active', true)->whereDoesntHave('roles')->pluck('email');
         $add('Pengguna aktif punya peran', $noRole->isEmpty(), $noRole->join(', '));
-        $demo = User::where('email', 'like', '%@grandpasundan.demo')->orWhere('email', 'like', '%@dhastram.local')->count();
-        $add('Tidak ada akun demo', $demo === 0, $demo ? $demo.' akun demo → dhastram:gpch-cutover' : '');
+        $demo = Company::where('is_demo', true)->count() + User::where('email', 'like', '%@contoh.local')->count();
+        $add('Tidak ada data contoh (wajib di produksi)', $demo === 0 || ! app()->isProduction(), $demo ? 'ada perusahaan/akun contoh → php artisan rucibsc:hapus-contoh' : '');
         $add('Jadwal (cron) untuk pengingat', true, '* * * * * php artisan schedule:run');
         $this->table(['Status', 'Pemeriksaan', 'Keterangan'], $rows);
 

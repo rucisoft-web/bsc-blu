@@ -71,10 +71,10 @@
                 <li><span>KPI keuangan menunggu verifikasi</span><a href="{{ \App\Filament\Resources\KpiActuals\KpiActualResource::getUrl('index', ['tableFilters' => ['status' => ['value' => 'draf']]]) }}">{{ $t['toVerify']->count() }} baris</a></li>
                 @endif
                 @if ($user->hasPermission('kpi.approve_actual'))
-                <li><span>Realisasi siap disetujui GM</span><a href="{{ \App\Filament\Resources\KpiActuals\KpiActualResource::getUrl('index') }}">{{ $t['toApprove']->count() }} baris</a></li>
+                <li><span>Realisasi siap disetujui Pimpinan</span><a href="{{ \App\Filament\Resources\KpiActuals\KpiActualResource::getUrl('index') }}">{{ $t['toApprove']->count() }} baris</a></li>
                 @endif
             </ul>
-            <div class="arah-muted" style="margin-top:.4rem">Data awal Jan–Sep 2026 ditandai PROYEKSI bila tidak berasal dari dokumen; cocokkan dengan laporan VHP sebelum disetujui.</div>
+            <div class="arah-muted" style="margin-top:.4rem">Realisasi bertanda PROYEKSI belum berasal dari dokumen sumber; cocokkan dengan laporan sebelum disetujui.</div>
         </div>
         @endif
 

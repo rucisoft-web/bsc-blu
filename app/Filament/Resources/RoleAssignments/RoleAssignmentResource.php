@@ -6,6 +6,7 @@ use App\Filament\Resources\RoleAssignments\Pages\ListRoleAssignments;
 use App\Filament\Resources\RoleAssignments\Pages\CreateRoleAssignment;
 use App\Filament\Resources\RoleAssignments\Pages\EditRoleAssignment;
 use App\Filament\Concerns\HasDhastramPermissions;
+use App\Filament\Concerns\ScopesToActiveCompany;
 use App\Filament\Support\F;
 use App\Support\Fmt;
 use App\Support\Terms;
@@ -49,7 +50,7 @@ use Illuminate\Support\Facades\Auth;
 
 class RoleAssignmentResource extends Resource
 {
-    use HasDhastramPermissions;
+    use HasDhastramPermissions, ScopesToActiveCompany;
 
     protected static ?string $model = Models\RoleAssignment::class;
 
@@ -73,9 +74,11 @@ class RoleAssignmentResource extends Resource
     {
         return $schema->columns(1)->components([
             Section::make()->columns(3)->schema([
-                Select::make('user_id')->label('Pengguna')->relationship('user', 'name')->required()->searchable()->preload(),
-                Select::make('role_id')->label('Peran')->options(fn () => Models\Role::orderBy('name')->get()->filter(fn ($r) => $r->slug !== 'super-admin' || Auth::user()?->isSuperAdmin())->pluck('name', 'id'))->required()->native(false),
-                Select::make('company_id')->label('Perusahaan')->options(fn () => Models\Company::pluck('name', 'id'))->placeholder('Global')->native(false),
+                Select::make('user_id')->label('Pengguna')->relationship('user', 'name', fn (Builder $query) => static::managesAllCompanies() ? $query : $query->where(fn (Builder $w) => $w->whereHas('companies', fn (Builder $c) => $c->whereKey(static::activeCompanyId()))->orWhereHas('roleAssignments', fn (Builder $r) => $r->where('company_id', static::activeCompanyId()))))->required()->searchable()->preload(),
+                Select::make('role_id')->label('Peran')->options(fn () => static::assignableRoleOptions())->required()->native(false),
+                Select::make('company_id')->label('Perusahaan')->options(fn () => static::companyOptions())->placeholder('Global')->native(false)
+                    ->default(fn () => static::managesAllCompanies() ? null : static::activeCompanyId())
+                    ->required(fn () => ! static::managesAllCompanies()),
             ]),
         ]);
     }
@@ -100,6 +103,14 @@ class RoleAssignmentResource extends Resource
                     DeleteBulkAction::make(),
                 ]),
             ]);
+    }
+
+    /** Admin non-Super Admin hanya melihat & mengubah penugasan di perusahaan aktif. */
+    public static function getEloquentQuery(): Builder
+    {
+        $q = parent::getEloquentQuery();
+
+        return static::managesAllCompanies() ? $q : $q->where('company_id', static::activeCompanyId());
     }
 
     public static function getRelations(): array

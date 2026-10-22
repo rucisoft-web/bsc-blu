@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Arah GPCH'),
+    'name' => env('APP_NAME', 'Ruci BSC Professional'),
 
     /*
     |--------------------------------------------------------------------------

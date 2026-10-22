@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Notification;
 use RuntimeException;
 
 /**
- * Alur: pemilik KPI isi (draf) -> Chief Accountant verifikasi (KPI keuangan) -> GM setujui (terkunci).
+ * Alur: pemilik KPI isi (draf) -> Keuangan verifikasi (KPI keuangan) -> Pimpinan setujui (terkunci).
  * Kembalikan: verifikator/penyetuju mengembalikan dengan catatan.
  */
 class KpiApprovalService
@@ -26,7 +26,7 @@ class KpiApprovalService
     public function canEdit(User $user, KpiActual $a): bool
     {
         if ($a->isLocked()) {
-            return $user->hasPermission('kpi.approve_actual'); // koreksi setelah terkunci hanya GM (tercatat di audit)
+            return $user->hasPermission('kpi.approve_actual'); // koreksi setelah terkunci hanya Pimpinan (tercatat di audit)
         }
 
         return $this->canInput($user, $a->kpi);

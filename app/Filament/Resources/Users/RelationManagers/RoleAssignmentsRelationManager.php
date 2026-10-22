@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Users\RelationManagers;
 
+use App\Filament\Concerns\ScopesToActiveCompany;
 use App\Filament\Concerns\HasDhastramPermissions;
 use App\Filament\Support\F;
 use App\Support\Fmt;
@@ -46,6 +47,8 @@ use Illuminate\Support\Facades\Auth;
 
 class RoleAssignmentsRelationManager extends RelationManager
 {
+    use ScopesToActiveCompany;
+
     protected static string $relationship = 'roleAssignments';
 
     protected static ?string $title = 'Penugasan peran';
@@ -55,14 +58,18 @@ class RoleAssignmentsRelationManager extends RelationManager
     public function form(Schema $schema): Schema
     {
         return $schema->columns(1)->components([
-            Select::make('role_id')->label('Peran')->options(fn () => Models\Role::orderBy('name')->get()->filter(fn ($r) => $r->slug !== 'super-admin' || Auth::user()?->isSuperAdmin())->pluck('name', 'id'))->required()->native(false),
-            Select::make('company_id')->label('Perusahaan')->options(fn () => Models\Company::pluck('name', 'id'))->placeholder('Global (semua perusahaan)')->native(false),
+            Select::make('role_id')->label('Peran')->options(fn () => static::assignableRoleOptions())->required()->native(false),
+            Select::make('company_id')->label('Perusahaan')->options(fn () => static::companyOptions())
+                ->placeholder('Global (semua perusahaan)')->native(false)
+                ->default(fn () => static::managesAllCompanies() ? null : static::activeCompanyId())
+                ->required(fn () => ! static::managesAllCompanies()),
         ]);
     }
 
     public function table(Table $table): Table
     {
         return $table
+            ->modifyQueryUsing(fn ($query) => static::managesAllCompanies() ? $query : $query->where('company_id', static::activeCompanyId()))
             ->columns([
                 TextColumn::make('role.name')->label('Peran')->description(fn ($record) => $record->role?->description)->wrap(),
                 TextColumn::make('company.code')->label('Perusahaan')->placeholder('Global'),

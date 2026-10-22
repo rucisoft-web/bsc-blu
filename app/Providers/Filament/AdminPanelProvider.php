@@ -39,7 +39,7 @@ class AdminPanelProvider extends PanelProvider
             ->multiFactorAuthentication(
                 [AppAuthentication::make()->recoverable()->brandName(config('dhastram.brand_name'))],
                 isRequired: fn (): bool => (bool) env('ARAH_MFA_REQUIRED', false)
-                    && (bool) auth()->user()?->roles->pluck('slug')->intersect(['super-admin', 'gpch-admin-sistem', 'gpch-gm', 'gpch-pengawas'])->isNotEmpty(),
+                    && (bool) auth()->user()?->roles->pluck('slug')->intersect(['super-admin', 'admin-sistem', 'pimpinan', 'pengawas'])->isNotEmpty(),
             )
             ->brandName(config('dhastram.brand_name'))
             ->favicon(asset('favicon.ico'))

@@ -7,9 +7,9 @@ use Filament\Pages\Page;
 
 class AlurKerja extends Page
 {
-    protected static ?string $title = 'Alur Kerja Arah GPCH';
+    protected static ?string $title = 'Alur Kerja Ruci BSC';
 
-    protected static ?string $navigationLabel = 'Alur Kerja Arah GPCH';
+    protected static ?string $navigationLabel = 'Alur Kerja Ruci BSC';
 
     protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-arrow-path-rounded-square';
 

@@ -101,7 +101,7 @@ class PerformanceReviewResource extends Resource
                 TextColumn::make('title')->label('Tinjauan')->wrap()->searchable()->description(fn ($record) => $record->period_label),
                 TextColumn::make('review_type')->label('Jenis')->badge()->formatStateUsing(fn ($state) => Models\PerformanceReview::TYPES[$state] ?? $state),
                 TextColumn::make('findings_count')->label('Temuan')->counts('findings'),
-                TextColumn::make('notes_count')->label('Catatan Timwas')->counts('notes'),
+                TextColumn::make('notes_count')->label('Catatan Pengawas')->counts('notes'),
                 F::statusColumn('status', ['draf' => 'Draf', 'final' => 'Final'], ['draf' => 'warning', 'final' => 'success']),
             ])
             ->filters([

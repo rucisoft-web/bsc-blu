@@ -1,81 +1,81 @@
-# Arah GPCH — Manajemen Strategi Grand Pasundan
+# Ruci BSC Professional
 
-Edisi **DHASTRAM** untuk **Grand Pasundan Convention Hotel** (Jl. Peta No. 147–149, Bandung · 164 kamar · Malibu Dome 1.200 pax).
-Instalasi tunggal, satu perusahaan (kode `GPCH`), tanpa mode demo/tamu, dengan istilah umum bahasa Indonesia.
+Aplikasi **Balanced Scorecard multi-perusahaan** berbasis Laravel + MySQL, dikembangkan dari edisi DHASTRAM (ARAH GPCH).
+Satu instalasi melayani banyak perusahaan; setiap perusahaan punya data, perioda, admin dan pengguna sendiri, dan datanya bisa diupload satu per satu lewat file Excel.
 
-**Instalasi di Laragon → [PANDUAN-LARAGON.md](PANDUAN-LARAGON.md)** · Sumber & validasi data awal → [docs/DATA-AWAL.md](docs/DATA-AWAL.md)
+**Instalasi di Laragon → [PANDUAN-LARAGON.md](PANDUAN-LARAGON.md)**
 
 ## Teknologi
 
 | Lapisan | Komponen |
 |---|---|
 | Runtime | PHP 8.3+, **Laravel 13**, Livewire 4 |
-| Antarmuka | **Filament v5** (panel `/admin`), tema Kamasan: kertas `#F6EFDF`, tinta `#2B2118`, taum `#34506E`, kencu `#A8432A` |
-| Basis data | **MySQL 8 / MariaDB 10.6+** — 51 migrasi (48 aplikasi + 3 bawaan Laravel) |
+| Antarmuka | **Filament v5** (panel `/admin`), stylesheet statis `public/css/arah.css` (tanpa Node.js) |
+| Basis data | **MySQL 8 / MariaDB 10.6+** (SQLite untuk test) |
 | Konteks | `DhastramContext` (sesi + tabel `user_contexts`) & global scope `BelongsToDhastramContext` menyaring setiap query per perusahaan/perioda |
-| Penomoran | `DhastramSequence` → `OBJ/GPCH/2026/001`, `KPI/…`, `INI/…`, `TMN/…`, `REV/…` |
-| Audit | `audit_logs` mencatat buat/ubah/hapus oleh pengguna (`DHASTRAM_AUDIT_ENABLED`) |
-| Antrian & jadwal | driver database; `arahgpch:reminders` harian 07.30 WIB |
+| Excel | OpenSpout: import, template kosong, dan ekspor data perioda |
+| Audit | `audit_logs` mencatat buat/ubah/hapus (`DHASTRAM_AUDIT_ENABLED`) |
+| Jadwal | `rucibsc:reminders` harian (pengingat siklus input → verifikasi → persetujuan) |
 
-Istilah diatur `DHASTRAM_TERMS=umum` (Ekosistem, Jati Diri, Kinerja, Perbaikan, Kesinambungan; Keuangan, Kepuasan Pelanggan, Proses Internal, SDM & Pembelajaran) atau `dharma` (Brahman, Atman, Karma Phala, Punarbhawa, Moksa; Artha, Kama, Dharma, Swadharma).
+## Multi-perusahaan
+
+- **Super Admin** mengelola semua perusahaan, peran, dan semua akun.
+- **Company Admin** mengelola pengguna dan penugasan peran **hanya di perusahaan yang sedang aktif**. Akun yang juga terdaftar di perusahaan lain hanya bisa diubah Super Admin (mencegah reset sandi lintas perusahaan).
+- Peran diberikan per perusahaan (`role_user.company_id`); satu orang boleh punya peran di beberapa perusahaan dan berpindah lewat **Pilih Perusahaan & Perioda**.
+
+## Import data perusahaan (menu Administrasi › Import Data)
+
+1. Pilih perusahaan & perioda tujuan.
+2. Unduh **template kosong** atau **ekspor data perioda saat ini**.
+3. Isi sheet yang diperlukan: Jati Diri, Nilai Inti, Tema, Sasaran, Relasi Sasaran, KPI, Target, Realisasi, Inisiatif. Sheet yang tidak ada di file tidak diubah.
+4. **Pratinjau** dulu (tidak menyimpan apa pun), lalu **Proses Import**.
+
+Kode (sasaran, KPI, tema, inisiatif) menjadi kunci, jadi upload ulang memperbarui data, bukan menduplikasi. Baris yang salah dilewati dan dilaporkan dengan nomor barisnya. Angka boleh format Indonesia (`11.098.665`, `6,62`). Realisasi masuk sebagai **draf**, kecuali pengguna punya izin persetujuan dan mencentang "langsung setujui". Import terakhir sebuah perioda bisa **dibatalkan** (nilai sebelumnya dipulihkan). Izin: `import.manage`.
 
 ## Modul
 
-- **Umum:** Beranda (tugas saya), Pusat Kendali Eksekutif, Alur Kerja Arah GPCH, Peta Strategi, Laporan (+ unduh Excel), Pilih Perioda.
-- **Ekosistem:** Pemindaian Lingkungan, PESTEL, Analisis Industri, Pasar & Pelanggan, Analisis Pesaing, Analisis Regulasi, Pemangku Kepentingan, Isu Strategis, SWOT, TOWS.
-- **Jati Diri:** Jati Diri Organisasi (visi, misi, nilai inti, budaya), Kapabilitas Organisasi.
-- **Kinerja:** Tema Strategis, Pilihan Strategis, Sasaran Strategis, Relasi Sasaran, KPI, Target KPI, Realisasi KPI (alur draf → terverifikasi → disetujui/terkunci, kembalikan), Tinjauan Kinerja (+ catatan pengawasan Timwas).
-- **Perbaikan:** Portofolio Inisiatif (matriks Nilai × Upaya), Inisiatif Strategis, Aktivitas, Milestone, Anggaran, Temuan (tutup hanya bila semua tindakan selesai), Tindakan Korektif.
-- **Kesinambungan:** Kematangan Manajemen Strategi, Ketergantungan Strategis, Institusionalisasi.
-- **Administrasi:** Perusahaan (hanya Super Admin), Pengguna, Peran, Penugasan Peran, Log Audit.
+- **Umum:** Beranda, Pusat Kendali Eksekutif, Alur Kerja, Peta Strategi, Laporan (+ Excel), Pilih Perusahaan & Perioda.
+- **Ekosistem:** Pemindaian Lingkungan, PESTEL, Analisis Industri, Pasar & Pelanggan, Pesaing, Regulasi, Pemangku Kepentingan, Isu Strategis, SWOT, TOWS.
+- **Jati Diri:** visi, misi, nilai inti, budaya, kapabilitas.
+- **Kinerja:** Tema, Pilihan Strategis, Sasaran, Relasi Sasaran, KPI, Target, Realisasi (draf → terverifikasi → disetujui/terkunci, atau dikembalikan), Tinjauan Kinerja.
+- **Perbaikan:** Portofolio & Inisiatif Strategis, Aktivitas, Milestone, Anggaran, Temuan, Tindakan Korektif.
+- **Kesinambungan:** Kematangan Manajemen Strategi, Ketergantungan, Institusionalisasi.
+- **Administrasi:** Perusahaan, Pengguna, Peran, Penugasan Peran, Import Data, Log Audit.
 
-34 resource + 7 halaman khusus. Layanan inti di `app/Services`: `KpiScoringService`, `StrategicScoreService`, `InitiativeProgressService`, `InitiativePortfolioService`, `MaturityScoringService`, `KpiApprovalService`, `ExecutiveDashboardService`, `HomeDashboardService`, `StrategyMapService`, `OperationalWorkflowService`, `DhastramReportService`.
+Skor KPI: polaritas naik = realisasi ÷ target × 100, turun = target ÷ realisasi × 100, maksimal 120; hijau ≥ 100, kuning ≥ 80. Agregasi jumlah, rata-rata, atau terakhir.
 
-## Hak akses
+## Peran bawaan
 
-32 izin (25 izin DHASTRAM + `kpi.verify_finance`, `initiative.budget`, `review.note`, `finding.create`, `data.manage_all`). Peran diberikan **per perusahaan** (`role_user.company_id = GPCH`); satu orang boleh punya beberapa peran.
+`super-admin`, `company-admin`, `strategy-office`, `management`, `pimpinan`, `keuangan`, `kepala-unit`, `kpi-owner`, `initiative-pic`, `reviewer`, `pengawas`, `admin-sistem`, `editor-ekosistem`, `editor-jatidiri`, `pelaksana`, `viewer`. Isi izin peran berlaku global dan hanya diubah Super Admin.
 
-Pembatasan "miliknya": pemilik KPI hanya mengisi realisasi KPI miliknya; PIC hanya memperbarui aktivitas/milestone inisiatif miliknya; pemilik tindakan korektif hanya mengubah miliknya. GM, Koordinator Manajemen Strategi (`data.manage_all`) dan Super Admin bebas. Realisasi yang disetujui terkunci; koreksi hanya oleh GM dan tercatat di log audit.
+## Data contoh
 
-Keamanan login: kata sandi minimal 10 karakter (huruf & angka), batas 5 percobaan/menit, wajib ganti sandi saat login pertama, opsi 2FA aplikasi autentikator di halaman profil (`ARAH_MFA_REQUIRED=true` mewajibkan untuk GM, Timwas & admin).
+Di luar produksi (atau bila `RUCI_SEED_DEMO=true`) seeder memuat tiga perusahaan contoh lewat jalur import yang sama:
 
-## Akun awal
+| Kode | Perusahaan | Isi |
+|---|---|---|
+| DFI | PT Diamond Food Indonesia Tbk | Perioda 2025, KPI dari laporan tahunan 2025 |
+| NLP | PT Nusantara Logistik Prima (fiktif) | Perioda 2026 (Jan–Agu disetujui, Sep draf) + 2027 perencanaan |
+| KSB | Klinik Sehat Bersama (fiktif) | Perioda 2026 |
 
-Super Admin: `admin@arahgpch.local` / `Arah@GPCH2026`. Akun lain: kata sandi awal **`GPCH-2026!ganti`** (wajib diganti). Email masih usulan — konfirmasi dengan HR.
+Akun: Super Admin `admin@rucibsc.local` / `Ruci@BSC2026` (ubah lewat `RUCI_ADMIN_PASSWORD`). Akun contoh per perusahaan, kata sandi `Contoh-2026!`:
+`dfi.admin@contoh.local`, `dfi.direktur@…`, `dfi.keuangan@…`, `dfi.komersial@…`, `dfi.sdm@…`, dan pola yang sama untuk `nlp.*` dan `ksb.*`.
 
-| Nama | Jabatan | Email | Peran |
-|---|---|---|---|
-| Konsultan DHASTRAM | Konsultan / vendor DHASTRAM | `admin@arahgpch.local` | super-admin |
-| Admin EDP GPCH (isi nama) | EDP / IT Manager | `edp@grandpasundanhotel.com` | gpch-admin-sistem |
-| Bapak Wilfred | Ketua Tim Pengawas | `wilfred@grandpasundanhotel.com` | gpch-pengawas |
-| Ibu Vivera | General Manager | `gm@grandpasundanhotel.com` | gpch-gm |
-| Koordinator Manajemen Strategi (isi nama) | Koordinator Manajemen Strategi (staf GM) | `strategi@grandpasundanhotel.com` | strategy-office |
-| Bapak Indra | Chief Accountant | `ca@grandpasundanhotel.com` | gpch-keuangan |
-| Ibu Irina | Sales & Marketing Manager | `sales@grandpasundanhotel.com` | gpch-kepala-dept, gpch-editor-ekosistem |
-| Bapak Rizki | Front Office Manager | `fom@grandpasundanhotel.com` | gpch-kepala-dept |
-| Bapak Asep Agus Damil Arifin | F&B Manager / Executive Chef | `fbm@grandpasundanhotel.com` | gpch-kepala-dept |
-| Bapak Wahyudin | Chief Engineer (Plt.) | `engineering@grandpasundanhotel.com` | gpch-kepala-dept |
-| Ibu Wina | Executive Housekeeper (Plt.) | `hk@grandpasundanhotel.com` | gpch-kepala-dept |
-| Bapak Anto | HR Manager | `hrd@grandpasundanhotel.com` | gpch-kepala-dept, gpch-editor-jatidiri |
-| Bapak Daniel | Purchasing | `purchasing@grandpasundanhotel.com` | gpch-kepala-dept |
-| Ibu Rika | Sales Executive | `rika.sales@grandpasundanhotel.com` | gpch-pelaksana |
-| Arsy | Sales Executive | `arsy.sales@grandpasundanhotel.com` | gpch-pelaksana |
-| Muhamad Ihsan | Front Office Supervisor | `fo.supervisor@grandpasundanhotel.com` | gpch-pelaksana |
-| Ujang Nur M | Housekeeping Supervisor | `hk.supervisor@grandpasundanhotel.com` | gpch-pelaksana |
-| Rara | Engineering Admin | `eng.admin@grandpasundanhotel.com` | gpch-pelaksana |
-| Bapak Wimpy | Pemilik | `owner@grandpasundanhotel.com` | viewer |
-| Bapak Yodi S. Ibrahim | Direksi | `yodi@grandpasundanhotel.com` | management |
-| Bapak Miko | Anggota Tim Pengawas | `miko@grandpasundanhotel.com` | viewer |
-| Bapak Joice | Anggota Tim Pengawas | `joice@grandpasundanhotel.com` | viewer |
-| Ibu Yuli | Anggota Tim Pengawas | `yuli@grandpasundanhotel.com` | viewer |
-| Bapak I.G. Wiwin Suyasa | Auditor Operasional (Visi Perencana Indonesia) | `wiwin@visiperencana.id` | viewer |
+Sebelum dipakai sungguhan: `php artisan rucibsc:hapus-contoh` menghapus semua perusahaan dan akun contoh, lalu ganti sandi Super Admin.
 
-## Siklus kerja
+## Perintah penting
 
-Input realisasi tgl 5 → verifikasi Chief Accountant tgl 7 → persetujuan GM tgl 8 → rapat manajemen tgl 10. GM Weekly Report setiap Senin dicatat sebagai Tinjauan Kinerja.
+| Perintah | Fungsi |
+|---|---|
+| `php artisan dhastram:doctor` | Cek PHP, ekstensi, database, izin, peran, data contoh |
+| `php artisan dhastram:create-admin` | Membuat Super Admin baru |
+| `php artisan db:seed --class=DhastramRolePermissionSeeder` | Memperbarui izin & peran (aman diulang) |
+| `php artisan rucibsc:hapus-contoh` | Menghapus perusahaan & akun contoh |
+| `php artisan rucibsc:reminders --date=2026-11-03` | Uji pengingat |
+| `php vendor/bin/phpunit` | Menjalankan test otomatis |
 
-## Produksi (cPanel)
+## Produksi (cPanel / VPS)
 
-`APP_ENV=production`, `APP_DEBUG=false`, `SESSION_SECURE_COOKIE=true`; kode di luar `public_html`, document root ke `public/`; cron `* * * * * php ~/arahgpch/artisan schedule:run`.
-Pada produksi `DatabaseSeeder` hanya membuat izin/peran & pertanyaan kematangan; data GPCH dipindahkan sekali (impor SQL atau `ARAH_SEED_GPCH=true`) lalu `php artisan dhastram:gpch-cutover`.
-Rilis: unggah kode → `composer install --no-dev --optimize-autoloader` → `php artisan migrate --force` → `php artisan optimize` → `php artisan dhastram:doctor`.
+`APP_ENV=production`, `APP_DEBUG=false`, `SESSION_SECURE_COOKIE=true`; document root ke `public/`; cron `* * * * * php /path/ruci-bsc/artisan schedule:run`.
+Di produksi `DatabaseSeeder` hanya membuat izin, peran, dan pertanyaan kematangan. Buat Super Admin dengan `dhastram:create-admin`, tambahkan perusahaan, lalu upload datanya lewat Import Data.
+Rilis: `composer install --no-dev --optimize-autoloader` → `php artisan migrate --force` → `php artisan optimize` → `php artisan dhastram:doctor`.

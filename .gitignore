@@ -7,3 +7,4 @@
 .env.backup
 .env.production
 database/database.sqlite
+.phpunit.result.cache

@@ -7,7 +7,7 @@ use App\Models\Role;
 use App\Support\PermissionCatalog;
 use Illuminate\Database\Seeder;
 
-/** Izin & peran sistem DHASTRAM + peran edisi Grand Pasundan (aman dijalankan berulang). */
+/** Izin & peran sistem DHASTRAM + peran per jabatan (aman dijalankan berulang). */
 class DhastramRolePermissionSeeder extends Seeder
 {
     public const PERMISSIONS = PermissionCatalog::PERMISSIONS;
@@ -24,7 +24,7 @@ class DhastramRolePermissionSeeder extends Seeder
         $roles = [
             // ---- peran sistem bawaan DHASTRAM
             'super-admin' => ['Super Admin', 'Konsultan / vendor DHASTRAM — semua izin', $all],
-            'company-admin' => ['Company Admin', 'Semua kecuali system.admin', $except(['system.admin'])],
+            'company-admin' => ['Company Admin', 'Admin perusahaan klien: semua izin di perusahaannya, termasuk pengguna & penugasan peran', $all],
             'strategy-office' => ['Strategy Office', 'Koordinator Manajemen Strategi: semua kecuali system.admin, kpi.approve_actual dan kpi.verify_finance',
                 $except(['system.admin', 'kpi.approve_actual', 'kpi.verify_finance'])],
             'management' => ['Management', 'Dasbor, laporan + ekspor, lihat strategi/peta/KPI/inisiatif/tinjauan/temuan/kematangan',
@@ -33,21 +33,21 @@ class DhastramRolePermissionSeeder extends Seeder
             'initiative-pic' => ['Initiative PIC', 'Memperbarui progres inisiatif miliknya (+ melihat temuan)', ['dashboard.view', 'initiative.view', 'initiative.update_progress', 'finding.view', 'context.switch']],
             'reviewer' => ['Reviewer', 'Tinjauan kinerja & temuan', ['dashboard.view', 'review.view', 'review.edit', 'finding.view', 'maturity.view', 'context.switch']],
             'viewer' => ['Viewer', 'Baca-saja', array_merge($views, ['strategy.map', 'context.switch'])],
-            // ---- peran edisi Grand Pasundan
-            'gpch-admin-sistem' => ['GPCH Admin Sistem', 'EDP / IT Manager: akun pengguna, peran, reset kata sandi',
+            // ---- peran per jabatan (dipakai di setiap perusahaan)
+            'admin-sistem' => ['Admin Sistem', 'IT / EDP: akun pengguna, peran, reset kata sandi',
                 array_merge(['system.admin', 'audit.view', 'dashboard.view', 'report.view', 'context.switch', 'strategy.map', 'initiative.update_progress'], $views)],
-            'gpch-pengawas' => ['GPCH Tim Pengawas', 'Ketua Tim Pengawas: baca semua, catatan pengawasan & membuat temuan',
+            'pengawas' => ['Pengawas', 'Dewan Pengawas / Komisaris: baca semua, catatan pengawasan & membuat temuan',
                 array_merge($views, ['strategy.map', 'report.view', 'report.export', 'audit.view', 'review.note', 'finding.create', 'context.switch'])],
-            'gpch-gm' => ['GPCH General Manager', 'Semua kecuali system.admin; menyetujui realisasi & menutup temuan', $except(['system.admin'])],
-            'gpch-keuangan' => ['GPCH Keuangan', 'Chief Accountant: KPI keuangan, verifikasi, realisasi anggaran',
+            'pimpinan' => ['Pimpinan', 'Direktur / General Manager: semua kecuali system.admin; menyetujui realisasi & menutup temuan', $except(['system.admin'])],
+            'keuangan' => ['Keuangan', 'Kepala Keuangan / Chief Accountant: KPI keuangan, verifikasi, realisasi anggaran',
                 ['dashboard.view', 'report.view', 'report.export', 'strategy.view', 'strategy.map', 'kpi.view', 'kpi.input_actual', 'kpi.verify_finance',
                     'initiative.view', 'initiative.budget', 'initiative.update_progress', 'review.view', 'finding.view', 'finding.edit', 'context.switch']],
-            'gpch-kepala-dept' => ['GPCH Kepala Departemen', 'Input realisasi KPI & progres inisiatif miliknya, tindakan korektif miliknya',
+            'kepala-unit' => ['Kepala Unit', 'Kepala departemen/divisi: input realisasi KPI & progres inisiatif miliknya, tindakan korektif miliknya',
                 ['dashboard.view', 'strategy.view', 'strategy.map', 'brahman.view', 'atman.view', 'kpi.view', 'kpi.input_actual', 'initiative.view',
                     'initiative.update_progress', 'review.view', 'finding.view', 'finding.edit', 'maturity.view', 'report.view', 'context.switch']],
-            'gpch-editor-ekosistem' => ['GPCH Editor Ekosistem', 'Tambahan: mengubah data Ekosistem (pasar, pesaing, isu)', ['brahman.view', 'brahman.edit']],
-            'gpch-editor-jatidiri' => ['GPCH Editor Jati Diri', 'Tambahan: mengubah Jati Diri (kapabilitas, nilai inti)', ['atman.view', 'atman.edit']],
-            'gpch-pelaksana' => ['GPCH Pelaksana', 'Supervisor/staf: input data atas nama departemen',
+            'editor-ekosistem' => ['Editor Ekosistem', 'Tambahan: mengubah data Ekosistem (pasar, pesaing, isu)', ['brahman.view', 'brahman.edit']],
+            'editor-jatidiri' => ['Editor Jati Diri', 'Tambahan: mengubah Jati Diri (kapabilitas, nilai inti)', ['atman.view', 'atman.edit']],
+            'pelaksana' => ['Pelaksana', 'Supervisor/staf: input data atas nama unit',
                 ['dashboard.view', 'kpi.view', 'kpi.input_actual', 'initiative.view', 'initiative.update_progress', 'context.switch']],
         ];
         foreach ($roles as $slug => [$name, $desc, $perms]) {

@@ -37,9 +37,9 @@ class PerformanceReview extends Model
     }
 
     public const TYPES = [
-        'weekly_gm' => 'GM Weekly Report',
+        'weekly_gm' => 'Laporan Mingguan Pimpinan',
         'rapat_manajemen' => 'Rapat Manajemen',
-        'rapat_timwas' => 'Rapat Tim Pengawas',
+        'rapat_timwas' => 'Rapat Dewan Pengawas',
         'kuartalan' => 'Tinjauan Kuartalan',
         'tahunan' => 'Tinjauan Tahunan',
     ];

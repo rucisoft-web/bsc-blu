@@ -22,20 +22,20 @@
             <h3>Alur persetujuan realisasi KPI</h3>
             <ol style="margin:0; padding-left:1.1rem; font-size:.82rem; line-height:1.55">
                 <li>Pemilik KPI mengisi nilai & bukti — status <span class="arah-badge arah-abu">draf</span></li>
-                <li>KPI keuangan: Chief Accountant <span class="arah-badge arah-biru">verifikasi</span> atau mengembalikan dengan catatan</li>
-                <li>GM <span class="arah-badge arah-hijau">setujui</span> — approved_by & approved_at terisi, baris terkunci</li>
+                <li>KPI keuangan: Keuangan <span class="arah-badge arah-biru">verifikasi</span> atau mengembalikan dengan catatan</li>
+                <li>Pimpinan <span class="arah-badge arah-hijau">setujui</span> — approved_by & approved_at terisi, baris terkunci</li>
                 <li>Skor & status hijau/kuning/merah dihitung ulang, masuk Pusat Kendali & laporan</li>
-                <li>Koreksi setelah terkunci hanya oleh GM dan tercatat di log audit</li>
+                <li>Koreksi setelah terkunci hanya oleh Pimpinan dan tercatat di log audit</li>
             </ol>
         </div>
     </div>
 
     <div class="arah-card" style="margin-top:1rem">
-        <h3>Ritme kerja Arah GPCH</h3>
+        <h3>Ritme kerja Ruci BSC</h3>
         <div class="arah-kamasan"></div>
         <div class="arah-scroll">
         <table class="arah-table">
-            <thead><tr><th>Ritme</th><th>Kegiatan di Arah GPCH</th><th>Pelaku</th><th>Batas waktu</th></tr></thead>
+            <thead><tr><th>Ritme</th><th>Kegiatan di Ruci BSC</th><th>Pelaku</th><th>Batas waktu</th></tr></thead>
             <tbody>
             @foreach ($rhythm as $r)
                 <tr><td><span class="arah-badge arah-biru">{{ $r['ritme'] }}</span></td><td>{{ $r['kegiatan'] }}</td><td>{{ $r['pelaku'] }}</td><td>{{ $r['batas'] }}</td></tr>

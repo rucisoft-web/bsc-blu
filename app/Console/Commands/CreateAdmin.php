@@ -15,7 +15,7 @@ class CreateAdmin extends Command
 {
     protected $signature = 'dhastram:create-admin {--name=} {--email=} {--password=}';
 
-    protected $description = 'Membuat akun Super Admin pertama Arah GPCH';
+    protected $description = 'Membuat akun Super Admin pertama Ruci BSC';
 
     public function handle(): int
     {

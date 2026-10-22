@@ -76,11 +76,11 @@ class CompetitorResource extends Resource
     {
         return $schema->columns(1)->components([
             Section::make('Profil')->columns(3)->schema([
-                TextInput::make('name')->label('Nama hotel')->required()->columnSpan(2),
+                TextInput::make('name')->label('Nama pesaing')->required()->columnSpan(2),
                 TextInput::make('category')->label('Kategori'),
-                TextInput::make('room_count')->label('Jumlah kamar')->numeric(),
+                TextInput::make('room_count')->label('Kapasitas')->numeric(),
                 TextInput::make('distance_km')->label('Jarak (km)')->numeric(),
-                Toggle::make('is_self')->label('Hotel kita (GPCH)'),
+                Toggle::make('is_self')->label('Perusahaan kita'),
                 Textarea::make('strengths')->label('Kekuatan')->rows(2)->columnSpanFull(),
                 Textarea::make('weaknesses')->label('Kelemahan')->rows(2)->columnSpanFull(),
             ]),
@@ -89,8 +89,8 @@ class CompetitorResource extends Resource
                 TextInput::make('rank')->label('Peringkat')->numeric(),
                 TextInput::make('room_available')->label('Room available')->numeric(),
                 TextInput::make('room_sold')->label('Room sold')->numeric(),
-                TextInput::make('occupancy')->label('Okupansi %')->numeric(),
-                TextInput::make('arr')->label('ARR (Rp)')->numeric(),
+                TextInput::make('occupancy')->label('Pangsa pasar / utilisasi %')->numeric(),
+                TextInput::make('arr')->label('Harga rata-rata (Rp)')->numeric(),
                 TextInput::make('revpar')->label('RevPAR (Rp)')->numeric(),
                 TextInput::make('rgi')->label('RGI')->numeric(),
                 TextInput::make('mpi')->label('MPI')->numeric(),
@@ -112,9 +112,9 @@ class CompetitorResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('rank')->label('#')->sortable(),
-                TextColumn::make('name')->label('Hotel')->searchable()->weight(fn ($record) => $record->is_self ? 'bold' : null)->description(fn ($record) => $record->is_self ? 'Hotel kita' : $record->category),
-                TextColumn::make('occupancy')->label('Occ %')->formatStateUsing(fn ($state) => Fmt::num($state, 2))->sortable(),
-                TextColumn::make('arr')->label('ARR')->formatStateUsing(fn ($state) => Fmt::rp($state))->sortable(),
+                TextColumn::make('name')->label('Pesaing')->searchable()->weight(fn ($record) => $record->is_self ? 'bold' : null)->description(fn ($record) => $record->is_self ? 'Perusahaan kita' : $record->category),
+                TextColumn::make('occupancy')->label('Pangsa %')->formatStateUsing(fn ($state) => Fmt::num($state, 2))->sortable(),
+                TextColumn::make('arr')->label('Harga rata-rata')->formatStateUsing(fn ($state) => Fmt::rp($state))->sortable(),
                 TextColumn::make('revpar')->label('RevPAR')->formatStateUsing(fn ($state) => Fmt::rp($state))->sortable(),
                 TextColumn::make('rgi')->label('RGI')->badge()->color(fn ($state) => $state >= 1 ? 'success' : 'danger')->sortable(),
                 TextColumn::make('mpi')->label('MPI'),

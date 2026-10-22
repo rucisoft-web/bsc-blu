@@ -123,11 +123,17 @@ class RoleResource extends Resource
     }
     public static function canEdit(Model $record): bool
     {
-        return static::allows('system.admin') && ($record->slug !== 'super-admin' || (bool) Auth::user()?->isSuperAdmin());
+        // Peran berlaku untuk semua perusahaan, jadi hanya Super Admin yang boleh mengubah isinya.
+        return (bool) Auth::user()?->isSuperAdmin();
+    }
+
+    public static function canCreate(): bool
+    {
+        return (bool) Auth::user()?->isSuperAdmin();
     }
 
     public static function canDelete(Model $record): bool
     {
-        return static::allows('system.admin') && ! $record->is_system;
+        return (bool) Auth::user()?->isSuperAdmin() && ! $record->is_system;
     }
 }

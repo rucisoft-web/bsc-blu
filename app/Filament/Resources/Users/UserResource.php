@@ -7,6 +7,7 @@ use App\Filament\Resources\Users\Pages\CreateUser;
 use App\Filament\Resources\Users\Pages\ViewUser;
 use App\Filament\Resources\Users\Pages\EditUser;
 use App\Filament\Concerns\HasDhastramPermissions;
+use App\Filament\Concerns\ScopesToActiveCompany;
 use App\Filament\Support\F;
 use App\Support\Fmt;
 use App\Support\Terms;
@@ -50,7 +51,10 @@ use Illuminate\Support\Facades\Auth;
 
 class UserResource extends Resource
 {
-    use HasDhastramPermissions;
+    use HasDhastramPermissions, ScopesToActiveCompany {
+        HasDhastramPermissions::canEdit as canEditByPermission;
+        HasDhastramPermissions::canDelete as canDeleteByPermission;
+    }
 
     protected static ?string $model = Models\User::class;
 
@@ -87,7 +91,9 @@ class UserResource extends Resource
                     ->required(fn (string $operation) => $operation === 'create')->dehydrated(fn ($state) => filled($state))
                     ->helperText('Minimal 10 karakter, huruf & angka. Pengguna wajib mengganti saat login pertama.')->visibleOn('create'),
                 Toggle::make('must_change_password')->label('Wajib ganti kata sandi saat login')->default(true),
-                Select::make('companies')->label('Akses perusahaan')->relationship('companies', 'name')->multiple()->preload()->columnSpanFull(),
+                // Hanya Super Admin yang mengatur akses lintas perusahaan; admin lain otomatis memakai perusahaan aktif (CreateUser).
+                Select::make('companies')->label('Akses perusahaan')->relationship('companies', 'name')->multiple()->preload()->columnSpanFull()
+                    ->visible(fn () => static::managesAllCompanies()),
             ]),
         ]);
     }
@@ -107,7 +113,7 @@ class UserResource extends Resource
                 TernaryFilter::make('is_active')->label('Aktif'),
             ])
             ->recordActions([
-                Action::make('reset')->label('Reset sandi')->icon('heroicon-o-key')->color('warning')
+                Action::make('reset')->label('Reset sandi')->icon('heroicon-o-key')->color('warning')->visible(fn ($record) => static::canEdit($record))
                     ->form([TextInput::make('password')->label('Kata sandi sementara')->password()->revealable()->required()->rule(\Illuminate\Validation\Rules\Password::defaults())])
                     ->action(function ($record, array $data) { $record->update(['password' => $data['password'], 'must_change_password' => true]); Notification::make()->title('Kata sandi direset; pengguna wajib menggantinya saat login')->success()->send(); }),
                 EditAction::make(),
@@ -115,6 +121,31 @@ class UserResource extends Resource
             ->toolbarActions([
 
             ]);
+    }
+
+    /** Admin non-Super Admin hanya melihat pengguna perusahaan yang sedang aktif. */
+    public static function getEloquentQuery(): Builder
+    {
+        $q = parent::getEloquentQuery();
+        if (static::managesAllCompanies()) {
+            return $q;
+        }
+        $companyId = static::activeCompanyId();
+
+        return $q->where(fn (Builder $w) => $w
+            ->whereHas('companies', fn (Builder $c) => $c->whereKey($companyId))
+            ->orWhereHas('roleAssignments', fn (Builder $r) => $r->where('company_id', $companyId)));
+    }
+
+    /** Akun yang juga dipakai di perusahaan lain (atau Super Admin) hanya bisa diubah oleh Super Admin. */
+    public static function canEdit(Model $record): bool
+    {
+        return static::canEditByPermission($record) && static::ownsUserAccount($record);
+    }
+
+    public static function canDelete(Model $record): bool
+    {
+        return static::canDeleteByPermission($record) && static::ownsUserAccount($record) && $record->getKey() !== Auth::id();
     }
 
     public static function getRelations(): array

@@ -86,7 +86,7 @@ class KpiActualResource extends Resource
                 }),
                 TextInput::make('actual')->label('Nilai realisasi')->numeric()->required(),
                 Toggle::make('is_projection')->label('Masih proyeksi / belum final')->visible(fn () => Auth::user()?->managesAllData()),
-                Textarea::make('evidence')->label('Bukti / sumber angka')->rows(2)->columnSpanFull()->helperText('Mis. DRR VHP tanggal …, laporan keuangan, notulen.'),
+                Textarea::make('evidence')->label('Bukti / sumber angka')->rows(2)->columnSpanFull()->helperText('Mis. laporan keuangan bulan …, laporan sistem, notulen.'),
                 FileUpload::make('evidence_path')->label('Lampiran bukti')->directory('bukti-kpi')->disk('local')->visibility('private')->downloadable()->columnSpanFull(),
                 Textarea::make('notes')->label('Catatan')->rows(2)->columnSpanFull(),
             ]),
@@ -130,7 +130,7 @@ class KpiActualResource extends Resource
                     ->form([Textarea::make('note')->label('Catatan verifikasi')->rows(2)])
                     ->action(function ($record, array $data) { static::approval()->verify(Auth::user(), $record, $data['note'] ?? null); Notification::make()->title('Realisasi terverifikasi')->success()->send(); }),
                 Action::make('setujui')->label('Setujui')->iconButton()->tooltip('Setujui')->icon('heroicon-o-lock-closed')->color('success')->requiresConfirmation()
-                    ->modalDescription('Setelah disetujui, realisasi terkunci. Koreksi hanya oleh GM dan tercatat di log audit.')
+                    ->modalDescription('Setelah disetujui, realisasi terkunci. Koreksi hanya oleh Pimpinan dan tercatat di log audit.')
                     ->visible(fn ($record) => static::approval()->canApprove(Auth::user(), $record))
                     ->action(function ($record) { static::approval()->approve(Auth::user(), $record); Notification::make()->title('Realisasi disetujui & dikunci')->success()->send(); }),
                 Action::make('kembalikan')->label('Kembalikan')->iconButton()->tooltip('Kembalikan')->icon('heroicon-o-arrow-uturn-left')->color('danger')

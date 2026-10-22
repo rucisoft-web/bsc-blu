@@ -2,7 +2,7 @@
 
 namespace App\Support;
 
-/** Daftar izin (slug) Arah GPCH: 25 izin DHASTRAM + izin baru edisi GPCH. */
+/** Daftar izin (slug) Ruci BSC: 25 izin DHASTRAM + izin tambahan (termasuk import.manage). */
 class PermissionCatalog
 {
     public const PERMISSIONS = [
@@ -45,6 +45,7 @@ class PermissionCatalog
         'maturity.assess' => ['maturity', 'Menilai kematangan & mengubah Kesinambungan'],
         'dashboard.view' => ['dashboard', 'Melihat Beranda & Pusat Kendali'],
         // pengelola
+        'import.manage' => ['system', 'Mengupload workbook Excel untuk mengisi data perusahaan (baru)'],
         'data.manage_all' => ['system', 'Mengelola semua data tanpa batas "miliknya" (pengelola)'],
     ];
 }

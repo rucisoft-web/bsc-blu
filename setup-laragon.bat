@@ -1,7 +1,7 @@
 @echo off
 REM ============================================================
-REM  Arah GPCH - instalasi otomatis di Laragon (Windows)
-REM  Jalankan dari Terminal Laragon:  cd C:\laragon\www\arahgpch  lalu  setup-laragon.bat
+REM  Ruci BSC Professional - instalasi otomatis di Laragon (Windows)
+REM  Jalankan dari Terminal Laragon:  cd C:\laragon\www\ruci-bsc  lalu  setup-laragon.bat
 REM ============================================================
 setlocal
 cd /d "%~dp0"
@@ -21,21 +21,23 @@ if errorlevel 1 (
 
 echo [2/7] Menyiapkan file .env...
 if not exist .env copy .env.example .env >nul
+
+if not exist vendor\autoload.php (
+  echo [2b] Folder vendor tidak ada - menjalankan composer install...
+  call composer install --no-interaction
+  if errorlevel 1 goto :fail
+)
 php artisan key:generate --force
 
-echo [3/7] Membuat database arahgpch (MySQL root tanpa sandi)...
-mysql -u root -e "CREATE DATABASE IF NOT EXISTS arahgpch CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
+echo [3/7] Membuat database ruci_bsc (MySQL root tanpa sandi)...
+mysql -u root -e "CREATE DATABASE IF NOT EXISTS ruci_bsc CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
 if errorlevel 1 (
   echo   Gagal membuat database. Pastikan MySQL Laragon sudah Start, atau buat manual lewat HeidiSQL.
   goto :fail
 )
 
-if not exist vendor\autoload.php (
-  echo [3b] Folder vendor tidak ada - menjalankan composer install...
-  call composer install --no-interaction
-)
-
-echo [4/7] Membuat tabel dan memuat data awal Grand Pasundan...
+echo [4/7] Membuat tabel dan memuat data contoh (Diamond Food, NLP, KSB)...
+set RUCI_SEED_DEMO=true
 php artisan migrate:fresh --seed --force
 if errorlevel 1 goto :fail
 
@@ -50,10 +52,10 @@ php artisan dhastram:doctor
 
 echo.
 echo ============================================================
-echo  SELESAI. Buka  http://arahgpch.test/admin
+echo  SELESAI. Buka  http://ruci-bsc.test/admin
 echo  (klik Reload di Laragon bila virtual host belum aktif)
-echo  Login super admin : admin@arahgpch.local / Arah@GPCH2026
-echo  Akun jabatan      : lihat README.md (sandi awal GPCH-2026!ganti)
+echo  Super admin  : admin@rucibsc.local / Ruci@BSC2026
+echo  Akun contoh  : dfi.admin@contoh.local dll. (sandi Contoh-2026!)
 echo ============================================================
 goto :eof
 

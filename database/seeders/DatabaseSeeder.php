@@ -7,8 +7,8 @@ use Illuminate\Database\Seeder;
 class DatabaseSeeder extends Seeder
 {
     /**
-     * Produksi (APP_ENV=production): hanya peran/izin & pertanyaan kematangan.
-     * Lokal/staging: ditambah data awal Grand Pasundan (GpchSeeder).
+     * Produksi (APP_ENV=production): hanya peran/izin & pertanyaan kematangan; buat Super Admin dengan dhastram:create-admin.
+     * Lokal/staging: ditambah perusahaan contoh (DemoSeeder), atau di produksi bila RUCI_SEED_DEMO=true.
      */
     public function run(): void
     {
@@ -17,8 +17,8 @@ class DatabaseSeeder extends Seeder
             MaturityQuestionSeeder::class,
         ]);
 
-        if (! app()->isProduction() || env('ARAH_SEED_GPCH', false)) {
-            $this->call(GpchSeeder::class);
+        if (! app()->isProduction() || env('RUCI_SEED_DEMO', false)) {
+            $this->call(DemoSeeder::class);
         }
     }
 }

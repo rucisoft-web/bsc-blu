@@ -17,15 +17,15 @@ use Illuminate\Support\Facades\Notification;
 /**
  * Notifikasi terjadwal (harian 07.30 WIB):
  * - tanggal 3: pengingat input realisasi bulan lalu ke pemilik KPI yang belum mengisi
- * - tanggal 6: permintaan verifikasi ke Chief Accountant; tanggal 8: permintaan persetujuan ke GM
+ * - tanggal 6: permintaan verifikasi ke Keuangan; tanggal 8: permintaan persetujuan ke Pimpinan
  * - milestone jatuh tempo 7 hari lagi ke PIC
  * - tindakan korektif lewat tenggat ke PIC (setiap Senin)
  */
 class SendReminders extends Command
 {
-    protected $signature = 'arahgpch:reminders {--date= : Simulasikan tanggal (Y-m-d)}';
+    protected $signature = 'rucibsc:reminders {--date= : Simulasikan tanggal (Y-m-d)}';
 
-    protected $description = 'Kirim pengingat siklus Arah GPCH (realisasi, verifikasi, persetujuan, milestone, tindakan korektif)';
+    protected $description = 'Kirim pengingat siklus Ruci BSC (realisasi, verifikasi, persetujuan, milestone, tindakan korektif)';
 
     public function handle(DhastramContext $ctx): int
     {
@@ -59,7 +59,7 @@ class SendReminders extends Command
             if ($today->day === $cycle['approve_day']) {
                 $n = KpiActual::where('month', $month)->whereIn('status', ['draf', 'terverifikasi'])->count();
                 if ($n) {
-                    $sent += $this->toPermission('kpi.approve_actual', $period->company_id, 'Persetujuan realisasi '.$monthName, $n.' realisasi menunggu persetujuan GM hari ini.');
+                    $sent += $this->toPermission('kpi.approve_actual', $period->company_id, 'Persetujuan realisasi '.$monthName, $n.' realisasi menunggu persetujuan Pimpinan hari ini.');
                 }
             }
             foreach (InitiativeMilestone::with(['initiative.owner', 'owner'])->where('is_achieved', false)->whereDate('due_date', $today->copy()->addDays(7))->get() as $m) {

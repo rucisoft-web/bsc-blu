@@ -3,17 +3,16 @@
 return [
     /*
     |--------------------------------------------------------------------------
-    | Arah GPCH (edisi DHASTRAM)
+    | Ruci BSC Professional (edisi DHASTRAM multi-perusahaan)
     |--------------------------------------------------------------------------
     | DHASTRAM_TERMS=umum  -> istilah umum bahasa Indonesia (Ekosistem, Jati Diri, ...)
     | DHASTRAM_TERMS=dharma -> istilah asli DHASTRAM (Brahman, Atman, ...)
     */
     'terms' => env('DHASTRAM_TERMS', 'umum'),
-    'brand_name' => env('DHASTRAM_BRAND_NAME', 'Arah GPCH'),
-    'brand_tagline' => env('DHASTRAM_BRAND_TAGLINE', 'Manajemen Strategi Grand Pasundan'),
+    'brand_name' => env('DHASTRAM_BRAND_NAME', 'Ruci BSC Professional'),
+    'brand_tagline' => env('DHASTRAM_BRAND_TAGLINE', 'Balanced Scorecard Multi-Perusahaan'),
     'demo_enabled' => (bool) env('DHASTRAM_DEMO_ENABLED', false),
     'audit_enabled' => (bool) env('DHASTRAM_AUDIT_ENABLED', true),
-    'company_code' => env('DHASTRAM_COMPANY_CODE', 'GPCH'),
 
     // Ambang status KPI (skor dalam persen)
     'score_green' => 100,
@@ -43,7 +42,7 @@ return [
             'punarbhawa' => 'Perbaikan', 'moksa' => 'Kesinambungan',
             'keuangan' => 'Keuangan', 'pelanggan' => 'Kepuasan Pelanggan',
             'proses' => 'Proses Internal', 'sdm' => 'SDM & Pembelajaran',
-            'app' => 'Arah GPCH', 'method' => 'Manajemen Strategi',
+            'app' => 'Ruci BSC', 'method' => 'Manajemen Strategi',
         ],
         'dharma' => [
             'brahman' => 'Brahman', 'atman' => 'Atman', 'karma_phala' => 'Karma Phala',

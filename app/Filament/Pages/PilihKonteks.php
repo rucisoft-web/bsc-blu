@@ -12,7 +12,7 @@ class PilihKonteks extends Page
 {
     protected static ?string $title = 'Pilih Perusahaan & Perioda';
 
-    protected static ?string $navigationLabel = 'Pilih Perioda';
+    protected static ?string $navigationLabel = 'Pilih Perusahaan & Perioda';
 
     protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-calendar-days';
 

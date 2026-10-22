@@ -85,7 +85,6 @@ class CompanyResource extends Resource
                 TextInput::make('phone')->label('Telepon'),
                 TextInput::make('email')->label('Email')->email(),
                 TextInput::make('website')->label('Website')->url(),
-                TextInput::make('room_count')->label('Jumlah kamar')->numeric(),
                 Toggle::make('is_active')->label('Aktif')->default(true),
                 Textarea::make('description')->label('Deskripsi')->rows(3)->columnSpanFull(),
             ]),
@@ -132,7 +131,7 @@ class CompanyResource extends Resource
             'edit' => EditCompany::route('/{record}/edit'),
         ];
     }
-    /** Menu Perusahaan hanya tampil untuk Super Admin (edisi satu perusahaan). */
+    /** Perusahaan (klien) dibuat dan dikelola oleh Super Admin. */
     public static function shouldRegisterNavigation(): bool
     {
         return (bool) Auth::user()?->isSuperAdmin();

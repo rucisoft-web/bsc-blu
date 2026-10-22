@@ -17,6 +17,6 @@ class IndustryForce extends Model
         'kekuatan_pemasok' => 'Daya Tawar Pemasok',
         'kekuatan_pembeli' => 'Daya Tawar Pembeli',
         'produk_pengganti' => 'Ancaman Produk Pengganti',
-        'persaingan' => 'Persaingan Antar Hotel',
+        'persaingan' => 'Persaingan Antar Pesaing',
     ];
 }

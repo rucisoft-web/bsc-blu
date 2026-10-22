@@ -3,7 +3,7 @@
     @foreach ($companies as $c)
         <div class="arah-card" style="margin-bottom:1rem">
             @unless ($single)<h3>{{ $c->code }} — {{ $c->name }}</h3>@else<h3>{{ $c->name }}</h3>@endunless
-            <div class="arah-muted" style="margin-bottom:.8rem">{{ $c->address }}, {{ $c->city }} · {{ $c->room_count }} kamar</div>
+            <div class="arah-muted" style="margin-bottom:.8rem">{{ collect([$c->industry, $c->city])->filter()->join(' · ') }}</div>
             <div class="arah-grid arah-grid-3">
                 @foreach ($c->periods as $p)
                     <div class="arah-card" style="{{ $p->id === $currentPeriod ? 'border:2px solid var(--k-taum)' : '' }}">

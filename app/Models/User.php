@@ -122,7 +122,7 @@ class User extends Authenticatable implements FilamentUser, HasAppAuthentication
         return $this->hasRole('super-admin');
     }
 
-    /** Pengelola (GM, Koordinator, Super Admin) bebas dari pembatasan "miliknya". */
+    /** Pengelola (Pimpinan, Koordinator, Super Admin) bebas dari pembatasan "miliknya". */
     public function managesAllData(): bool
     {
         return $this->isSuperAdmin() || in_array('data.manage_all', $this->permissionSlugs(), true);
