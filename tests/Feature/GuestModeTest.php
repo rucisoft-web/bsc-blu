@@ -73,6 +73,22 @@ class GuestModeTest extends TestCase
         $this->assertSame('abc', $guest->fresh()->remember_token);
     }
 
+    public function test_kenali_link_opens_the_introduction_page(): void
+    {
+        config(['dhastram.guest_login' => true]);
+        $this->company('DFI');
+
+        $this->get('/kenali')->assertRedirect(route('arah.guest', ['ke' => 'kenali']));
+        $this->get(route('arah.guest', ['ke' => 'kenali']))->assertRedirect(\App\Filament\Pages\KenaliRuciBsc::getUrl());
+        $this->get(\App\Filament\Pages\KenaliRuciBsc::getUrl())->assertOk()
+            ->assertSee('Strategi yang dipahami semua orang')
+            ->assertSee('Workshop Ruci BSC');
+
+        auth()->logout();
+        config(['dhastram.guest_login' => false]);
+        $this->get('/kenali')->assertRedirect(route('filament.admin.auth.login'));
+    }
+
     public function test_regular_users_are_not_affected(): void
     {
         [$company, $period] = $this->company('DFI');

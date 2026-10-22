@@ -159,3 +159,102 @@ html:not(.dark) .fi-sidebar { border-inline-end: 1px solid var(--k-garis); }
 .arah-guest-banner { margin: 0 0 1rem; padding: .55rem .9rem; border-radius: .5rem; font-size: .82rem; line-height: 1.5;
     background: #FFF6E0; color: #6B4A06; border: 1px solid #F0D79A; }
 .dark .arah-guest-banner { background: rgba(200,138,18,.14); color: #F0D79A; border-color: rgba(200,138,18,.35); }
+/* ---- Kenali Ruci BSC (penjelasan untuk pimpinan) */
+.kenali { display: flex; flex-direction: column; gap: 2.5rem; }
+.kenali h2 { font-size: 1.3rem; font-weight: 700; margin: 0 0 .4rem; color: var(--k-tinta); line-height: 1.3; }
+.kenali-lead { color: var(--k-tinta-2); font-size: .92rem; margin: 0 0 1rem; max-width: 52rem; line-height: 1.6; }
+.kenali-eyebrow { display: inline-block; font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--k-kencu); margin-bottom: .5rem; }
+.kenali-hero { display: grid; gap: 1.5rem; align-items: center; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 1024px) { .kenali-hero { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); } }
+.kenali-hero h1 { font-size: 1.85rem; line-height: 1.2; font-weight: 800; margin: 0 0 .8rem; color: var(--k-tinta); letter-spacing: -.01em; }
+@media (min-width: 768px) { .kenali-hero h1 { font-size: 2.2rem; } }
+.kenali-hero p { font-size: .95rem; line-height: 1.65; color: var(--k-tinta-2); margin: 0; }
+.kenali-hero p b, .kenali-explain b, .kenali-loop b { color: var(--k-tinta); }
+.kenali-actions { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: 1.2rem; }
+.kenali-btn-lg { padding: .6rem 1.1rem; font-size: .88rem; }
+.kenali-shot { display: block; border-radius: .7rem; overflow: hidden; border: 1px solid var(--k-garis); background: #fff; box-shadow: 0 10px 30px rgba(15,42,74,.12); }
+.kenali-shot img { display: block; width: 100%; height: auto; }
+.kenali-hero-shot { transform: perspective(1400px) rotateY(-4deg); transition: transform .3s; }
+.kenali-hero-shot:hover { transform: none; }
+@media (max-width: 1023px) { .kenali-hero-shot { transform: none; } }
+.kenali-barrier { display: flex; flex-direction: column; gap: .45rem; }
+.kenali-num { font-size: 2.2rem; font-weight: 800; color: var(--k-kencu); line-height: 1; }
+.kenali-fact { font-size: .85rem; font-weight: 600; line-height: 1.45; }
+.kenali-barrier .arah-badge { align-self: flex-start; }
+.kenali-answer { font-size: .8rem; color: var(--k-tinta-2); line-height: 1.5; border-top: 1px dashed var(--k-garis); padding-top: .5rem; margin-top: auto; }
+.kenali-answer b { color: var(--k-daun); }
+.kenali-source { margin-top: .6rem; font-size: .72rem; }
+.kenali-cascade { display: grid; gap: .6rem; grid-template-columns: repeat(2, minmax(0, 1fr)); counter-reset: s; }
+@media (min-width: 768px) { .kenali-cascade { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (min-width: 1280px) { .kenali-cascade { grid-template-columns: repeat(6, minmax(0, 1fr)); } }
+.kenali-step { position: relative; background: var(--k-kartu); border: 1px solid var(--k-garis); border-top: 4px solid var(--k-taum); border-radius: .7rem; padding: .8rem .85rem; }
+.kenali-step:nth-child(n+4) { border-top-color: var(--k-daun); }
+.kenali-step-no { position: absolute; top: .55rem; right: .7rem; font-size: 1.4rem; font-weight: 800; color: var(--k-garis); }
+.kenali-step-t { font-weight: 700; font-size: .9rem; padding-right: 1.4rem; }
+.kenali-step-d { font-size: .78rem; color: var(--k-tinta-2); margin-top: .2rem; }
+.kenali-step-w { font-size: .68rem; color: var(--k-taum); margin-top: .5rem; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; }
+@media (min-width: 1280px) {
+    .kenali-step:not(:last-child)::after { content: ""; position: absolute; right: -.62rem; top: 50%; width: .6rem; height: .6rem; transform: translateY(-50%) rotate(45deg);
+        border-top: 2px solid var(--k-tinta-2); border-right: 2px solid var(--k-tinta-2); z-index: 1; }
+}
+.kenali-loop { display: flex; gap: .7rem; align-items: flex-start; margin-top: .8rem; padding: .8rem 1rem; border-radius: .7rem; font-size: .85rem; line-height: 1.55;
+    background: rgba(46,125,79,.08); border: 1px dashed rgba(46,125,79,.45); color: var(--k-tinta-2); }
+.kenali-loop svg { flex: none; color: var(--k-daun); margin-top: .1rem; }
+.kenali-svg { width: 100%; height: auto; display: block; font-family: inherit; }
+.kenali-svg .kn-lane { font-size: 14px; font-weight: 700; }
+.kenali-svg .kn-card { fill: var(--k-kartu); stroke-width: 2; }
+html:not(.dark) .kenali-svg .kn-card { fill: #fff; }
+.kenali-svg .kn-card-t { font-size: 14.5px; fill: var(--k-tinta); font-weight: 600; }
+.kenali-svg .kn-link { fill: none; stroke: var(--k-tinta-2); stroke-width: 1.6; opacity: .75; }
+.kenali-svg .kn-arrowhead { fill: var(--k-tinta-2); }
+.kenali-svg .kn-ring { fill: none; stroke: var(--k-tinta-2); stroke-width: 2; stroke-dasharray: 5 5; }
+.kenali-svg .kn-node { fill: var(--k-kartu); stroke-width: 3; }
+html:not(.dark) .kenali-svg .kn-node { fill: #fff; }
+.kenali-svg .kn-node-d { font-size: 14px; font-weight: 800; fill: var(--k-tinta); }
+.kenali-svg .kn-node-t { font-size: 11.5px; fill: var(--k-tinta-2); font-weight: 600; }
+.kenali-svg .kn-center-t { font-size: 18px; font-weight: 700; fill: var(--k-taum); }
+.kenali-cycle { max-width: 420px; margin: 0 auto; }
+.kenali-center { display: flex; align-items: center; justify-content: center; }
+.kenali-explain { font-size: .88rem; line-height: 1.6; color: var(--k-tinta-2); }
+.kenali-explain p { margin: 0 0 .7rem; }
+.kenali-explain ul { list-style: none; padding: 0; margin: 0 0 .7rem; display: flex; flex-direction: column; gap: .35rem; }
+.kenali-explain ul li .arah-dot { margin-right: .4rem; }
+.kenali-cycle-list { margin: 0 0 .7rem; padding-left: 1.1rem; display: flex; flex-direction: column; gap: .3rem; }
+.kenali-role h3 { margin-bottom: .1rem; }
+.kenali-role ul { margin: .6rem 0 0; padding-left: 1.05rem; font-size: .82rem; line-height: 1.55; display: flex; flex-direction: column; gap: .25rem; }
+.kenali-gallery { display: grid; gap: 1rem; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 768px) { .kenali-gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1280px) { .kenali-gallery { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.kenali-figure { margin: 0; display: flex; flex-direction: column; gap: .7rem; padding: .7rem; }
+.kenali-figure .kenali-shot { box-shadow: none; aspect-ratio: 16 / 11; }
+.kenali-figure .kenali-shot img { height: 100%; object-fit: cover; object-position: top left; }
+.kenali-phone .kenali-shot img { object-fit: contain; object-position: top center; background: #F4F7FB; }
+.kenali-figure figcaption { display: flex; flex-direction: column; gap: .2rem; font-size: .8rem; color: var(--k-tinta-2); line-height: 1.5; padding: 0 .2rem .2rem; }
+.kenali-figure figcaption b { color: var(--k-tinta); font-size: .9rem; }
+.kenali-phases { display: grid; gap: .5rem; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 768px) { .kenali-phases { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
+.kenali-phase { display: flex; flex-direction: column; gap: .25rem; padding: .85rem .9rem; border-radius: .7rem; background: var(--k-kartu); border: 1px solid var(--k-garis); font-size: .8rem; color: var(--k-tinta-2); line-height: 1.5; }
+.kenali-phase b { font-size: 1rem; color: var(--k-taum); }
+.kenali-workshop { display: grid; gap: 1.5rem; grid-template-columns: minmax(0, 1fr); padding: 1.6rem; border-radius: 1rem; color: #E6EDF7;
+    background: linear-gradient(135deg, #0F2A4A 0%, #1F4E8C 100%); box-shadow: 0 12px 34px rgba(15,42,74,.25); position: relative; overflow: hidden; }
+@media (min-width: 1024px) { .kenali-workshop { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); padding: 2.2rem; } }
+.kenali-workshop::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 4px; background: linear-gradient(90deg, #6FA3E8 0 75%, #D32F2F 75% 100%); }
+.kenali-workshop h2 { color: #fff; font-size: 1.55rem; }
+.kenali-workshop p { font-size: .92rem; line-height: 1.65; color: #C9D6E8; margin: 0 0 1rem; }
+.kenali-workshop .kenali-eyebrow { color: #FF8A80; }
+.kenali-take { background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.14); border-radius: .7rem; padding: .9rem 1rem; font-size: .86rem; }
+.kenali-take b { color: #fff; }
+.kenali-take ul { margin: .5rem 0 0; padding-left: 1.1rem; display: flex; flex-direction: column; gap: .25rem; color: #DCE6F3; }
+.kenali-workshop .arah-btn { border-color: rgba(255,255,255,.4); color: #fff; background: transparent; }
+.kenali-workshop .arah-btn-primary { background: #D32F2F; border-color: #D32F2F; }
+.kenali-workshop .arah-btn-primary:hover { background: #B71C1C; border-color: #B71C1C; }
+.kenali-contact { margin-top: .9rem; font-size: .85rem; color: #C9D6E8; }
+.kenali-contact b { color: #fff; }
+.kenali-agenda { list-style: none; counter-reset: a; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .55rem; align-self: center; }
+.kenali-agenda li { counter-increment: a; display: grid; grid-template-columns: 2rem 1fr; column-gap: .7rem; padding: .7rem .8rem; border-radius: .6rem; background: rgba(255,255,255,.07); font-size: .82rem; }
+.kenali-agenda li::before { content: counter(a); grid-row: span 2; width: 2rem; height: 2rem; border-radius: 999px; display: grid; place-items: center; background: #fff; color: #0F2A4A; font-weight: 800; }
+.kenali-agenda b { color: #fff; }
+.kenali-agenda span { color: #C9D6E8; font-size: .78rem; }
+/* tautan pengenalan di halaman login */
+.arah-guest-learn { display: inline-block; margin-top: .5rem; font-size: .8rem; font-weight: 600; color: var(--k-taum); }
+.dark .arah-btn-primary { background: #1F4E8C; border-color: #1F4E8C; color: #fff; }

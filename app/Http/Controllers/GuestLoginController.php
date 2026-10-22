@@ -28,6 +28,8 @@ class GuestLoginController extends Controller
             }
         }
 
-        return redirect('/admin');
+        return $request->query('ke') === 'kenali'
+            ? redirect(\App\Filament\Pages\KenaliRuciBsc::getUrl())
+            : redirect('/admin');
     }
 }

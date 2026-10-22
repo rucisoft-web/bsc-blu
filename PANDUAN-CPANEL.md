@@ -196,6 +196,13 @@ Halaman login lalu menampilkan tombol **Masuk sebagai Tamu (lihat-lihat)**. Peng
 
 Akun Tamu hanya bisa melihat: tombol Buat, Ubah, Hapus, Impor, dan Ekspor tidak muncul, halaman administrasi (pengguna, peran, log audit, profil) tertutup, dan setiap upaya menyimpan data ditolak oleh sistem. Pilihan perusahaan/perioda disimpan per sesi, jadi pengunjung yang bersamaan tidak saling mengganggu. Akun `tamu@demo.rucisoft.id` dan perannya dibuat otomatis saat tombol pertama kali diklik (alamat bisa diganti dengan `RUCI_GUEST_EMAIL`). Untuk mematikan, ubah menjadi `RUCI_GUEST_LOGIN=false` lalu `php artisan optimize`.
 
+Menu **Kenali Ruci BSC** (paling atas) menjelaskan Ruci BSC untuk Komisaris, Direksi, dan pemilik usaha, lengkap dengan diagram, tangkapan layar, dan ajakan ikut Workshop. Bagikan tautan `https://domain-anda/kenali` kepada calon peserta: bila akses Tamu aktif, pembaca langsung masuk ke halaman itu tanpa login. Tombol pendaftaran dan kontak Workshop diatur di `.env`:
+
+```
+RUCI_WORKSHOP_URL=https://rucisoft.id/workshop
+RUCI_WORKSHOP_CONTACT="WhatsApp 08xx-xxxx-xxxx · workshop@rucisoft.id"
+```
+
 ## 9. Memperbarui program
 
 Dengan Terminal:

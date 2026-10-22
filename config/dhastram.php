@@ -21,6 +21,9 @@ return [
     // Situs demo/promosi: tombol "Masuk sebagai Tamu" (hanya lihat) di halaman login
     'guest_login' => (bool) env('RUCI_GUEST_LOGIN', false),
     'guest_email' => env('RUCI_GUEST_EMAIL', 'tamu@demo.rucisoft.id'),
+    // Ajakan Workshop di menu "Kenali Ruci BSC": tautan pendaftaran & kontak (mis. WhatsApp/email)
+    'workshop_url' => env('RUCI_WORKSHOP_URL', 'https://rucisoft.id'),
+    'workshop_contact' => env('RUCI_WORKSHOP_CONTACT'),
     'audit_enabled' => (bool) env('DHASTRAM_AUDIT_ENABLED', true),
 
     // Ambang status KPI (skor dalam persen)
