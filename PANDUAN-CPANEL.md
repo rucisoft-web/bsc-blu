@@ -170,7 +170,7 @@ Cron ini menjalankan pengingat harian (07.30 WIB), antrian notifikasi, dan pembe
 
 ### Memuat data demo (untuk presentasi)
 
-Tersedia lima demo lengkap untuk bahan ajar: **DFI** (PT Diamond Food Indonesia Tbk, makanan & rantai dingin), **HMN** (PT Medikaloka Hermina Tbk, rumah sakit), **MEDC** (PT Medco Energi Internasional Tbk, energi), **PWON** (PT Pakuwon Jati Tbk, properti), dan **KAEF** (PT Kimia Farma Tbk, farmasi dalam masa penyehatan).
+Tersedia dua belas demo lengkap untuk bahan ajar: **DFI** (PT Diamond Food Indonesia Tbk, makanan & rantai dingin), **HMN** (PT Medikaloka Hermina Tbk, rumah sakit), **MEDC** (PT Medco Energi Internasional Tbk, energi), **PWON** (PT Pakuwon Jati Tbk, properti), **KAEF** (PT Kimia Farma Tbk, farmasi dalam masa penyehatan), **SMGR** (PT Semen Indonesia (Persero) Tbk, semen), **MAPI** (PT Mitra Adiperkasa Tbk, ritel gaya hidup), **GOTO** (PT GoTo Gojek Tokopedia Tbk, ekosistem digital), **ASII** (PT Astra International Tbk, konglomerasi), **BBCA** (PT Bank Central Asia Tbk, perbankan), **TLKM** (PT Telkom Indonesia (Persero) Tbk, telekomunikasi), dan **BIRD** (PT Blue Bird Tbk, transportasi).
 
 > **Peringatan:** semua isinya DATA DEMO. Angka 2025 secara garis besar mengacu pada Laporan Tahunan 2025 perusahaan terkait; target, rincian bulanan, data 2026, dan sebagian indikator adalah simulasi. Bukan data resmi perusahaan. Peringatan ini tampil otomatis di setiap halaman perusahaan demo.
 
@@ -181,9 +181,16 @@ php artisan rucibsc:demo HMN
 php artisan rucibsc:demo MEDC
 php artisan rucibsc:demo PWON
 php artisan rucibsc:demo KAEF
+php artisan rucibsc:demo SMGR
+php artisan rucibsc:demo MAPI
+php artisan rucibsc:demo GOTO
+php artisan rucibsc:demo ASII
+php artisan rucibsc:demo BBCA
+php artisan rucibsc:demo TLKM
+php artisan rucibsc:demo BIRD
 ```
 
-Setiap perintah membuat perusahaannya dengan perioda 2025 (ditutup) dan 2026 (berjalan), lengkap dengan peta strategi, KPI bulanan, inisiatif, ekosistem, tinjauan, temuan, dan kematangan, serta akun `dfi.*`, `hmn.*`, `medc.*`, `pwon.*`, atau `kaef.*` (@contoh.local). Kata sandi akun tersebut dibuat acak dan ditampilkan di layar; untuk menentukannya sendiri tambahkan `--password=SandiAnda123`.
+Setiap perintah membuat perusahaannya dengan perioda 2025 (ditutup) dan 2026 (berjalan), lengkap dengan peta strategi, KPI bulanan, inisiatif, ekosistem, tinjauan, temuan, dan kematangan, serta akun `dfi.*`, `hmn.*`, `medc.*`, `pwon.*`, `kaef.*`, `smgr.*`, `mapi.*`, `goto.*`, `asii.*`, `bbca.*`, `tlkm.*`, atau `bird.*` (@contoh.local). Kata sandi akun tersebut dibuat acak dan ditampilkan di layar; untuk menentukannya sendiri tambahkan `--password=SandiAnda123`.
 
 Bila perusahaan itu sudah punya perioda 2025 atau 2026 (misalnya dari import Excel sebelumnya), perintah menolak berjalan. Tambahkan `--reset --force` untuk menghapus data kedua perioda itu dan menggantinya dengan data demo. Lewat cron sekali jalan (seperti bagian 6): `cd /home/userku/ruci-bsc && php artisan rucibsc:demo HMN --force --password=SandiAnda123 > storage/logs/demo.txt 2>&1`, lalu jalankan `php artisan optimize` dengan cara yang sama.
 
@@ -197,7 +204,7 @@ Untuk situs promosi seperti bsc.rucisoft.id, tambahkan baris ini di `.env`, lalu
 RUCI_GUEST_LOGIN=true
 ```
 
-Halaman login lalu menampilkan tombol **Masuk sebagai Tamu (lihat-lihat)**. Pengunjung langsung masuk ke contoh Diamond Food 2026 tanpa kata sandi, bisa membuka semua menu (Beranda, Pusat Kendali, Peta Strategi, KPI, inisiatif, ekosistem, tinjauan, laporan) dan berganti ke Hermina, Medco, Pakuwon, Kimia Farma, atau perioda 2025 lewat kotak konteks di kiri atas.
+Halaman login lalu menampilkan tombol **Masuk sebagai Tamu (lihat-lihat)**. Pengunjung langsung masuk ke contoh Diamond Food 2026 tanpa kata sandi, bisa membuka semua menu (Beranda, Pusat Kendali, Peta Strategi, KPI, inisiatif, ekosistem, tinjauan, laporan) dan berganti ke Hermina, Medco, Pakuwon, Kimia Farma, Semen Indonesia, MAP, GoTo, Astra, BCA, Telkom, Blue Bird, atau perioda 2025 lewat kotak konteks di kiri atas.
 
 Akun Tamu hanya bisa melihat: tombol Buat, Ubah, Hapus, Impor, dan Ekspor tidak muncul, halaman administrasi (pengguna, peran, log audit, profil) tertutup, dan setiap upaya menyimpan data ditolak oleh sistem. Pilihan perusahaan/perioda disimpan per sesi, jadi pengunjung yang bersamaan tidak saling mengganggu. Akun `tamu@demo.rucisoft.id` dan perannya dibuat otomatis saat tombol pertama kali diklik (alamat bisa diganti dengan `RUCI_GUEST_EMAIL`). Untuk mematikan, ubah menjadi `RUCI_GUEST_LOGIN=false` lalu `php artisan optimize`.
 

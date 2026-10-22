@@ -8,14 +8,21 @@ use App\Models\MaturityQuestion;
 use App\Models\Role;
 use App\Models\User;
 use App\Support\DhastramContext;
+use Database\Seeders\AstraSeeder;
+use Database\Seeders\BcaSeeder;
+use Database\Seeders\BlueBirdSeeder;
 use Database\Seeders\DhastramRolePermissionSeeder;
 use Database\Seeders\DiamondFoodSeeder;
+use Database\Seeders\GotoSeeder;
 use Database\Seeders\HerminaSeeder;
 use Database\Seeders\KimiaFarmaSeeder;
 use Database\Seeders\MaturityQuestionSeeder;
 use Database\Seeders\MedcoSeeder;
+use Database\Seeders\MitraAdiperkasaSeeder;
 use Database\Seeders\PakuwonSeeder;
+use Database\Seeders\SemenIndonesiaSeeder;
 use Database\Seeders\ShowcaseSeeder;
+use Database\Seeders\TelkomSeeder;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -24,15 +31,15 @@ use Illuminate\Support\Str;
 class DemoCompany extends Command
 {
     /** @var array<string,class-string<ShowcaseSeeder>> */
-    public const DEMOS = ['DFI' => DiamondFoodSeeder::class, 'HMN' => HerminaSeeder::class, 'MEDC' => MedcoSeeder::class, 'PWON' => PakuwonSeeder::class, 'KAEF' => KimiaFarmaSeeder::class];
+    public const DEMOS = ['DFI' => DiamondFoodSeeder::class, 'HMN' => HerminaSeeder::class, 'MEDC' => MedcoSeeder::class, 'PWON' => PakuwonSeeder::class, 'KAEF' => KimiaFarmaSeeder::class, 'SMGR' => SemenIndonesiaSeeder::class, 'MAPI' => MitraAdiperkasaSeeder::class, 'GOTO' => GotoSeeder::class, 'ASII' => AstraSeeder::class, 'BBCA' => BcaSeeder::class, 'TLKM' => TelkomSeeder::class, 'BIRD' => BlueBirdSeeder::class];
 
     protected $signature = 'rucibsc:demo
-        {perusahaan=DFI : Kode demo: DFI (Diamond Food), HMN (Hermina), MEDC (Medco Energi), PWON (Pakuwon Jati), KAEF (Kimia Farma)}
+        {perusahaan=DFI : Kode demo: DFI (Diamond Food), HMN (Hermina), MEDC (Medco Energi), PWON (Pakuwon Jati), KAEF (Kimia Farma), SMGR (Semen Indonesia), MAPI (Mitra Adiperkasa), GOTO (GoTo), ASII (Astra), BBCA (BCA), TLKM (Telkom), BIRD (Blue Bird)}
         {--password= : Kata sandi akun contoh perusahaan itu (bila kosong dibuat acak dan ditampilkan)}
         {--reset : Hapus dulu data perusahaan itu untuk perioda 2025 & 2026 yang sudah ada}
         {--force : Lewati konfirmasi}';
 
-    protected $description = 'Muat demo lengkap (Strategy Map, KPI, inisiatif, ekosistem, tinjauan) perioda 2025 & 2026: DFI, HMN, MEDC, PWON, atau KAEF';
+    protected $description = 'Muat demo lengkap (Strategy Map, KPI, inisiatif, ekosistem, tinjauan) perioda 2025 & 2026: DFI, HMN, MEDC, PWON, KAEF, SMGR, MAPI, GOTO, ASII, BBCA, TLKM, atau BIRD';
 
     protected $aliases = ['rucibsc:demo-diamond'];
 

@@ -16,7 +16,7 @@ class ShowcaseDemoTest extends TestCase
 {
     public static function demos(): array
     {
-        return ['Diamond Food' => ['DFI', 15, 10], 'Hermina' => ['HMN', 16, 10], 'Medco' => ['MEDC', 15, 10], 'Pakuwon' => ['PWON', 15, 10], 'Kimia Farma' => ['KAEF', 14, 10]];
+        return ['Diamond Food' => ['DFI', 15, 10], 'Hermina' => ['HMN', 16, 10], 'Medco' => ['MEDC', 15, 10], 'Pakuwon' => ['PWON', 15, 10], 'Kimia Farma' => ['KAEF', 14, 10], 'Semen Indonesia' => ['SMGR', 14, 10], 'MAP' => ['MAPI', 14, 10], 'GoTo' => ['GOTO', 14, 10], 'Astra' => ['ASII', 14, 10], 'BCA' => ['BBCA', 14, 10], 'Telkom' => ['TLKM', 14, 10], 'Blue Bird' => ['BIRD', 14, 10]];
     }
 
     #[\PHPUnit\Framework\Attributes\DataProvider('demos')]
@@ -30,6 +30,7 @@ class ShowcaseDemoTest extends TestCase
         $this->assertTrue((bool) $company->is_demo);
         $this->assertStringContainsString('DATA DEMO', \App\Support\DemoNotice::for($company));
         $this->assertStringContainsString('Laporan Tahunan 2025', \App\Support\DemoNotice::for($company));
+        $this->assertLessThanOrEqual(100, mb_strlen((string) $company->industry), 'companies.industry maks 100 karakter');
         $periods = AnalysisPeriod::where('company_id', $company->id)->orderBy('year')->get();
         $this->assertSame(['ditutup', 'berjalan'], $periods->pluck('status')->all());
         $this->assertTrue((bool) $periods[1]->is_active);

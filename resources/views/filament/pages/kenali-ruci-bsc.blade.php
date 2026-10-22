@@ -214,7 +214,7 @@
     {{-- ===== Studi kasus ===== --}}
     <section class="kenali-section" id="studi-kasus">
         <span class="kenali-eyebrow">Bahan ajar</span>
-        <h2>Lima studi kasus siap dipelajari</h2>
+        <h2>Dua belas studi kasus siap dipelajari</h2>
         <p class="kenali-lead">Setiap perusahaan contoh berisi perioda 2025 (ditutup) dan 2026 (berjalan): lingkungan strategis, SWOT–TOWS, Peta Strategi, kamus KPI, inisiatif, rapat tinjauan, temuan, dan tindak lanjutnya. Pilih perusahaan lewat kotak konteks di kiri atas.</p>
         <div class="arah-demo-banner" role="note"><span class="arah-demo-tag">Data demo</span><span>Seluruh data disusun untuk pembelajaran dan secara garis besar mengacu pada laporan tahunan 2025 masing-masing perusahaan. Target, rincian bulanan, data 2026, dan sebagian indikator operasional adalah simulasi. Bukan data resmi perusahaan dan tidak untuk keputusan investasi.</span></div>
         <div class="kenali-cases">
@@ -224,6 +224,13 @@
                 ['MEDC', 'Medco Energi Internasional', 'Energi & sumber daya alam', 'Nilai, fokus, pertumbuhan: biaya rendah, deleveraging, akuisisi, dan transisi energi.'],
                 ['PWON', 'Pakuwon Jati', 'Properti & superblok', 'Pendapatan berulang ±79% vs. siklus residensial dan perkantoran yang melemah.'],
                 ['KAEF', 'Kimia Farma', 'Farmasi terintegrasi (BUMN)', 'Strategi pemulihan: rugi menyempit, restrukturisasi utang, likuiditas dan utilisasi pabrik.'],
+                ['SMGR', 'Semen Indonesia', 'Semen & bahan bangunan (BUMN)', 'Kelebihan pasokan: margin di bawah tekanan, efisiensi energi, dekarbonisasi, dan ekspor.'],
+                ['MAPI', 'Mitra Adiperkasa', 'Ritel gaya hidup', 'Ekspansi gerai vs. produktivitas, persediaan, omnichannel, dan unit F&B yang merugi.'],
+                ['GOTO', 'GoTo Gojek Tokopedia', 'Ekosistem digital', 'Menuju laba berkelanjutan: EBITDA disesuaikan, fintech, keandalan layanan.'],
+                ['ASII', 'Astra International', 'Konglomerasi multisektor', 'Portofolio tujuh segmen: otomotif, jasa keuangan, alat berat, agribisnis, dan alokasi modal.'],
+                ['BBCA', 'Bank Central Asia', 'Perbankan', 'Franchise dana murah (CASA), kualitas kredit, digital banking, dan risiko siber.'],
+                ['TLKM', 'Telkom Indonesia', 'Telekomunikasi (BUMN)', 'Transformasi digital: seluler, IndiHome/FMC, data center, dan efisiensi biaya.'],
+                ['BIRD', 'Blue Bird', 'Transportasi darat', 'Pemulihan armada, persaingan aplikasi, elektrifikasi armada, dan keselamatan.'],
             ] as [$code, $name, $sector, $lesson])
                 <div class="arah-card kenali-case">
                     <span class="kenali-case-code">{{ $code }}</span>

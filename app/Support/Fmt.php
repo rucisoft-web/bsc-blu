@@ -32,6 +32,7 @@ class Fmt
 
         return match ($unit) {
             '%' => $n.'%',
+            'Rp miliar' => 'Rp '.$n.' M',
             'Rp juta' => 'Rp '.$n.' jt',
             'Rp ribu' => 'Rp '.$n.' rb',
             'US$ juta' => 'US$ '.$n.' jt',

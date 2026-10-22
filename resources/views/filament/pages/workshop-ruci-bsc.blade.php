@@ -30,7 +30,7 @@
             'PESTEL, kekuatan industri, segmen pasar, pesaing, dan regulasi.',
             'SWOT berbobot dan strategi TOWS (SO, ST, WO, WT) sampai isu strategis.',
             'Visi, misi, nilai inti, kapabilitas; dari isu strategis ke 3–5 tema.',
-        ], 'Kelompok mengisi SWOT dan memilih 3 tema strategis untuk perusahaan sendiri atau salah satu studi kasus (Diamond Food, Hermina, Medco, Pakuwon, Kimia Farma).', [['SWOT', url('/admin/swot-items')], ['TOWS', url('/admin/tows-strategies')]]],
+        ], 'Kelompok mengisi SWOT dan memilih 3 tema strategis untuk perusahaan sendiri atau salah satu studi kasus (Diamond Food, Hermina, Medco, Pakuwon, Kimia Farma, Semen Indonesia, MAP, GoTo, Astra, BCA, Telkom, Blue Bird).', [['SWOT', url('/admin/swot-items')], ['TOWS', url('/admin/tows-strategies')]]],
         ['3', 'Menyusun Peta Strategi', '75 menit', [
             'Sasaran yang baik: kata kerja + hasil, satu gagasan per sasaran.',
             'Menyusun dari bawah (SDM) ke atas (Keuangan), lalu menarik panah sebab-akibat.',
@@ -47,7 +47,7 @@
             'Progres inisiatif (70% aktivitas, 30% milestone) dan tanda terlambat.',
         ], 'Memilih 3 inisiatif dan menempatkannya di matriks nilai–upaya.', [['Portofolio Inisiatif', Pages\PortofolioInisiatif::getUrl()]]],
         ['6', 'Praktik Ruci BSC & simulasi rapat', '45 menit', [
-            'Masuk sebagai Tamu, berpindah antar lima perusahaan contoh (data demo).',
+            'Masuk sebagai Tamu, berpindah antar dua belas perusahaan contoh (data demo).',
             'Membaca Pusat Kendali, Peta Strategi, Portofolio Inisiatif, dan Laporan.',
             'Siklus bulanan: tanggal 3 pengingat, 5 input, 7 verifikasi, 8 persetujuan, 10 rapat.',
         ], 'Kelompok berperan sebagai Direksi: membahas dua sasaran merah, lalu menetapkan temuan dan tindakan korektif.', [['Pusat Kendali', Pages\PusatKendali::getUrl()], ['Panduan Pengguna', Pages\PanduanPengguna::getUrl()]]],
@@ -107,7 +107,7 @@
         <div>
             <span class="kenali-eyebrow">Workshop sehari · setiap Minggu pertama awal bulan</span>
             <h2>Mengenal Ruci BSC: dari strategi menjadi rencana aksi dalam satu hari</h2>
-            <p>Kelas praktis 08.00–16.30 WIB untuk pemilik usaha, Komisaris, Direksi, dan tim perencanaan. Peserta belajar konsep Balanced Scorecard, menyusun Peta Strategi dan KPI dalam kelompok, lalu langsung mencoba Ruci BSC dengan lima studi kasus data demo (Diamond Food, Hermina, Medco, Pakuwon, Kimia Farma).</p>
+            <p>Kelas praktis 08.00–16.30 WIB untuk pemilik usaha, Komisaris, Direksi, dan tim perencanaan. Peserta belajar konsep Balanced Scorecard, menyusun Peta Strategi dan KPI dalam kelompok, lalu langsung mencoba Ruci BSC dengan lima studi kasus data demo (Diamond Food, Hermina, Medco, Pakuwon, Kimia Farma, Semen Indonesia, MAP, GoTo, Astra, BCA, Telkom, Blue Bird).</p>
             <div class="kenali-actions">
                 @if ($workshopUrl)
                     <a href="{{ $workshopUrl }}" target="_blank" rel="noopener" class="arah-btn arah-btn-primary kenali-btn-lg">Daftar Workshop</a>
