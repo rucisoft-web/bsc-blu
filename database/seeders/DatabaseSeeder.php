@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
             MaturityQuestionSeeder::class,
         ]);
 
-        if (! app()->isProduction() || env('RUCI_SEED_DEMO', false)) {
+        if (! app()->isProduction() || config('dhastram.seed_demo')) {
             $this->call(DemoSeeder::class);
         }
     }

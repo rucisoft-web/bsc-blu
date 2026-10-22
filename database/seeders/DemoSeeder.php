@@ -33,7 +33,7 @@ class DemoSeeder extends Seeder
     {
         $admin = User::updateOrCreate(['email' => self::ADMIN_EMAIL], [
             'name' => 'Super Admin Rucisoft', 'job_title' => 'Konsultan Rucisoft', 'department' => 'Rucisoft', 'is_active' => true,
-            'password' => Hash::make(env('RUCI_ADMIN_PASSWORD', 'Ruci@BSC2026')), 'must_change_password' => false, 'email_verified_at' => now(),
+            'password' => Hash::make(config('dhastram.demo_admin_password')), 'must_change_password' => false, 'email_verified_at' => now(),
         ]);
         $this->assign($admin, 'super-admin', null);
 

@@ -11,6 +11,12 @@ return [
     'terms' => env('DHASTRAM_TERMS', 'umum'),
     'brand_name' => env('DHASTRAM_BRAND_NAME', 'Ruci BSC Professional'),
     'brand_tagline' => env('DHASTRAM_BRAND_TAGLINE', 'Balanced Scorecard Multi-Perusahaan'),
+
+    // Dibaca lewat config() supaya tetap berlaku setelah `php artisan optimize` (config cache) di produksi
+    'notify_mail' => (bool) env('ARAH_NOTIFY_MAIL', false),
+    'mfa_required' => (bool) env('ARAH_MFA_REQUIRED', false),
+    'seed_demo' => (bool) env('RUCI_SEED_DEMO', false),
+    'demo_admin_password' => env('RUCI_ADMIN_PASSWORD', 'Ruci@BSC2026'),
     'demo_enabled' => (bool) env('DHASTRAM_DEMO_ENABLED', false),
     'audit_enabled' => (bool) env('DHASTRAM_AUDIT_ENABLED', true),
 

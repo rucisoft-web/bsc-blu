@@ -3,7 +3,7 @@
 Aplikasi **Balanced Scorecard multi-perusahaan** berbasis Laravel + MySQL, dikembangkan dari edisi DHASTRAM (ARAH GPCH).
 Satu instalasi melayani banyak perusahaan; setiap perusahaan punya data, perioda, admin dan pengguna sendiri, dan datanya bisa diupload satu per satu lewat file Excel.
 
-**Instalasi di Laragon → [PANDUAN-LARAGON.md](PANDUAN-LARAGON.md)**
+**Instalasi di Laragon → [PANDUAN-LARAGON.md](PANDUAN-LARAGON.md)** · **Instalasi di cPanel → [PANDUAN-CPANEL.md](PANDUAN-CPANEL.md)**
 
 ## Teknologi
 
@@ -75,6 +75,9 @@ Sebelum dipakai sungguhan: `php artisan rucibsc:hapus-contoh` menghapus semua pe
 | `php vendor/bin/phpunit` | Menjalankan test otomatis |
 
 ## Produksi (cPanel / VPS)
+
+Langkah lengkap untuk cPanel (dengan atau tanpa Terminal) ada di [PANDUAN-CPANEL.md](PANDUAN-CPANEL.md).
+
 
 `APP_ENV=production`, `APP_DEBUG=false`, `SESSION_SECURE_COOKIE=true`; document root ke `public/`; cron `* * * * * php /path/ruci-bsc/artisan schedule:run`.
 Di produksi `DatabaseSeeder` hanya membuat izin, peran, dan pertanyaan kematangan. Buat Super Admin dengan `dhastram:create-admin`, tambahkan perusahaan, lalu upload datanya lewat Import Data.
