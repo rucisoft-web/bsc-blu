@@ -155,6 +155,15 @@ html:not(.dark) .fi-sidebar { border-inline-end: 1px solid var(--k-garis); }
 .arah-guest-or::before, .arah-guest-or::after { content: ""; flex: 1; height: 1px; background: var(--k-garis); }
 .arah-guest-btn { display: block; padding: .6rem 1rem; border-radius: .5rem; border: 1.5px solid var(--k-taum); color: var(--k-taum); font-weight: 600; font-size: .9rem; }
 .arah-guest-btn:hover { background: var(--k-kertas-2); }
+.arah-guest-pick { display: flex; flex-direction: column; gap: .45rem; text-align: left; }
+.arah-guest-pick label { font-size: .78rem; font-weight: 600; color: var(--k-tinta-2); }
+.arah-guest-pick select { width: 100%; padding: .5rem .6rem; border-radius: .5rem; border: 1px solid var(--k-garis); background: var(--k-kertas); color: var(--k-tinta); font-size: .85rem; }
+.arah-guest-pick button.arah-guest-btn { width: 100%; background: var(--k-taum); color: #fff; cursor: pointer; }
+.arah-guest-pick button.arah-guest-btn:hover { filter: brightness(1.1); background: var(--k-taum); }
+.arah-guest-links { display: flex; flex-wrap: wrap; justify-content: center; gap: .35rem 1rem; margin-top: .8rem; font-size: .8rem; }
+.arah-guest-links a { color: var(--k-taum); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
+.dark .arah-guest-pick select { background: rgba(255,255,255,.05); color: inherit; }
+.dark .arah-guest-links a { color: #8DB4E8; }
 .arah-guest-login p { margin-top: .6rem; font-size: .78rem; color: var(--k-tinta-2); line-height: 1.5; }
 .arah-guest-banner { margin: 0 0 1rem; padding: .55rem .9rem; border-radius: .5rem; font-size: .82rem; line-height: 1.5;
     background: #FFF6E0; color: #6B4A06; border: 1px solid #F0D79A; }
@@ -390,3 +399,4 @@ html:not(.dark) .kenali-svg .kn-node { fill: #fff; }
 .ws-exercise { font-size: .82rem; line-height: 1.55; color: var(--k-tinta-2); background: rgba(42,140,158,.09); border-left: 3px solid #2A8C9E; padding: .55rem .75rem; border-radius: .4rem; }
 .ws-exercise b { color: var(--k-tinta); }
 .ws-links { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: auto; }
+.dark .arah-guest-pick button.arah-guest-btn, .dark .arah-guest-pick button.arah-guest-btn:hover { background: #2A62AD; border-color: #2A62AD; color: #fff; }

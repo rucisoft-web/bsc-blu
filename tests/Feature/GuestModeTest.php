@@ -73,6 +73,39 @@ class GuestModeTest extends TestCase
         $this->assertSame('abc', $guest->fresh()->remember_token);
     }
 
+    public function test_landing_page_offers_current_year_demos_and_guides(): void
+    {
+        config(['dhastram.guest_login' => true]);
+        [$dfi] = $this->company('DFI');
+        [$bca, $bcaNow] = $this->company('BBCA');
+        $dfi->forceFill(['is_demo' => true])->save();
+        $bca->forceFill(['is_demo' => true])->save();
+        \App\Models\AnalysisPeriod::create(['company_id' => $bca->id, 'code' => '2025', 'name' => 'Tahun 2025', 'year' => 2025,
+            'start_date' => '2025-01-01', 'end_date' => '2025-12-31', 'status' => 'ditutup', 'is_active' => false]);
+        \Illuminate\Support\Facades\Cache::flush();
+
+        $this->get('/')->assertOk()
+            ->assertSee('Kenapa perlu Ruci BSC')
+            ->assertSee('Data demo tahun berjalan 2026')
+            ->assertSee('Panduan Ruci BSC')
+            ->assertSee('Bank Central Asia')
+            ->assertSee(route('arah.guest', ['perusahaan' => 'BBCA']), false);
+        $this->get('/admin/login')->assertOk()->assertSee('Pilih perusahaan contoh')->assertSee('Bank Central Asia (BBCA)');
+
+        $this->get(route('arah.guest', ['perusahaan' => 'bbca']))->assertRedirect('/admin');
+        $this->assertSame($bca->id, session('dhastram.company_id'));
+        $this->assertSame($bcaNow->id, session('dhastram.period_id'));
+
+        // kode yang bukan perusahaan contoh kembali ke perusahaan pembuka
+        $this->get(route('arah.guest', ['perusahaan' => 'XYZ', 'ke' => 'panduan']))
+            ->assertRedirect(\App\Filament\Pages\PanduanPengguna::getUrl());
+        $this->assertSame($dfi->id, session('dhastram.company_id'));
+
+        auth()->logout();
+        config(['dhastram.guest_login' => false]);
+        $this->get('/')->assertRedirect('/admin');
+    }
+
     public function test_kenali_link_opens_the_introduction_page(): void
     {
         config(['dhastram.guest_login' => true]);

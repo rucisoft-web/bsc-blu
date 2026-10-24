@@ -3,7 +3,8 @@
 use App\Http\Controllers\ReportExportController;
 use Illuminate\Support\Facades\Route;
 
-Route::redirect('/', '/admin');
+// Halaman depan situs demo (RUCI_GUEST_LOGIN=true); selain itu langsung ke panel
+Route::middleware('web')->get('/', \App\Http\Controllers\LandingController::class)->name('arah.landing');
 
 Route::middleware(['web', 'auth', \App\Http\Middleware\SetDhastramContext::class])
     ->get('/admin/laporan/ekspor/{report}', ReportExportController::class)
