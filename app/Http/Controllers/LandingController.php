@@ -6,7 +6,7 @@ use App\Support\DemoCatalog;
 use App\Support\GuestMode;
 use Illuminate\Support\Facades\Cache;
 
-/** Halaman depan situs demo/promosi: kenapa perlu Ruci BSC, data contoh tahun berjalan, dan panduan. */
+/** Halaman depan situs demo/promosi: kenapa perlu Kinera, data contoh tahun berjalan, dan panduan. */
 class LandingController extends Controller
 {
     public function __invoke()
@@ -17,8 +17,8 @@ class LandingController extends Controller
 
         return view('landing', [
             'cases' => Cache::remember('arah.landing.cases', 600, fn () => DemoCatalog::installed()),
-            'cycle' => config('dhastram.cycle'),
-            'workshopUrl' => config('dhastram.workshop_url'),
+            'cycle' => config('bsc.cycle'),
+            'workshopUrl' => config('bsc.workshop_url'),
         ]);
     }
 }

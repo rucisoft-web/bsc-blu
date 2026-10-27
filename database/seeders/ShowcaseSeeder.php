@@ -26,7 +26,7 @@ use App\Models\StrategicTheme;
 use App\Models\User;
 use App\Models\UserContext;
 use App\Services\MaturityScoringService;
-use App\Support\DhastramContext;
+use App\Support\BscContext;
 use Illuminate\Support\Facades\Hash;
 
 /**
@@ -144,7 +144,7 @@ abstract class ShowcaseSeeder
         ]);
         AnalysisPeriod::where('company_id', $this->company->id)->whereNotIn('id', [$p2025->id, $p2026->id])->update(['is_active' => false]);
 
-        $ctx = app(DhastramContext::class);
+        $ctx = app(BscContext::class);
         foreach ([$p2025, $p2026] as $period) {
             $ctx->set($this->company->id, $period->id);
             $this->period($period->year);
@@ -201,7 +201,12 @@ abstract class ShowcaseSeeder
         foreach ($this->kpiDefs() as $n => $d) {
             [$code, $o, $name, $unit, $dir, $agg, $dec, $fin, $crit, $owner, $formula, $source, $b24, $t25, $a25, $t26, $f26, $fromLt] = $d;
             $freq = $d[18] ?? 'bulanan';
-            $months = $freq === 'semesteran' ? [6, 12] : range(1, 12);
+            $months = match ($freq) {
+                'kuartalan' => [3, 6, 9, 12],
+                'semesteran' => [6, 12],
+                'tahunan' => [12],
+                default => range(1, 12),
+            };
             $baseline = $year === 2025 ? $b24 : $a25;
             $annualTarget = $year === 2025 ? $t25 : $t26;
             $targets = $this->targetSeries($agg, $baseline, $annualTarget, $dec, $year, $months);
@@ -229,9 +234,9 @@ abstract class ShowcaseSeeder
                 'frequency' => $freq, 'owner_id' => $this->id($owner), 'weight' => 1, 'is_financial' => $fin,
                 'is_critical' => $crit || ($year === 2026 && in_array($code, $this->criticalIn2026(), true)),
                 'decimals' => $dec, 'baseline' => $baseline, 'annual_target' => $annualTarget, 'formula' => $formula, 'data_source' => $source,
-                'description' => $fromLt ? 'DATA DEMO. Realisasi tahunan 2025 secara garis besar mengacu pada '.static::LT.'.' : 'DATA DEMO. KPI ilustrasi untuk pembelajaran (tidak diungkap di laporan tahunan).',
+                'description' => $fromLt ? 'DATA DEMO. Realisasi tahunan 2025 secara garis besar mengacu pada '.static::LT.'.' : 'DATA DEMO. Indikator ilustrasi untuk penyajian fitur (angka simulasi).',
                 'is_active' => true,
-            ]);
+            ] + $this->kpiExtra($code, $year));
             foreach ($targets as $m => $t) {
                 KpiTarget::create(['kpi_id' => $kpi->id, 'month' => $m, 'target' => $t]);
             }
@@ -240,8 +245,27 @@ abstract class ShowcaseSeeder
             }
             $out[$code] = $kpi;
         }
+        $this->afterKpis($year, $out);
 
         return $out;
+    }
+
+    /** Atribut tambahan Indikator Kinerja (mis. aspek & Definisi Operasional BLU). */
+    protected function kpiExtra(string $code, int $year): array
+    {
+        return [];
+    }
+
+    /** @param array<string,Kpi> $kpis dipanggil setelah seluruh indikator & realisasi satu perioda tersimpan. */
+    protected function afterKpis(int $year, array $kpis): void {}
+
+    /** Bobot musiman sebuah jendela pelaporan: jumlah bobot bulan sejak periode lapor sebelumnya s.d. bulan $m. */
+    protected function windowWeight(array $w, array $months, int $m): float
+    {
+        $i = array_search($m, $months, true);
+        $from = $i === 0 ? 1 : $months[$i - 1] + 1;
+
+        return array_sum(array_map(fn ($x) => $w[$x], range($from, $m)));
     }
 
     /** @param int[] $months */
@@ -252,7 +276,7 @@ abstract class ShowcaseSeeder
         $base ??= $annual;
         foreach ($months as $m) {
             $out[$m] = round(match ($agg) {
-                'sum' => count($months) === 12 ? $annual * $w[$m] : $annual / count($months),
+                'sum' => $annual * $this->windowWeight($w, $months, $m),
                 'average' => $annual,
                 default => $base + ($annual - $base) * $m / 12,
             }, $dec);
@@ -274,7 +298,7 @@ abstract class ShowcaseSeeder
         foreach ($months as $m) {
             $noise = 1 + mt_rand(-250, 250) / 10000;
             $out[$m] = match ($agg) {
-                'sum' => (count($months) === 12 ? $annual * $w[$m] : $annual / count($months)) * $noise,
+                'sum' => $annual * $this->windowWeight($w, $months, $m) * $noise,
                 'average' => $annual * $noise,
                 default => ($base + ($annual - $base) * $m / 12) * (1 + (mt_rand(-80, 80) / 10000)),
             };
@@ -303,7 +327,7 @@ abstract class ShowcaseSeeder
             $row['is_projection'] = ! ($fromLt && $m === 12 && $kpi->aggregation !== 'sum');
             $row['notes'] = match (true) {
                 $fromLt && $m === 12 => 'Nilai tahunan mengacu pada '.static::LT.' (data demo).',
-                $fromLt => 'Rincian bulanan ilustratif (data demo); total/nilai akhir tahun mengacu pada laporan tahunan.',
+                $fromLt => 'Rincian periodik ilustratif (data demo); total/nilai akhir tahun mengacu pada '.static::LT.'.',
                 default => 'Data ilustrasi untuk pembelajaran (data demo).',
             };
             $row['evidence'] = $fromLt ? static::LT : null;
@@ -391,12 +415,12 @@ abstract class ShowcaseSeeder
     {
         $a = MaturityAssessment::create(['title' => 'Penilaian Kematangan Manajemen Strategi '.$year, 'assessment_date' => $year === 2025 ? '2025-12-15' : '2026-09-30',
             'assessor_id' => $this->id('strategi'), 'status' => 'final',
-            'notes' => $year === 2025 ? 'Baseline sebelum memakai Ruci BSC.' : 'Penilaian ulang setelah 9 bulan memakai Ruci BSC (ilustrasi).']);
+            'notes' => $year === 2025 ? 'Baseline sebelum memakai Kinera.' : 'Penilaian ulang setelah 9 bulan memakai Kinera (ilustrasi).']);
         $bump = $year === 2025 ? 0 : 1;
         $pattern = $this->maturityPattern();
         foreach (MaturityQuestion::orderBy('sort')->get() as $i => $q) {
             $score = min(5, max(1, $pattern[$i % count($pattern)] + $bump - ($i % 7 === 0 ? 1 : 0)));
-            MaturityAnswer::create(['maturity_assessment_id' => $a->id, 'maturity_question_id' => $q->id, 'score' => $score, 'evidence' => $i % 4 === 0 ? 'Bukti: notulen rapat & laporan Ruci BSC.' : null]);
+            MaturityAnswer::create(['maturity_assessment_id' => $a->id, 'maturity_question_id' => $q->id, 'score' => $score, 'evidence' => $i % 4 === 0 ? 'Bukti: notulen rapat & laporan Kinera.' : null]);
         }
         app(MaturityScoringService::class)->recalculate($a);
 
@@ -407,7 +431,7 @@ abstract class ShowcaseSeeder
         }
         foreach ($data['institutionalizations'] as [$title, $type, $desc, $freq, $owner, $status]) {
             Institutionalization::create(['title' => $title, 'mechanism_type' => $type, 'description' => $desc, 'frequency' => $freq, 'owner_id' => $this->id($owner),
-                'status' => $status, 'evidence' => $status === 'rencana' ? null : 'Notulen & laporan Ruci BSC.', 'started_at' => $year.'-01-15',
+                'status' => $status, 'evidence' => $status === 'rencana' ? null : 'Notulen & laporan Kinera.', 'started_at' => $year.'-01-15',
                 'next_review_date' => $year === 2025 ? '2026-01-15' : '2026-12-15']);
         }
     }
